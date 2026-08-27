@@ -38,10 +38,12 @@
 - Utility functions remain pure where possible and contain domain-independent or reusable logic.
 
 
+## Folder Structure
+
+```text
 Ahoum Frontend Developer Assignment/
 │
 ├── src/
-│   │
 │   ├── app/
 │   │   ├── App.tsx
 │   │   └── router.tsx
@@ -98,3 +100,4 @@ Ahoum Frontend Developer Assignment/
 ├── package.json
 ├── tsconfig.json
 └── vite.config.ts
+```
