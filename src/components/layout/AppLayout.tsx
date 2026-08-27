@@ -1,8 +1,9 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 
 export interface AppLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   cartItemCount?: number;
 }
 
@@ -12,7 +13,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, cartItemCount = 
       <Header cartItemCount={cartItemCount} />
 
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
-        {children}
+        {children ?? <Outlet />}
       </main>
 
       <footer className="border-t border-neutral-200 bg-white py-6 text-center text-xs text-neutral-500">

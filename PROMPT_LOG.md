@@ -308,3 +308,79 @@ The components remain within their intended architectural boundaries and do not 
 
 ### Commit
 feat: add UI foundation
+
+## Prompt 005 — Application Shell & Home Page Composition
+
+### Objective
+Integrate the shared application shell and implement the first functional Home Page using the existing architecture, hooks, and reusable UI components.
+
+### Condensed Prompt
+- Wire `AppLayout` into the existing React Router hierarchy.
+- Implement `HomePage` using `useProducts`.
+- Use existing `ProductCard` and feedback components.
+- Keep pages responsible for screen composition.
+- Keep components presentational.
+- Do not access JSON or mock APIs directly from the page.
+- Do not introduce unnecessary global state or dependencies.
+- Preserve strict TypeScript, accessibility, and responsive behavior.
+- Do not modify unrelated architecture, hooks, APIs, stores, or documentation.
+
+### Implementation Result
+- Integrated `AppLayout` with nested React Router routes using `<Outlet />`.
+- Implemented the Home Page with product loading, success, error/retry, and empty states.
+- Added responsive product presentation and category/search navigation.
+- Product data is obtained through `useProducts()`.
+
+### Review / AI Deviations
+- No functional or architectural defect was identified.
+- Category navigation metadata is locally defined in `HomePage` as presentation metadata rather than loading category data from the mock API.
+- `AppLayout` retains an optional `children` prop in addition to `<Outlet />`; this is slightly redundant for router usage but does not currently introduce an architectural problem.
+
+### Verification
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- TypeScript errors — 0
+- Build errors — 0
+
+### Commit
+"feat: compose application shell and home page"
+
+### Check / Review Prompt
+
+Review the implementation of Task 005 against:
+- ArchitectureV1.md
+- DECISIONS.md
+- DESIGN_NOTES.md
+
+Inspect:
+- HomePage.tsx
+- AppLayout.tsx
+- router.tsx
+
+Verify that:
+- HomePage obtains products through `useProducts`.
+- No JSON or mock API is accessed directly by the page.
+- AppLayout correctly uses React Router `<Outlet />`.
+- Existing routes remain correctly nested.
+- Components remain presentational.
+- Zustand is not unnecessarily introduced.
+- TypeScript remains strict with no `any`.
+- Accessibility and responsive requirements are maintained.
+- No unrelated files or architecture were modified.
+
+Identify any AI-generated architectural mistakes, unnecessary complexity, duplicated data, or deviations from the defined architecture. Do not make changes during the review; report findings first.
+
+### Review Findings
+
+- No functional or architectural defect identified.
+- Category navigation metadata is locally defined presentation metadata.
+- Optional `children` support in `AppLayout` is slightly redundant for router-only usage but harmless.
+
+### Corrections
+
+None required.
+
+### Verification
+
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
