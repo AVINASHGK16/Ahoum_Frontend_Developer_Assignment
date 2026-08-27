@@ -409,3 +409,28 @@ None required.
 
 ### Human Decision
 Accepted the implementation after reviewing the generated changes against the official Figma.
+
+## Prompt 006 — Figma Starting Screen
+
+### Prompt
+[Add the exact/minimized prompt used with Antigravity]
+
+### Result
+- Implemented the official Figma splash screen.
+- Added `SplashScreen.tsx`.
+- Added `/splash` outside `AppLayout`.
+- Added Nectar brand color to Tailwind configuration.
+- Preserved existing application architecture.
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- `git status` reviewed.
+
+### AI Review
+- Previous provisional green styling was no longer sufficient for the Figma.
+- Splash screen required a standalone route because it does not use application header/footer.
+- No data, state, hook, API, or architecture changes were required.
+
+### Human Decision
+Accepted the implementation after reviewing the generated changes against the official Figma.

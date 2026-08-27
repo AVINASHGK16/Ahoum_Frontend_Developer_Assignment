@@ -5,9 +5,9 @@ export const SplashScreen: React.FC = () => {
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center bg-[#53B175] select-none">
       <Link
-        to="/"
+        to="/welcome"
         className="flex items-center gap-3.5 sm:gap-4.5 text-white transition-transform duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#53B175] rounded-xl p-3"
-        aria-label="Nectar - Online Groceriet. Click to enter catalog."
+        aria-label="Nectar - Online Groceriet. Click to continue to welcome screen."
       >
         {/* Nectar Stylized Carrot Logo */}
         <svg

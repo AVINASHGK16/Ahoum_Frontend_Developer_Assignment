@@ -43,3 +43,37 @@ from the provided design.
 The existing component architecture should be reused where possible rather
 than recreating equivalent UI independently for each screen.
 
+# Figma Implementation 
+
+## Screen 1 — Nectar Splash Screen
+
+- Full-screen Nectar green background.
+- Centered Nectar logo and wordmark.
+- Minimal presentation with no application shell.
+- Acts as the initial entry screen.
+
+## Screen 2 — Welcome to Our Store
+
+- Full-screen photographic background.
+- Delivery person carrying groceries is the primary visual.
+- Darkened photographic area provides contrast for foreground content.
+- White Nectar carrot mark appears above the heading.
+- Large white two-line heading:
+  "Welcome"
+  "to our store"
+- Supporting text:
+  "Get your groceries in as fast as one hour"
+- Green primary CTA:
+  "Get Started"
+- Screen is designed as a mobile-first composition.
+- No application header or bottom navigation is present.
+
+## Implementation Notes
+
+The photographic background is represented locally in
+`public/images/welcome-bg.jpg` so the application does not depend on an
+external runtime image URL.
+
+The image was generated to reproduce the visual characteristics of the
+provided Figma reference. It should be visually compared against the
+reference during final QA.
