@@ -434,3 +434,165 @@ Accepted the implementation after reviewing the generated changes against the of
 
 ### Human Decision
 Accepted the implementation after reviewing the generated changes against the official Figma.
+
+## Prompt 007 — Figma Screen 3: Authentication Entry
+
+Prompt:
+TASK 008 — Implement Official Figma Screen 3: Nectar Authentication Entry
+
+The official Figma is now available and is the sole visual source of truth.
+
+Implement ONLY Figma Screen 3/22 shown in the provided design:
+
+"Get your groceries with nectar"
+
+Before changing anything:
+
+1. Inspect the existing project architecture.
+2. Inspect router.tsx.
+3. Inspect AppLayout.tsx.
+4. Inspect SplashScreen.tsx and WelcomeScreen.tsx.
+5. Inspect existing types, stores, hooks, services, and pages.
+6. Inspect DECISIONS.md, DESIGN_NOTES.md, and PROMPT_LOG.md.
+7. Do not replace or restructure the existing architecture.
+8. Identify whether any existing authentication/session implementation can
+   support this screen before introducing new state or services.
+
+FIGMA SCREEN 3 REQUIREMENTS
+
+Implement the screen to closely reproduce the official Figma reference:
+
+- Mobile-first full-screen authentication entry screen.
+- Top grocery/produce photographic image matching the Figma composition.
+- Large white/empty visual area beneath the image as shown in the reference.
+- Heading:
+  "Get your groceries
+   with nectar"
+- Mobile number/country-code input row.
+- Country indicator/icon.
+- Country code "+880".
+- Appropriate divider beneath the mobile number area.
+- Centered text:
+  "Or connect with social media"
+- Google authentication button:
+  "Continue with Google"
+- Facebook authentication button:
+  "Continue with Facebook"
+- Match the Figma's typography hierarchy, spacing, sizing, borders,
+  button dimensions, radii, alignment, and visual proportions.
+- Preserve the Figma's clean minimal appearance.
+- Do not add UI elements that are not present in the reference.
+- Do not add bottom navigation or AppLayout header/footer to this screen.
+
+ASSET HANDLING
+
+Use the official Figma visual reference.
+
+For the grocery photograph:
+
+1. First determine whether the exact image asset already exists in the
+   project or can be extracted/used from the provided design.
+2. Prefer an actual local asset when available.
+3. Do NOT invent a different composition merely because it is convenient.
+4. If the exact Figma asset cannot be obtained, use the closest available
+   local implementation and explicitly report that limitation.
+5. Do not claim a generated image is the original Figma asset.
+
+ROUTING
+
+- Add the appropriate route for Screen 3.
+- Keep this screen outside AppLayout because it is part of the authentication/
+  onboarding flow.
+- Update the Screen 2 "Get Started" action to enter this authentication screen
+  instead of going directly to the catalog.
+- Preserve the existing Splash → Welcome sequence.
+
+Expected flow:
+
+/splash
+   ↓
+/welcome
+   ↓
+/auth (Screen 3)
+
+
+For the Google and Facebook buttons, implement only the UI and interaction
+required by Screen 3 unless an existing authentication mechanism already exists.
+Do not pretend OAuth is functional if no OAuth integration exists.
+
+TECHNICAL REQUIREMENTS
+
+- Strict TypeScript.
+- No `any`.
+- Reuse existing design primitives/components where appropriate.
+- Keep screen-specific presentation inside the appropriate page/component
+  boundary.
+- Keep reusable UI components reusable rather than duplicating them.
+- Maintain accessibility:
+  - semantic buttons/inputs
+  - accessible labels
+  - keyboard interaction
+  - visible focus states where appropriate
+- Do not sacrifice visual fidelity for unnecessary abstraction.
+
+RESPONSIVE BEHAVIOUR
+
+The Figma is mobile-first.
+
+Match the reference viewport first.
+
+Then provide sensible responsive behaviour for larger screens without
+turning the mobile design into a stretched desktop layout.
+
+VERIFICATION
+
+After implementation run:
+
+npm run typecheck
+npm run build
+
+Then run the application and verify in the browser:
+
+1. /splash
+2. Splash → Welcome
+3. Welcome → Screen 3
+4. Screen 3 visual layout
+5. mobile input interaction
+6. Google/Facebook button interaction if implemented
+7. browser console for errors
+
+Report:
+
+- exact files created
+- exact files modified
+- assets added
+- route changes
+- whether any existing architecture changed
+- any Figma asset limitations
+- typecheck result
+- build result
+- browser verification result
+- any assumptions made
+
+Do not modify documentation or commit anything in this task unless explicitly
+asked after the implementation has been reviewed. 
+### Result
+- Implemented the official Figma authentication entry screen.
+- Added the grocery flat-lay header asset.
+- Added mobile-number entry UI using the `+880` country code shown in the Figma.
+- Added Google and Facebook social authentication UI.
+- Connected the screen to the onboarding flow.
+
+### Scope
+- Social authentication is implemented as a frontend mock interaction.
+- No OAuth provider or backend authentication API was introduced because real authentication is outside the assignment scope.
+- Multi-region phone-number selection/validation was not introduced because the provided Figma specifies `+880` and does not require an international phone system.
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Browser flow verified.
+
+### Human Review
+- Reviewed the implementation against Figma Screen 3.
+- Accepted the implementation.

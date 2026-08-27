@@ -59,9 +59,9 @@ export const WelcomeScreen: React.FC = () => {
         {/* Primary CTA: Get Started */}
         <div className="mt-8 w-full">
           <Link
-            to="/"
+            to="/auth"
             className="flex h-16 w-full items-center justify-center rounded-[19px] bg-[#53B175] text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:bg-[#489E67] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
-            aria-label="Get Started and enter the store"
+            aria-label="Get Started and continue to sign in"
           >
             Get Started
           </Link>
