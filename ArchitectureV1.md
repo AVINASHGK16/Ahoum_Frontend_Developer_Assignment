@@ -1,31 +1,20 @@
-                    ┌──────────────────────┐
-                    │      React App       │
-                    └──────────┬───────────┘
-                               │
-                    ┌──────────▼───────────┐
-                    │       Pages          │
-                    │ Home / Category /    │
-                    │ Product / Search /   │
-                    │ Cart / Checkout      │
-                    └──────────┬───────────┘
-                               │
-                    ┌──────────▼───────────┐
-                    │    Components        │
-                    │ presentation + UX    │
-                    └──────────┬───────────┘
-                               │
-                    ┌──────────▼───────────┐
-                    │ Hooks / UI Logic     │
-                    └──────┬─────────┬─────┘
-                           │         │
-                ┌──────────▼───┐ ┌──▼────────────┐
-                │   Mock API   │ │ Zustand       │
-                │              │ │ Global State  │
-                └──────┬───────┘ └───────────────┘
+                    React App
                        │
-                ┌──────▼───────┐
-                │ Static JSON  │
-                └──────────────┘
+                       ▼
+                    Pages
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+        Components          Hooks / Logic
+             │                   │
+             │          ┌────────┴────────┐
+             │          ▼                 ▼
+             │      Mock API         Zustand Stores
+             │          │
+             │          ▼
+             │      Static JSON
+             │
+             └────── presentation
 
 ## Architecture Boundaries
 

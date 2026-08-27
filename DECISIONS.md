@@ -1,66 +1,119 @@
-# Decision 001 — Proceeding with an Internally Defined Visual System While Awaiting the Figma
+# Engineering Decisions
+
+# Decision 001 — Adopt Official Figma as Visual Source of Truth
+
+## Problem
+
+The official Figma design was initially unavailable when implementation began.
+A documented internal mobile-first visual system was therefore used to avoid
+blocking architectural and functional development.
+
+The official Figma design has now been received.
+
+## Decision
+
+The official Figma is now the primary visual source of truth for the frontend.
+
+Existing architectural, data-access, state-management, hook, and API boundaries
+will be preserved unless the Figma reveals a genuine functional requirement
+that requires architectural adjustment.
+
+The provisional visual system is no longer authoritative. All new UI work must be derived from the official Figma unless a deliberate implementation adaptation is documented.
+
+## Rationale
+
+The existing architecture was intentionally separated from presentation logic.
+Rebuilding the project would discard completed engineering work without
+providing a technical benefit.
+
+Adopting the Figma at the presentation layer allows visual fidelity to improve
+while preserving the existing application boundaries and tested functionality.
+
+## Trade-off
+
+Some existing UI implementation will need to be revised or replaced.
+However, this is preferable to rebuilding stable data, state, routing, hooks,
+and architectural foundations.
+
+---
+
+## Decision 002 — Separate UI, Data Access, and Shared State Responsibilities
 
 ### Problem
 
-The assignment identifies the provided Figma design as the primary visual reference for the frontend implementation. However, the Figma was not included in the assignment document available to me, and I have not yet received the design separately. I have contacted the coordinators to request access to the Figma.
+The application contains asynchronous data fetching, shared cart/favorites state,
+static mock data, and multiple screens that consume the same information.
 
-Since the assignment has a 24-hour deadline, waiting for the Figma before beginning implementation would unnecessarily delay work on the parts of the system that are independent of the visual reference.
+Putting these responsibilities directly inside page components would make the
+application harder to reason about and would tightly couple UI code to
+implementation details.
 
 ### Options Considered
 
-1. **Wait for the official Figma before beginning implementation.**
+1. **Keep API calls and shared state directly inside pages/components**
 
-   * This would ensure that all UI decisions are based on the intended reference.
-   * However, it would leave limited time for implementing, testing, debugging, and documenting the required engineering challenges.
+   - Fewer files.
+   - Simpler initially.
+   - Makes asynchronous behaviour and shared state harder to isolate and test.
 
-2. **Proceed by making undocumented visual assumptions.**
+2. **Use a single global state layer for everything**
 
-   * This would allow development to start immediately.
-   * However, undocumented assumptions could make later visual corrections more difficult and would provide little evidence of deliberate design reasoning.
+   - Centralizes application behaviour.
+   - Creates unnecessary global state and weakens ownership boundaries.
 
-3. **Define a documented, mobile-first visual system and proceed while remaining prepared to adapt it to the official Figma.**
+3. **Separate presentation, reusable asynchronous logic, data access, and genuinely
+   shared state**
 
-   * This allows development of the application and its engineering requirements to proceed without unnecessarily blocking on the unavailable reference.
-   * The visual decisions can be revised if the official Figma becomes available.
+   - Requires more structure.
+   - Makes ownership and debugging clearer.
 
 ### Decision
 
-I have chosen **Option 3**.
+Choose **Option 3**.
 
-I will proceed with a coherent, internally defined mobile-first visual system based on the functional requirements provided in the assignment. The system will be designed to support the required catalog, category/product listing, product detail, search, cart, and checkout flows, along with the required responsive desktop adaptation.
+The application follows these boundaries:
 
-If the official Figma becomes available during the implementation period, it will become the primary visual reference and the relevant UI decisions will be adjusted accordingly.
+```text
+                    Pages / Components
+                           │
+             ┌─────────────┴─────────────┐
+             ↓                           ↓
+     Hooks / Application Logic      Zustand Stores
+             │                       (shared state)
+             ↓
+         Mock API
+             ↓
+       Static JSON
 
-### Rationale
+# Decision 003 — Keep Full-Screen Entry Screens Outside AppLayout
 
-The 24-hour deadline makes it important to make progress on requirements that do not depend on the missing visual reference. Architecture, TypeScript configuration, Zustand state management, mock API behavior, asynchronous search handling, persisted-cart consistency, error handling, accessibility, testing, and project documentation can all be developed independently.
+## Problem
 
-This approach allows me to use the available time effectively while keeping the implementation adaptable rather than treating the temporary visual system as a replacement for the official Figma.
+The official Figma contains full-screen entry screens that do not use the
+shared application header, navigation, or footer.
 
-### Trade-off
+Rendering these screens inside AppLayout would introduce UI chrome that does
+not exist in the reference design.
 
-The primary trade-off is that visual fidelity to the intended Figma design cannot currently be guaranteed.
+## Decision
 
-To manage this risk, visual decisions will be kept deliberate and documented, while the application architecture will avoid unnecessary coupling between the visual implementation and the underlying state, data, and asynchronous behavior. This should make later visual adjustments more manageable if the official Figma is provided.
+Full-screen entry/flow screens will remain outside the shared AppLayout route
+when their visual and interaction requirements do not include the application
+shell.
 
-Decision 002 — Separate UI, data access, and state responsibilities
+The existing shopping/catalog routes will continue to use AppLayout.
 
-Decision: Keep React components, mock API access, Zustand state, and static data in separate layers.
+## Rationale
 
-Reason: The assignment tests asynchronous behavior and persisted state consistency. Separating these responsibilities allows those behaviors to be implemented and tested without tightly coupling them to individual UI components.
+AppLayout represents the shared application shell. Entry screens with a
+different visual structure should not be forced into that shell merely for
+routing convenience.
 
-Trade-off: This introduces more files than putting API calls directly inside pages, but it makes asynchronous behavior, state ownership, and debugging clearer.
+This preserves both Figma fidelity and the existing route architecture.
 
-Implementation:
+## Trade-off
 
-Pages / Components
-    ↓
-Hooks / Application logic
-    ↓
-Mock API
-    ↓
-JSON data
+The router contains separate route branches rather than placing every screen
+under a single layout.
 
-Global cross-page state
-    ↓
-Zustand stores
+This is intentional and keeps route-level presentation boundaries explicit.

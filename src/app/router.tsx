@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from '../components/layout/AppLayout';
+import { SplashScreen } from '../pages/SplashScreen';
 import { HomePage } from '../pages/HomePage';
 import { CategoryPage } from '../pages/CategoryPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
@@ -8,6 +9,10 @@ import { CartPage } from '../pages/CartPage';
 import { CheckoutResultPage } from '../pages/CheckoutResultPage';
 
 export const router = createBrowserRouter([
+  {
+    path: '/splash',
+    element: <SplashScreen />,
+  },
   {
     path: '/',
     element: <AppLayout />,
