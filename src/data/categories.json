@@ -1,0 +1,38 @@
+[
+  {
+    "id": "fruits-vegetables",
+    "name": "Fresh Fruits & Vegetables",
+    "description": "Farm-fresh organic fruits and crisp vegetables",
+    "itemCount": 4
+  },
+  {
+    "id": "dairy-bakery",
+    "name": "Dairy & Bakery",
+    "description": "Fresh milk, artisan breads, farm cheeses, and eggs",
+    "itemCount": 4
+  },
+  {
+    "id": "beverages",
+    "name": "Beverages & Drinks",
+    "description": "Fresh juices, cold brews, herbal teas, and sparkling water",
+    "itemCount": 4
+  },
+  {
+    "id": "snacks",
+    "name": "Snacks & Munchies",
+    "description": "Artisan chips, roasted nuts, crackers, and dried fruits",
+    "itemCount": 4
+  },
+  {
+    "id": "staples-grains",
+    "name": "Staples & Grains",
+    "description": "Organic rice, whole grains, pulses, flour, and cooking oils",
+    "itemCount": 4
+  },
+  {
+    "id": "packaged-food",
+    "name": "Packaged & Gourmet",
+    "description": "Organic pasta sauces, breakfast cereals, spreads, and jams",
+    "itemCount": 4
+  }
+]
