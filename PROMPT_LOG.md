@@ -88,3 +88,182 @@ type-checking and production build verification.
 - Zustand store scope reviewed
 - Dependencies reviewed
 - No UI component library / Redux / MobX / Context API introduced
+
+# AI Development Prompt Log
+
+This document records the prompts provided to the AI coding agent, the resulting implementation, verification performed, engineering review, and any issues identified during development.
+
+The purpose of this log is to maintain a transparent record of AI-assisted development and demonstrate how implementation decisions were reviewed rather than accepted without verification.
+
+---
+
+## Prompt 002 — Mock Data & Mock API V1
+
+### Status
+
+**Completed and reviewed**
+
+### Objective
+
+Implement the static mock catalog data and a mock API layer that can be consumed by the application without coupling UI components directly to the underlying JSON data.
+
+The implementation should follow `ArchitectureV1.md`, preserve the existing project structure, use strict TypeScript, and avoid unnecessary dependencies.
+
+### Prompt Given to AI
+
+> Implement the mock data and mock API layer according to the existing `ArchitectureV1.md` and `DECISIONS.md`.
+>
+> Create realistic static grocery catalog data under `src/data/`.
+>
+> Expand the existing product and API types where necessary to represent the catalog and API behavior.
+>
+> Create separate mock API services for:
+>
+> - Products
+> - Categories
+> - Search
+>
+> The UI must consume the mock API layer rather than importing JSON data directly.
+>
+> The mock API should simulate asynchronous network behavior using Promise-based variable latency.
+>
+> Support controlled API failure through an optional `shouldFail` option so loading, error, and retry states can be tested later.
+>
+> Keep stale-response handling out of the API layer; that responsibility belongs to the application/hook layer.
+>
+> Do not modify pages, components, Zustand stores, routing, or unrelated documentation.
+>
+> Do not add unnecessary dependencies.
+>
+> Maintain TypeScript strict mode and do not use `any`.
+>
+> After implementation, run typecheck and production build and report the exact files changed, assumptions, and issues encountered.
+
+---
+
+### AI Implementation
+
+The AI created the following static datasets:
+
+- `src/data/categories.json`
+- `src/data/products.json`
+
+The dataset contains:
+
+- 6 grocery categories
+- 24 grocery products
+- product/category relationships
+- prices
+- units
+- stock status
+- ratings
+- product tags
+
+The existing types were expanded:
+
+- `src/types/product.ts`
+- `src/types/api.ts`
+
+The mock API layer was implemented under:
+
+```text
+src/services/mockApi/
+├── productsApi.ts
+├── categoriesApi.ts
+└── searchApi.ts
+
+  ---
+
+### Prompt 003 — Data Fetching Hooks V1
+
+### Objective
+Implement the React data-fetching hook layer between UI components and the existing mock API.
+
+### Prompt Given to AI
+Implement only the React data-fetching hooks required to consume the existing mock API.
+
+Create `useProducts.ts` and `useSearch.ts` under `src/hooks/`.
+
+Follow ArchitectureV1, DESIGN_NOTES, existing types, and mock API.
+
+Establish strongly typed loading, success, and error states.
+
+`useProducts` should support fetching product data and retrying after failure.
+
+`useSearch` should consume `searchProducts` and protect the UI from stale/out-of-order responses when multiple searches are issued.
+
+Do not add dependencies or modify unrelated files.
+
+Use TypeScript strict mode with no `any`.
+
+Run typecheck and production build after implementation.
+
+### AI Implementation
+Created:
+- `src/hooks/useProducts.ts`
+- `src/hooks/useSearch.ts`
+
+The implementation introduced:
+- typed loading/error/data states
+- retry through `refetch`
+- component cleanup protection for effect-driven requests
+- request-ID based stale-response protection
+- stale-error protection
+- invalidation of in-flight searches after `clearResults`
+
+### Verification
+AI ran:
+
+`npm run typecheck; npm run build`
+
+Result:
+- TypeScript typecheck: PASS
+- Production build: PASS
+
+### Engineering Review
+The generated implementation was manually reviewed after the AI reported completion.
+
+The review specifically examined:
+- loading transitions
+- error handling
+- retry behavior
+- effect cleanup
+- dependency arrays
+- request sequencing
+- stale success responses
+- stale error responses
+- clear-results invalidation
+- TypeScript strictness
+
+### Debugging / AI Failure Analysis
+No functional AI defect was identified during review.
+
+A deliberate out-of-order execution scenario was traced:
+
+`search("apple") → search("milk") → milk resolves → apple resolves`
+
+The newer `"milk"` response was accepted while the older `"apple"` response was discarded because its request ID no longer matched the active request ID.
+
+A second failure scenario was also verified:
+
+`older request fails → newer request already active`
+
+The stale error was discarded and could not overwrite the newer request's state.
+
+### Observations
+Two minor hardening opportunities were identified:
+1. Imperative `refetch()` unmount behavior could be further hardened if required.
+2. `useSearch` could invalidate requests during unmount through explicit cleanup.
+
+Neither was treated as a blocking defect because neither produced a demonstrated functional failure in the current architecture.
+
+### Result
+Task 003 approved for commit.
+
+### Files Changed
+- `src/hooks/useProducts.ts`
+- `src/hooks/useSearch.ts`
+- `PROMPT_LOG.md`
+
+### Commit
+`feat: add data fetching hooks`
