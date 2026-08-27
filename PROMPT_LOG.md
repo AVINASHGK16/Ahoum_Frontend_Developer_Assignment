@@ -644,5 +644,87 @@ The top-left back arrow should return the user to `/auth`.
 ### Human Decision
 Accepted after reviewing the implementation against the official Figma reference.
 
+## Prompt 010 — Figma Screen 5: 4-Digit Verification Code
+
+### Objective
+
+Implement the official Figma Screen 5, "Enter your 4-digit code", following the existing mobile-first onboarding flow while preserving the established project architecture.
+
+### Prompt
+
+Implement Screen 5/22 from the provided official Figma.
+
+Connect Screen 4 mobile-number entry to this verification-code screen.
+
+Match the Figma's:
+- mobile-first layout
+- typography hierarchy
+- spacing
+- back navigation
+- "Enter your 4-digit code" heading
+- "Code" label
+- four-digit code entry
+- masked/revealed code interaction
+- eye show/hide control
+- "Resend Code" action
+- green circular continue button
+
+Use a real accessible input with native mobile numeric input behavior. Do not recreate the mobile OS keyboard as a React component.
+
+Restrict the verification code to four numeric digits.
+
+Implement show/hide behavior for the entered code using an accessible eye control.
+
+Keep resend behavior frontend-only. Do not introduce real OTP, SMS, authentication APIs, or unnecessary dependencies.
+
+Preserve the existing project architecture, folder structure, state management, mock API boundaries, and unrelated implementations.
+
+The application must remain responsive: use the Figma as the mobile reference while providing a thoughtful desktop adaptation rather than stretching the mobile layout.
+
+Do not assume that completing Screen 5 means entering the catalog. Connect the continue action to the correct subsequent Figma screen.
+
+### Result
+
+- Created `src/pages/VerificationScreen.tsx`.
+- Added `/verification` route.
+- Connected Screen 4 continue action to Screen 5.
+- Added four-digit numeric code input.
+- Added numeric sanitization and `maxLength={4}`.
+- Added automatic input focus.
+- Added functional show/hide code control.
+- Added frontend-only resend-code interaction.
+- Added back navigation to Screen 4.
+- Added Figma-style green circular continue control.
+- Preserved existing application architecture and unrelated features.
+
+### Verification
+
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Screen 4 → Screen 5 navigation verified.
+- Automatic input focus verified.
+- Four-digit numeric entry verified.
+- Non-numeric input restriction verified.
+- Show/hide code interaction verified.
+- Resend interaction verified.
+- Back navigation verified.
+- Continue interaction verified.
+- Browser console → 0 errors.
+
+### AI Review
+
+- Native mobile keyboard is intentionally not recreated.
+- `inputMode="numeric"` allows supported mobile browsers to invoke the native numeric keyboard.
+- No backend OTP/SMS/authentication infrastructure was introduced.
+- Existing architecture and application boundaries were preserved.
+- Desktop responsive behavior remains separate from native mobile keyboard behavior.
+
+### Human Review
+
+Implementation reviewed against the official Figma reference.
+
+Before final acceptance, verify that the continue action points to the actual next Figma screen and that incomplete codes cannot advance.
+
 ### Status
-Accepted — ready to commit.
+
+Implemented — pending final human verification and commit.

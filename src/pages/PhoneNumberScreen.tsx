@@ -16,8 +16,8 @@ export const PhoneNumberScreen: React.FC = () => {
   };
 
   const handleContinue = () => {
-    // Navigates to the next appropriate existing flow (catalog /)
-    navigate('/');
+    // Navigates to Screen 5 (4-Digit Verification Code)
+    navigate('/verification');
   };
 
   return (
