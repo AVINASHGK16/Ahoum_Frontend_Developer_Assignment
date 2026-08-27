@@ -267,3 +267,44 @@ Task 003 approved for commit.
 
 ### Commit
 `feat: add data fetching hooks`
+
+
+## Prompt 004 — UI Foundation V1
+
+### Objective
+Implement the reusable UI foundation according to `ArchitectureV1.md` and `DESIGN_NOTES.md`, without implementing page-specific business logic.
+
+### Condensed Prompt
+Implement the UI foundation layer:
+- Create `AppLayout` and `Header`.
+- Create reusable `ProductCard`.
+- Create `LoadingSpinner`, `ErrorMessage`, and `EmptyState`.
+- Follow the existing architecture and visual system.
+- Keep components presentational and reusable.
+- Do not modify pages, stores, hooks, mock APIs, data, routes, or architecture/design documentation.
+- Maintain strict TypeScript and accessibility.
+- Run typecheck and production build after implementation.
+
+### Implementation Result
+Created:
+- `src/components/layout/Header.tsx`
+- `src/components/layout/AppLayout.tsx`
+- `src/components/product/ProductCard.tsx`
+- `src/components/feedback/LoadingSpinner.tsx`
+- `src/components/feedback/ErrorMessage.tsx`
+- `src/components/feedback/EmptyState.tsx`
+
+The components remain within their intended architectural boundaries and do not introduce data-fetching or business logic.
+
+### AI Mistakes / Corrections
+- No functional implementation mistakes were identified during the Task 004 review.
+- The generated report contained a minor documentation typo in the `EmptyState.tsx` file reference (`]j`), but this was only a report typo and not a code issue.
+
+### Verification
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- TypeScript errors: 0
+- Build errors: 0
+
+### Commit
+feat: add UI foundation
