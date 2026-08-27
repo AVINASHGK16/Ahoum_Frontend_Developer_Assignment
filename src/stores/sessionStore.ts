@@ -1,9 +1,18 @@
 import { create } from 'zustand';
 
-export interface SessionState {
-  sessionId: string | null;
+export interface UserLocation {
+  zone: string;
+  area: string;
 }
 
-export const useSessionStore = create<SessionState>(() => ({
+export interface SessionState {
+  sessionId: string | null;
+  location: UserLocation | null;
+  setLocation: (location: UserLocation) => void;
+}
+
+export const useSessionStore = create<SessionState>((set) => ({
   sessionId: null,
+  location: null,
+  setLocation: (location) => set({ location }),
 }));

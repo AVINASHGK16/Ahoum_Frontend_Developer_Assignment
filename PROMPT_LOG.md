@@ -597,7 +597,7 @@ asked after the implementation has been reviewed.
 - Reviewed the implementation against Figma Screen 3.
 - Accepted the implementation.
 
-## Prompt 009 — Figma Screen 4: Mobile Number Entry
+## Prompt 008 — Figma Screen 4: Mobile Number Entry
 
 ### Objective
 Implement Figma Screen 4, "Enter your mobile number", and connect it correctly to the existing onboarding flow.
@@ -644,7 +644,7 @@ The top-left back arrow should return the user to `/auth`.
 ### Human Decision
 Accepted after reviewing the implementation against the official Figma reference.
 
-## Prompt 010 — Figma Screen 5: 4-Digit Verification Code
+## Prompt 009 — Figma Screen 5: 4-Digit Verification Code
 
 ### Objective
 
@@ -721,10 +721,103 @@ Do not assume that completing Screen 5 means entering the catalog. Connect the c
 
 ### Human Review
 
-Implementation reviewed against the official Figma reference.
+Implementation reviewed against the official Figma reference and Accepted.
 
-Before final acceptance, verify that the continue action points to the actual next Figma screen and that incomplete codes cannot advance.
+## Prompt 010 — Figma Screen 6: Select Your Location
+
+### Tool / Model
+
+Antigravity
+
+### Objective
+
+Implement official Figma Screen 6/22, "Select Your Location", while preserving the established frontend architecture and onboarding flow.
+
+### Prompt Given to AI
+
+Implement Figma Screen 6: Select Your Location.
+
+Before changing code, inspect the existing onboarding flow, sessionStore, router, and relevant types.
+
+Requirements:
+
+- Match the provided Figma screen closely on mobile.
+- Treat the official Figma as the visual source of truth.
+- Preserve the existing architecture and folder structure.
+- Keep the screen outside AppLayout because it is part of the full-screen onboarding flow.
+- Add a back action returning to the verification screen.
+- Implement Zone selection and Area selection.
+- Area options must depend on the selected Zone.
+- Use the existing sessionStore for the selected delivery location because this is session-level user state.
+- Do not create a separate location store unless the existing architecture genuinely requires one.
+- Do not add GPS, browser geolocation permissions, external location APIs, backend APIs, or unnecessary dependencies.
+- Add the Submit interaction and continue to the main application.
+- Support mobile-first behavior and provide a sensible desktop adaptation.
+- Preserve strict TypeScript and accessibility.
+- Do not modify unrelated features or architecture.
+- Run typecheck and production build.
+- Report every file created or modified and any assumptions made.
+
+### Implementation Result
+
+Created:
+
+- `src/pages/LocationScreen.tsx`
+- `public/images/location-map.jpg`
+
+Modified:
+
+- `src/stores/sessionStore.ts`
+- `src/pages/VerificationScreen.tsx`
+- `src/app/router.tsx`
+
+The screen now supports:
+
+- Back navigation to verification.
+- Zone selection.
+- Area selection dependent on the selected Zone.
+- Delivery location stored in `sessionStore`.
+- Submit action entering the main application.
+- Mobile-first layout with desktop adaptation.
+- Figma-derived location illustration and visual hierarchy.
+
+### What AI Got Wrong / What I Corrected
+
+- The implementation uses session-level state rather than introducing persistent account/location infrastructure. This is intentional because the assignment requires a frontend application with mock data and no backend.
+- The location flow was reviewed as an onboarding step rather than a location prompt that should appear repeatedly. The user should not be forced to select a location every time they enter the application during the same onboarding/session flow.
+- No GPS or external location service was introduced because it would add functionality that the assignment does not require.
+
+### Verification
+
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- Zone selection tested.
+- Area dependency tested.
+- Back navigation tested.
+- Submit navigation tested.
+- Location state integration reviewed.
+- Browser flow `/verification → /location → /` tested.
+- 0 browser console errors.
+
+### AI Review
+
+The implementation remained within the existing architecture.
+
+No new global store was introduced.
+
+The location state was placed in the existing `sessionStore`, which is the appropriate owner for session-level user information.
+
+The full-screen onboarding route remains outside `AppLayout`.
+
+### Human Decision
+
+Implementation reviewed and accepted against the official Figma.
+
+The location screen is accepted as an onboarding step and the current frontend scope does not require repeated location selection, GPS, or backend persistence.
 
 ### Status
 
-Implemented — pending final human verification and commit.
+Completed and reviewed.
+
+
+

@@ -5,6 +5,7 @@ import { WelcomeScreen } from '../pages/WelcomeScreen';
 import { AuthScreen } from '../pages/AuthScreen';
 import { PhoneNumberScreen } from '../pages/PhoneNumberScreen';
 import { VerificationScreen } from '../pages/VerificationScreen';
+import { LocationScreen } from '../pages/LocationScreen';
 import { HomePage } from '../pages/HomePage';
 import { CategoryPage } from '../pages/CategoryPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
   {
     path: '/verification',
     element: <VerificationScreen />,
+  },
+  {
+    path: '/location',
+    element: <LocationScreen />,
   },
   {
     path: '/',

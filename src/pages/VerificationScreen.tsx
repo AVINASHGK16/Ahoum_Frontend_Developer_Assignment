@@ -18,8 +18,11 @@ export const VerificationScreen: React.FC = () => {
   };
 
   const handleContinue = () => {
-    // Navigates to the next appropriate existing flow (catalog /)
-    navigate('/');
+    // Requires 4 digits to proceed to Screen 6 (Select Your Location)
+    if (code.length < 4) {
+      return;
+    }
+    navigate('/location');
   };
 
   const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
