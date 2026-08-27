@@ -3,6 +3,7 @@ import { AppLayout } from '../components/layout/AppLayout';
 import { SplashScreen } from '../pages/SplashScreen';
 import { WelcomeScreen } from '../pages/WelcomeScreen';
 import { AuthScreen } from '../pages/AuthScreen';
+import { PhoneNumberScreen } from '../pages/PhoneNumberScreen';
 import { HomePage } from '../pages/HomePage';
 import { CategoryPage } from '../pages/CategoryPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
   {
     path: '/auth',
     element: <AuthScreen />,
+  },
+  {
+    path: '/phone',
+    element: <PhoneNumberScreen />,
   },
   {
     path: '/',

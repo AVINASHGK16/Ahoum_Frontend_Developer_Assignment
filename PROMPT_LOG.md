@@ -438,7 +438,7 @@ Accepted the implementation after reviewing the generated changes against the of
 ## Prompt 007 — Figma Screen 3: Authentication Entry
 
 Prompt:
-TASK 008 — Implement Official Figma Screen 3: Nectar Authentication Entry
+TASK 007 — Implement Official Figma Screen 3: Nectar Authentication Entry
 
 The official Figma is now available and is the sole visual source of truth.
 
@@ -596,3 +596,53 @@ asked after the implementation has been reviewed.
 ### Human Review
 - Reviewed the implementation against Figma Screen 3.
 - Accepted the implementation.
+
+## Prompt 009 — Figma Screen 4: Mobile Number Entry
+
+### Objective
+Implement Figma Screen 4, "Enter your mobile number", and connect it correctly to the existing onboarding flow.
+
+### Prompt
+Implement Screen 4 from the provided Figma reference. Match the mobile-first layout, typography, spacing, Bangladesh flag, +880 country code, mobile number input, back navigation, and green circular continue button. Connect the screen to the previous authentication screen. Use native mobile input behavior (`type="tel"` and `inputMode="numeric"`), do not create a custom keyboard, and do not add backend/OTP/authentication services. Preserve the existing architecture and only modify files required for this screen.
+### Continue button
+The green circular arrow is the primary continuation control.
+For this assignment, implement only frontend navigation behavior.
+Do not make API/authentication calls.
+Do not invent OTP verification.
+If the next Figma screen has not yet been implemented, keep the navigation target deliberately isolated/easy to update rather than implementing future screens prematurely.
+
+### Back button
+
+The top-left back arrow should return the user to `/auth`.
+
+### Result
+- Created `PhoneNumberScreen.tsx`.
+- Added `/phone` route.
+- Connected the mobile-number entry on `AuthScreen` to `/phone`.
+- Added back navigation to `/auth`.
+- Added native telephone input with numeric mobile input mode.
+- Added autofocus behavior.
+- Added Figma-matching green circular continue button.
+- Preserved existing API, Zustand, data, and application architecture.
+
+### AI Review
+- No backend authentication or OTP implementation was introduced.
+- No custom keyboard was introduced; the Figma keyboard represents native mobile OS behavior.
+- Desktop responsive DevTools cannot display the native mobile keyboard, but the input is configured to invoke it on supported mobile devices.
+- `min-h-[100dvh]` and scroll handling were added to remain usable when the native keyboard reduces the viewport.
+- No unrelated architectural changes were identified.
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Browser flow `/auth` → `/phone` verified.
+- Phone input accepts numeric input.
+- Back navigation verified.
+- Continue action verified.
+- No browser console errors.
+
+### Human Decision
+Accepted after reviewing the implementation against the official Figma reference.
+
+### Status
+Accepted — ready to commit.

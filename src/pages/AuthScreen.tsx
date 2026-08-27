@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleContinue = () => {
     // Navigates into the application catalog entry flow
     navigate('/');
+  };
+
+  const handlePhoneEntry = () => {
+    // Navigates to Screen 4 (Mobile Number Entry)
+    navigate('/phone');
   };
 
   return (
@@ -34,9 +38,14 @@ export const AuthScreen: React.FC = () => {
               with nectar
             </h1>
 
-            {/* Mobile Number Input Row */}
+            {/* Mobile Number Input Trigger Row */}
             <div className="mt-8">
-              <div className="flex items-center gap-3 border-b border-neutral-200 pb-3 transition-colors focus-within:border-emerald-600">
+              <button
+                type="button"
+                onClick={handlePhoneEntry}
+                className="flex w-full items-center gap-3 border-b border-neutral-200 pb-3 text-left transition-colors hover:border-emerald-500 focus-visible:outline-none focus-visible:border-emerald-600"
+                aria-label="Enter mobile number"
+              >
                 {/* Country Code / Region Indicator */}
                 <div className="flex items-center gap-2">
                   <span className="text-lg" aria-hidden="true">
@@ -47,21 +56,11 @@ export const AuthScreen: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Number Input */}
-                <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="Enter mobile number"
-                  aria-label="Mobile phone number"
-                  className="flex-1 bg-transparent text-base text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleContinue();
-                    }
-                  }}
-                />
-              </div>
+                {/* Number Input Placeholder / Display */}
+                <span className="flex-1 text-base text-neutral-400">
+                  Enter mobile number
+                </span>
+              </button>
             </div>
           </div>
 
