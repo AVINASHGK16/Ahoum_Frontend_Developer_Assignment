@@ -854,3 +854,69 @@ Implement Figma Screen 8/22 — Signup screen as a responsive React page matchin
 ### Human Decision
 Reviewed the implementation against the Figma reference and manually verified the Signup flow and interactions. Accepted the implementation after correcting the account-navigation copy and CTA spelling.
 
+## Prompt 010 — Figma Screen 12: Home / Shop Page
+
+### Prompt
+Implement Figma Screen 12/22 — Home / Shop page from the provided Figma reference.
+
+Requirements:
+- Treat the Figma as the visual source of truth.
+- Implement mobile-first first, matching the reference layout, typography, spacing, colors, borders, radii, icons, product cards, banner, and bottom navigation as closely as possible.
+- Display the selected delivery location from the existing session state.
+- Implement the Search Store field.
+- Implement the Fresh Vegetables promotional banner.
+- Implement Exclusive Offer and Best Selling horizontal product sections.
+- Implement functional product `+` buttons using the existing cart state.
+- Implement the five-item bottom navigation: Shop, Explore, Cart, Favourite, Account.
+- Keep Explore, Favourite, and Account screens as existing/future routes only; do not implement their Figma screens yet.
+- Preserve the existing application architecture and APIs.
+- Do not introduce unnecessary dependencies or backend changes.
+- After mobile fidelity is complete, provide a thoughtful responsive desktop/tablet adaptation rather than stretching the mobile layout.
+- Use local assets rather than runtime external image dependencies.
+- Run typecheck and production build.
+- Verify the resulting screen in both mobile and desktop browser viewports.
+
+### Result
+- Implemented Figma Screen 12/22 Home / Shop page.
+- Added responsive Home page composition.
+- Added product cards and horizontal mobile product sections.
+- Added persistent five-item bottom navigation.
+- Connected product `+` buttons to existing cart state.
+- Connected Home location display to `sessionStore`.
+- Added local promotional and product image assets.
+- Preserved existing Explore, Favourite, and Account routes without implementing their future Figma screens.
+- Added responsive desktop/tablet adaptation.
+
+### Files Created
+- `src/components/layout/BottomNav.tsx`
+- `public/images/banner-fresh-vegetables.jpg`
+- `public/images/product-bananas.jpg`
+- `public/images/product-apple.jpg`
+- `public/images/product-bell-pepper.jpg`
+- `public/images/product-ginger.jpg`
+
+### Files Modified
+- `src/pages/HomePage.tsx`
+- `src/components/product/ProductCard.tsx`
+- `src/components/layout/AppLayout.tsx`
+- `src/stores/cartStore.ts`
+- `src/types/product.ts`
+- `src/data/products.json`
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Browser verification → PASS
+- Mobile viewport → PASS
+- Desktop viewport → PASS
+- Console errors → 0
+
+### AI Review
+- Home screen was implemented from the official Figma reference rather than treating the previous temporary desktop shell as the visual source of truth.
+- Mobile layout uses horizontal product carousels and persistent bottom navigation.
+- Desktop/tablet layout uses an intentional responsive adaptation.
+- Existing application architecture and mock API layer were preserved.
+- Future Explore, Favourite, and Account Figma screens were intentionally left for their respective implementation phases.
+
+### Human Decision
+Accepted the Home / Shop implementation after manually testing the mobile-first flow and confirming the screen and interactions behave correctly.

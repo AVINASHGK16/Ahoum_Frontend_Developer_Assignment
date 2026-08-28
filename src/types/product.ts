@@ -16,4 +16,5 @@ export interface Product {
   inStock: boolean;
   rating?: number;
   tags?: string[];
+  image?: string;
 }

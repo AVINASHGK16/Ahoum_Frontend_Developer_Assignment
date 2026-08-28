@@ -1,50 +1,55 @@
 [
   {
     "id": "prod-fv-01",
-    "name": "Organic Cavendish Bananas",
+    "name": "Organic Bananas",
     "categoryId": "fruits-vegetables",
-    "price": 1.99,
-    "originalPrice": 2.49,
-    "unit": "1 bunch (~6 pcs)",
+    "price": 4.99,
+    "originalPrice": 5.99,
+    "unit": "7pcs, Priceg",
     "description": "Naturally ripened sweet organic bananas rich in potassium and dietary fiber.",
     "inStock": true,
     "rating": 4.8,
-    "tags": ["organic", "fresh", "potassium", "fruit"]
+    "tags": ["exclusive", "offer", "organic", "fresh", "fruit"],
+    "image": "/images/product-bananas.jpg"
   },
   {
     "id": "prod-fv-02",
-    "name": "Crisp Honeycrisp Apples",
+    "name": "Red Apple",
     "categoryId": "fruits-vegetables",
-    "price": 3.99,
-    "originalPrice": 4.99,
-    "unit": "1 kg (approx. 4-5 pcs)",
-    "description": "Sweet, juicy, and extra crunchy orchard apples, perfect for snacking or salads.",
+    "price": 4.99,
+    "originalPrice": 5.49,
+    "unit": "1kg, Priceg",
+    "description": "Sweet, juicy, and extra crunchy orchard red apples, perfect for snacking or salads.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["fresh", "apples", "orchard", "fruit"]
+    "tags": ["exclusive", "offer", "fresh", "apples", "fruit"],
+    "image": "/images/product-apple.jpg"
   },
   {
     "id": "prod-fv-03",
-    "name": "Baby Spinach Leaves",
+    "name": "Bell Pepper Red",
     "categoryId": "fruits-vegetables",
-    "price": 2.49,
-    "unit": "250 g container",
-    "description": "Tender pre-washed organic baby spinach leaves, ideal for salads and smoothies.",
+    "price": 4.99,
+    "originalPrice": 5.99,
+    "unit": "1kg, Priceg",
+    "description": "Crisp and sweet farm fresh red bell peppers, perfect for stir-fries, roasting, and salads.",
     "inStock": true,
     "rating": 4.7,
-    "tags": ["organic", "greens", "spinach", "vegetable"]
+    "tags": ["best-selling", "vegetable", "fresh"],
+    "image": "/images/product-bell-pepper.jpg"
   },
   {
     "id": "prod-fv-04",
-    "name": "Vine-Ripened Roma Tomatoes",
+    "name": "Ginger",
     "categoryId": "fruits-vegetables",
-    "price": 2.29,
-    "originalPrice": 2.79,
-    "unit": "500 g pack",
-    "description": "Plump and flavorful red vine-ripened tomatoes, great for cooking sauces and fresh salads.",
+    "price": 4.99,
+    "originalPrice": 5.50,
+    "unit": "250gm, Priceg",
+    "description": "Aromatic organic whole ginger root with vibrant flavor, great for teas, curries, and dressings.",
     "inStock": true,
-    "rating": 4.6,
-    "tags": ["fresh", "tomatoes", "salad", "vegetable"]
+    "rating": 4.8,
+    "tags": ["best-selling", "organic", "spice", "fresh"],
+    "image": "/images/product-ginger.jpg"
   },
   {
     "id": "prod-db-01",

@@ -1,106 +1,99 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types/product';
+import { useCartStore } from '../../stores/cartStore';
 
 export interface ProductCardProps {
   product: Product;
   onAddToCart?: (product: Product) => void;
+  className?: string;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
-  const { id, name, price, originalPrice, unit, description, inStock, rating, tags } = product;
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onAddToCart,
+  className = '',
+}) => {
+  const { id, name, price, unit, image } = product;
+  const addItem = useCartStore((state) => state.addItem);
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (onAddToCart) {
+      onAddToCart(product);
+    } else {
+      addItem(product);
+    }
+
+    setAdded(true);
+    setTimeout(() => {
+      setAdded(false);
+    }, 600);
+  };
 
   return (
-    <article className="group flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition hover:shadow-md">
-      <div>
-        {/* Badges / Header Metadata */}
-        <div className="flex items-center justify-between text-xs">
-          {inStock ? (
-            <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
-              In Stock
-            </span>
+    <article
+      className={`group relative flex flex-col justify-between rounded-[18px] border border-[#E2E2E2] bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-[#53B175]/60 hover:shadow-md select-none ${className}`}
+    >
+      <Link
+        to={`/product/${id}`}
+        className="flex flex-col flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] rounded-xl"
+        aria-label={`View details for ${name}`}
+      >
+        {/* Product Image Area */}
+        <div className="flex h-24 sm:h-28 w-full items-center justify-center overflow-hidden py-1">
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
           ) : (
-            <span className="inline-flex items-center rounded-full bg-rose-50 px-2 py-0.5 font-medium text-rose-700">
-              Out of Stock
-            </span>
-          )}
-
-          {rating !== undefined && (
-            <span className="inline-flex items-center gap-1 font-semibold text-amber-600" aria-label={`Rating ${rating} out of 5`}>
-              <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span>{rating.toFixed(1)}</span>
-            </span>
+            <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-neutral-50 text-3xl">
+              🥬
+            </div>
           )}
         </div>
 
-        {/* Product Title / Link */}
-        <h3 className="mt-3 text-base font-semibold text-neutral-900 line-clamp-1">
-          <Link
-            to={`/product/${id}`}
-            className="transition hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 rounded"
-          >
-            {name}
-          </Link>
+        {/* Product Name */}
+        <h3 className="mt-2.5 text-sm sm:text-base font-bold text-[#181725] line-clamp-1 tracking-tight">
+          {name}
         </h3>
 
-        {/* Unit */}
-        <p className="mt-0.5 text-xs text-neutral-500">{unit}</p>
-
-        {/* Description */}
-        <p className="mt-2 text-xs text-neutral-600 line-clamp-2 leading-relaxed">
-          {description}
+        {/* Unit / Quantity (e.g. 7pcs, Priceg / 1kg, Priceg) */}
+        <p className="mt-0.5 text-xs font-normal text-[#7C7C7C]">
+          {unit}
         </p>
+      </Link>
 
-        {/* Tags */}
-        {tags && tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1">
-            {tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] text-neutral-600 capitalize"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+      {/* Price & Green Squircle Add Button Row */}
+      <div className="mt-3 flex items-center justify-between pt-1">
+        <span className="text-base sm:text-lg font-bold text-[#181725] tracking-tight">
+          ${price.toFixed(2)}
+        </span>
 
-      {/* Footer: Price & Add Action */}
-      <div className="mt-4 flex items-center justify-between pt-3 border-t border-neutral-100">
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-lg font-bold text-neutral-900">
-            ${price.toFixed(2)}
-          </span>
-          {originalPrice && originalPrice > price && (
-            <span className="text-xs text-neutral-400 line-through">
-              ${originalPrice.toFixed(2)}
-            </span>
-          )}
-        </div>
-
-        {onAddToCart && (
-          <button
-            type="button"
-            disabled={!inStock}
-            onClick={() => onAddToCart(product)}
-            className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
-            aria-label={`Add ${name} to cart`}
+        {/* Green Squircle Add Button (Figma Screen 12/22) */}
+        <button
+          type="button"
+          onClick={handleAdd}
+          className={`flex h-11 w-11 items-center justify-center rounded-[17px] bg-[#53B175] text-white shadow-xs transition-all duration-200 hover:bg-[#489E67] active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2 ${
+            added ? 'scale-110 bg-[#489E67]' : ''
+          }`}
+          aria-label={`Add ${name} to cart`}
+        >
+          <svg
+            className="h-4 w-4 stroke-current stroke-[2.8]"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            <svg
-              className="h-3.5 w-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            <span>Add</span>
-          </button>
-        )}
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </button>
       </div>
     </article>
   );
