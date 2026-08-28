@@ -31,10 +31,31 @@ implementation phases and human supervision decisions.
 | P-15 | Asset Stability | Audited product/category/banner image paths after image-loading regressions occurred during AI implementation. | Existing working image assets were treated as protected resources and unrelated image changes were prohibited. | Asset endpoint checks + browser verification |
 | P-16 | Welcome Screen | Corrected responsive framing of the portrait welcome image on desktop while preserving the source asset. | Human testing identified excessive cropping/zooming. Final solution preserved the image composition and avoided further unnecessary asset changes. | Mobile + tablet + desktop |
 | P-17 | Final Regression Review | Performed a final project-wide verification pass across existing flows. | Required fixes to be scoped to actual bugs and prevented unrelated refactoring or redesign. | Typecheck + build + browser regression testing |
+| P-18 | Global Header & Search UX | Redesigned the desktop header with persistent delivery location, dominant global search, and streamlined navigation actions. | Human review identified cramped/squeezed search space and redundant page-level search/navigation. Desktop navigation was consolidated while preserving the mobile search experience. | Responsive browser verification across 375px–1920px + search navigation |
+| P-19 | Explore Catalog UX | Redesigned Explore around a desktop filter sidebar, responsive filter drawer, active filter chips, product counts, sorting, and empty-result recovery. | Required Categories, Brands, and other filters to be clearly separated and to affect the actual displayed product set. | Category/brand filtering + sorting + filter removal + empty state |
+| P-20 | Product Card Merchandising | Upgraded product cards with discount badges, original-price comparison, ratings, favourites, quantity steppers, and out-of-stock states. | Required visible quantity feedback after repeated Add actions so users do not need to open Cart to know how many items were selected. | Add → quantity increment/decrement → Cart synchronization |
+| P-21 | Account / Favourites / Empty Cart UX | Redesigned account-related desktop layouts and improved favourites and empty-cart discovery. | Human review identified excessive desktop whitespace and mobile-first layouts that did not use available desktop space effectively. | Account, Favourite, Cart flows + responsive verification |
+| P-22 | Visual Consistency & Product Imagery | Standardized product image framing, units, typography, spacing, and iconography while replacing mismatched/reused product imagery with product-specific assets. | Corrected the misconception that visual consistency means using identical images. Final rule: consistent presentation with distinct product identity. | Product Card → Product Detail → Cart → Favourite image verification |
+| P-23 | Authentication UX | Redesigned authentication screens with responsive desktop cards, country selection, segmented OTP inputs, auto-advance/paste handling, resend cooldown, clearer CTAs, and consistent Ahoum branding. | Human review identified mobile-first desktop whitespace, ambiguous authentication CTAs, weak OTP interaction, and inconsistent legacy branding. Existing authentication architecture was preserved. | Auth flow + OTP interaction + responsive verification |
+| P-24 | Final UX & Responsive Corrections | Fixed phone-number input overflow and refined the unauthenticated Account experience with separated Log In/Sign Up actions, account benefits, and guest browsing. | Scope was deliberately restricted to two verified UX defects to avoid destabilizing completed UX passes. | Typecheck + production build + browser verification |
 
 ---
 
 # 🛠️ AI Mistakes & Human Supervision Corrections
+
+The AI-assisted implementation was manually reviewed throughout development.
+The following issues were identified through browser testing, visual comparison,
+state verification, and regression testing.
+
+| Issue | AI Mistake | Human Correction | Result |
+|---|---|---|---|
+| Image Asset Regression | Existing image paths/assets were changed during unrelated feature work. | Restored protected assets and revalidated image paths. | PASS |
+| Payment Selection State | Multiple payment methods displayed `Selected` and summary state was stale. | Enforced a single active payment method and synchronized checkout summary. | PASS |
+| Checkout Copy | `Pament` typo was reproduced from the reference design. | Corrected user-facing copy to `Payment`. | PASS |
+| Favourite Copy | Favourite terminology became inconsistent during implementation. | Standardized user-facing terminology to `Favourite`. | PASS |
+| Account Navigation | Account action redirected authenticated users toward Login/Signup. | Reused authentication state to route authenticated users to Account. | PASS |
+| Filter Availability | Filter functionality was not consistently exposed from Explore. | Added visible filter entry point and connected applied filters to displayed products. | PASS |
+| Welcome Image Framing | Responsive implementation excessively zoomed/cropped the portrait image on desktop. | Constrained image framing and preserved the source asset. | PASS |
 
 ## 1. Image Asset Regression
 

@@ -426,5 +426,25 @@ Validation includes:
 - TypeScript validation
 - Production build validation
 
-The design record intentionally documents the final accepted direction rather
-than every intermediate AI-generated iteration.
+The design record intentionally documents the final accepted direction rather than every intermediate AI-generated iteration.
+
+## UX Improvements — Final Design Pass
+
+The storefront underwent a focused UX refinement covering navigation, catalog discovery,
+product merchandising, account flows, authentication, responsive behavior, and visual
+consistency. Existing application architecture and business logic were intentionally preserved.
+
+| Area | Key UX Improvements | Design Goal |
+|---|---|---|
+| Global Header & Search | Unified header, delivery location, global search, favourites, cart and account navigation; removed redundant desktop search controls | Consistent navigation and faster product discovery |
+| Explore & Catalog | Desktop filter sidebar, responsive filters, sorting, active filter chips, reset controls, dynamic counts and empty-results recovery | Better catalog discovery and control |
+| Product Cards | Quantity steppers, favourites, discount badges, inline pricing, stock states and stable card layouts | Reduce friction between discovery and purchase |
+| Account | Responsive dashboard, active delivery, recent orders, reorder actions, account summaries and support navigation | Make account management operational rather than purely informational |
+| Favourites | Individual add-to-cart actions, clearer stock information and direct removal controls | Make saved products immediately actionable |
+| Empty Cart | Popular department shortcuts and Frequently Bought Essentials discovery section | Prevent the empty state from becoming a dead end |
+| Product Imagery | Product-specific realistic imagery, normalized framing, consistent scale and clean backgrounds | Consistent presentation without making different products look identical |
+| Copy & Units | Standardized units, corrected product copy and normalized metadata presentation | Improve clarity and data quality |
+| Iconography | Replaced unnecessary emoji UI icons with consistent interface iconography | Establish a coherent visual language |
+| Authentication | Responsive auth cards, country selector, phone validation, segmented OTP, paste/auto-advance, resend cooldown and clearer CTAs | Reduce authentication friction |
+| Unauthenticated Account | Separate Log In / Sign Up actions, account benefits, guest browsing and preserved global navigation | Give users clear choices without creating a dead end |
+| Responsive Design | Audited 375–1920px layouts and adjusted desktop expansion, grids, gutters and mobile controls | Maintain usability across viewport sizes |
