@@ -6,6 +6,7 @@ import { AuthScreen } from '../pages/AuthScreen';
 import { PhoneNumberScreen } from '../pages/PhoneNumberScreen';
 import { VerificationScreen } from '../pages/VerificationScreen';
 import { LocationScreen } from '../pages/LocationScreen';
+import { LoginScreen } from '../pages/LoginScreen';
 import { HomePage } from '../pages/HomePage';
 import { CategoryPage } from '../pages/CategoryPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
@@ -37,6 +38,14 @@ export const router = createBrowserRouter([
   {
     path: '/location',
     element: <LocationScreen />,
+  },
+  {
+    path: '/login',
+    element: <LoginScreen />,
+  },
+  {
+    path: '/signup',
+    element: <AuthScreen />,
   },
   {
     path: '/',
