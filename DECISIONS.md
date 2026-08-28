@@ -446,3 +446,29 @@ Explore provides an entry point to the shared filtering flow, while the existing
 Explore has slightly more coupling to the shared filter flow, but this is preferable to duplicated filtering logic.
 
 A single filtering implementation keeps behavior consistent and reduces the risk of Search, Explore, and product-result screens producing different results for the same filters.
+
+Decision — Account Navigation Represents User State
+
+Decision:
+The Account tab represents the authenticated user's account/profile experience.
+
+Reason:
+An authenticated user clicking Account should not be sent back through authentication. The Account page should expose identity, account information, and relevant pending activity while reusing the existing session state.
+
+Constraint:
+Do not introduce a second authentication/user state source.
+
+Decision — Filtering Is a Product-Discovery Concern
+
+Decision:
+Filtering is available anywhere users are browsing products, including Explore, and uses the same underlying filtering logic.
+
+Reason:
+Explore is a primary product-discovery surface. Restricting filtering to Search/listing would create inconsistent UX.
+
+Filter model:
+
+Categories + Brands → Apply Filter → matching products
+
+Constraint:
+Filtering must operate on the existing product dataset and must not modify product assets or introduce duplicate product state.

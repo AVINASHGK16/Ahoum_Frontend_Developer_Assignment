@@ -1821,3 +1821,211 @@ This avoids maintaining separate filtering rules or separate filter state for Se
 Reviewed the Explore filtering flow manually and accepted the implementation.
 
 The existing Filter functionality is now accessible from Explore without introducing a second filtering system.
+
+### AI MISTAKES AND HOW I FIXED IT 
+
+Prompt 023 — Account Page / User Profile State Fix
+Prompt
+
+Fix the Account navigation and account experience.
+
+The Account icon in the bottom navigation must not redirect an already authenticated user back to the Login / Signup screen.
+
+For an authenticated user, implement a proper Account page that behaves like a real grocery application.
+
+The Account page should:
+
+Display the currently authenticated user's username/name.
+Display the user's email.
+Preserve the existing authentication/session state.
+Provide access to relevant account information.
+Clearly surface any incomplete or pending checkout/order state when applicable.
+Allow the user to return to the main shopping experience through the existing navigation.
+Reuse the existing sessionStore / authentication state rather than introducing another user store.
+Preserve the existing BottomNav structure and active Account state.
+
+Do not change the login/signup flow, authentication architecture, cart state, checkout state, product data, images, search, favorites, or unrelated pages.
+
+AI Mistake Found
+
+The initial implementation incorrectly treated the Account navigation as an authentication entry point.
+
+Incorrect behavior:
+
+Clicking the Account icon redirected the user to Login / Signup even when the user was already authenticated.
+
+This is not appropriate for a real-world authenticated application because the Account tab should represent the user's profile/account state rather than repeatedly asking an authenticated user to log in.
+
+Fix Applied
+Account navigation now resolves to the authenticated user's Account page.
+Existing session information is reused.
+Username/email are displayed from the existing user/session state.
+Pending/incomplete checkout information is surfaced without creating a duplicate checkout state.
+Login/Signup remains available only when authentication is actually required.
+Existing navigation and application state were preserved.
+Files Modified
+src/pages/AccountPage.tsx
+src/app/router.tsx
+src/stores/sessionStore.ts (only if required by the implementation)
+Route
+/account
+Verification
+Account icon → Account page → PASS
+Authenticated user remains authenticated → PASS
+Username displayed → PASS
+Email displayed → PASS
+Pending checkout state handling → PASS
+Login/Signup flow remains intact → PASS
+Cart state preserved → PASS
+Favorite state preserved → PASS
+Search/Explore state preserved → PASS
+Bottom navigation remains functional → PASS
+Browser console errors → 0
+AI Review
+No new authentication architecture was introduced.
+Existing session state remains the single source of truth.
+Account navigation no longer incorrectly behaves like an authentication redirect.
+Checkout/cart state was not duplicated or reset.
+Changes were kept scoped to the Account experience.
+Human Decision
+
+Accepted after manually testing the Account tab while authenticated and confirming that it displays the user's account information instead of redirecting to Login/Signup.
+
+Prompt 024 — Filter Integration Across Explore + Filter State Fix
+Prompt
+
+Implement and complete the product filtering experience.
+
+The existing Filter feature must clearly separate its filtering criteria into:
+
+Categories
+Brands
+
+The user must be able to select one or multiple categories and/or brands and press Apply Filter.
+
+After applying the filter, only products matching the selected criteria should be displayed.
+
+The same filtering capability must be accessible from the Explore page, not only from the existing product/search listing flow.
+
+Requirements
+Filter UI
+
+Maintain the Figma-inspired Filter screen with clearly separated sections:
+
+Categories
+
+Eggs
+Noodles & Pasta
+Chips & Crisps
+Fast Food
+
+Brand
+
+Individual Collection
+Coccola
+Ifad
+Kazi Farmas
+
+Use the existing visual language:
+
+Checkbox selection
+Green selected state
+Clear section separation
+Apply Filter CTA
+Existing close/back behavior
+Filtering behavior
+Selecting a category filters products belonging to that category.
+Selecting a brand filters products belonging to that brand.
+Multiple selections within a section must be supported.
+Category + brand selections must work together.
+Applying filters must update the displayed product list.
+Products that do not satisfy the active filters must not be displayed.
+Clearing/resetting filters must restore the complete product list.
+Empty filter results must have a graceful empty state.
+Filter state must remain consistent while navigating within the relevant shopping flow.
+Explore integration
+
+The Explore page must also expose the Filter action.
+
+The user should be able to:
+
+Explore → Filter → Select Category/Brand → Apply Filter → Filtered Products
+
+Do not make filtering available only on Search/product-list screens.
+
+Reuse the existing product data and filtering architecture.
+
+Do not:
+
+modify product images
+replace image assets
+change product data unnecessarily
+create duplicate product stores
+create duplicate filter state
+alter authentication
+alter cart behavior
+alter favorites
+alter checkout
+modify unrelated pages
+add unnecessary dependencies
+AI Mistakes Found
+Mistake 1 — Filter was implemented but incompletely integrated
+
+The first implementation successfully created the filter behavior but did not expose the filter functionality from the Explore page.
+
+Incorrect behavior:
+
+Search/List → Filter worked, but:
+
+Explore → Filter
+
+was missing.
+
+This created an inconsistent shopping experience because Explore is itself a primary product discovery surface.
+
+Mistake 2 — Filtering needed explicit category/brand separation
+
+The filter implementation needed to make the distinction between Categories and Brands obvious rather than treating all filter values as one undifferentiated collection.
+
+This distinction is important because category and brand represent different product attributes and should be combined logically when both are selected.
+
+Fix Applied
+Added/connected the Filter action to the Explore page.
+Kept Categories and Brands as separate filter groups.
+Connected selected category/brand values to the existing product filtering logic.
+Ensured Apply Filter changes the displayed products.
+Preserved existing product images and product data.
+Added graceful handling for empty filter results.
+Kept filter behavior consistent with the existing shopping/listing flow.
+Files Modified
+src/pages/ExplorePage.tsx
+src/pages/FilterPage.tsx (if applicable)
+Existing filtering/store/component files only where required.
+Verification
+Explore → Filter → PASS
+Category filter → PASS
+Brand filter → PASS
+Multiple category selection → PASS
+Multiple brand selection → PASS
+Category + brand filtering → PASS
+Apply Filter → PASS
+Filtered product list → PASS
+Clear/reset filter → PASS
+Empty filter result → PASS
+Existing Search behavior → PASS
+Existing Home behavior → PASS
+Existing Favorite behavior → PASS
+Existing Cart behavior → PASS
+Existing Checkout behavior → PASS
+Product images preserved → PASS
+Browser console errors → 0
+AI Review
+Filter logic reuses the existing product data rather than introducing another product source.
+Categories and Brands remain conceptually separated.
+Explore now has feature parity with the other product-discovery surfaces where filtering is available.
+No image assets were modified.
+No cart, favorite, authentication, or checkout state was altered.
+The correction specifically addressed the missing Explore integration discovered during manual review.
+Human Decision
+
+Accepted after manually testing the Explore → Filter flow and confirming that applying category/brand filters displays only matching products while leaving the existing shopping flows intact.
