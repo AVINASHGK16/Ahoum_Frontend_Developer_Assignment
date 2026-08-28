@@ -7,6 +7,7 @@ export interface UserLocation {
 
 export interface UserSession {
   email: string;
+  username?: string;
   isAuthenticated: boolean;
 }
 
@@ -15,7 +16,8 @@ export interface SessionState {
   location: UserLocation | null;
   user: UserSession | null;
   setLocation: (location: UserLocation) => void;
-  login: (email: string) => void;
+  login: (email: string, username?: string) => void;
+  signup: (email: string, username: string) => void;
   logout: () => void;
 }
 
@@ -24,11 +26,21 @@ export const useSessionStore = create<SessionState>((set) => ({
   location: null,
   user: null,
   setLocation: (location) => set({ location }),
-  login: (email) =>
+  login: (email, username) =>
     set({
       sessionId: `session_${Date.now()}`,
       user: {
         email,
+        username,
+        isAuthenticated: true,
+      },
+    }),
+  signup: (email, username) =>
+    set({
+      sessionId: `session_${Date.now()}`,
+      user: {
+        email,
+        username,
         isAuthenticated: true,
       },
     }),

@@ -303,3 +303,74 @@ The implementation did not refactor unrelated application functionality.
 Implementation reviewed against the official Figma and accepted.
 
 The login implementation is accepted as a frontend mock-authentication flow. No real OAuth, backend authentication, or production credential storage is required for this assignment.
+
+## Decision 005 — Extend Existing Session State for Mock Authentication
+
+### Problem
+
+The Figma introduces a dedicated login screen and the application needs to
+represent whether a user has successfully completed the frontend login flow.
+
+Creating a separate authentication state system would duplicate the existing
+session responsibility.
+
+### Options Considered
+
+1. Create a separate authentication store
+   - Clearly separates authentication concerns.
+   - Introduces another global state layer.
+   - Duplicates responsibility already handled by `sessionStore`.
+
+2. Keep authentication entirely inside `LoginScreen`
+   - Simple initially.
+   - Authentication state would disappear when the page unmounts.
+   - Other application areas could not reliably determine whether the user is
+     authenticated.
+
+3. Extend the existing `sessionStore`
+   - Keeps session-level information in one location.
+   - Avoids unnecessary global state.
+   - Allows login state to be consumed by other application areas.
+   - Preserves the existing architecture.
+
+### Decision
+
+Choose **Option 3**.
+
+The existing `sessionStore` is extended with frontend authentication/session
+state required by the mock login flow.
+
+The login screen remains responsible for presentation and form interaction,
+while the session store owns the resulting authenticated session state.
+
+### Rationale
+
+Authentication status is session-level application state and therefore belongs
+with the existing session state rather than inside a page component.
+
+This maintains a clear separation between presentation and shared application
+state without introducing another state-management layer.
+
+### Scope Limitation
+
+This is a frontend assignment and does not require production authentication.
+
+The implementation does not introduce:
+- backend authentication,
+- OAuth providers,
+- external authentication services,
+- password hashing infrastructure,
+- or permanent credential storage.
+
+The frontend session state represents a successful mock login only.
+
+### Trade-off
+
+The implementation does not provide real identity verification or secure
+credential persistence.
+
+That limitation is intentional and keeps the implementation within the
+assignment's frontend scope.
+
+A production implementation would move authentication and credential
+verification to a secure backend/authentication provider.

@@ -819,5 +819,38 @@ The location screen is accepted as an onboarding step and the current frontend s
 
 Completed and reviewed.
 
+## Prompt 010 — Figma Screen 8: Signup
 
+### Prompt
+Implement Figma Screen 8/22 — Signup screen as a responsive React page matching the provided Figma reference exactly. Connect it from the Login screen's Signup link, provide username/email/password fields, password visibility toggle, frontend-only validation and mock signup behavior using the existing session architecture/localStorage where appropriate. Preserve existing architecture and implement mobile-first responsive behavior with proper desktop support.
+
+### Result
+- Implemented `SignupScreen.tsx`.
+- Added the real `/signup` route instead of the previous `/auth` alias.
+- Connected Login → Signup.
+- Connected "Already have an account? Login" → `/login`.
+- Added username, email, and password fields.
+- Added password show/hide toggle.
+- Added frontend-only validation.
+- Added mock signup/session behavior without introducing a backend.
+- Matched the Figma typography, spacing, colors, input styling, button styling and responsive layout.
+- Corrected CTA text from `Sing Up` to `Sign Up`.
+- Corrected bottom navigation text from `Already have an account? Signup` to `Already have an account? Login`.
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Login → Signup navigation → PASS
+- Signup → Login navigation → PASS
+- Password visibility toggle → PASS
+- Form validation → PASS
+- Browser console → 0 errors
+
+### AI Review
+- Signup is a separate authentication entry screen and must not reuse `/auth`.
+- No backend/OAuth implementation was required because this assignment is frontend-focused.
+- Existing session architecture was reused rather than introducing another authentication store.
+
+### Human Decision
+Reviewed the implementation against the Figma reference and manually verified the Signup flow and interactions. Accepted the implementation after correcting the account-navigation copy and CTA spelling.
 
