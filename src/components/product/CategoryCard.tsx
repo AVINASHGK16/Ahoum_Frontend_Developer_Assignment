@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import type { Category } from '../../types/product';
 
@@ -9,7 +9,6 @@ export interface CategoryCardProps {
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category, className = '' }) => {
   const { id, name, image, bgColor, borderColor } = category;
-  const [imgError, setImgError] = useState(false);
 
   return (
     <Link
@@ -23,11 +22,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, className 
     >
       {/* Category Illustration Image */}
       <div className="flex h-28 w-full items-center justify-center overflow-hidden py-1">
-        {image && !imgError ? (
+        {image ? (
           <img
             src={image}
             alt={name}
-            onError={() => setImgError(true)}
             className="max-h-full max-w-full object-contain drop-shadow-2xs transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />

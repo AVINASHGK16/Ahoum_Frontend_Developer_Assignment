@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="whiteBasketGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DEB887"/>
+      <stop offset="60%" stop-color="#C59B63"/>
+      <stop offset="100%" stop-color="#9E733D"/>
+    </linearGradient>
+    <linearGradient id="whiteEggGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F2F3F5"/>
+      <stop offset="100%" stop-color="#DCE0E6"/>
+    </linearGradient>
+    <linearGradient id="whiteEggGrad2" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F6F7F9"/>
+      <stop offset="100%" stop-color="#D4D9E2"/>
+    </linearGradient>
+    <filter id="shadowWhite" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#332211" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="150" cy="242" rx="90" ry="20" fill="#000000" opacity="0.08" />
+
+  <!-- Shallow Weave Tray/Bowl -->
+  <ellipse cx="150" cy="180" rx="95" ry="55" fill="url(#whiteBasketGrad)" filter="url(#shadowWhite)" />
+  <ellipse cx="150" cy="175" rx="88" ry="48" fill="#B0834B" />
+
+  <!-- Woven Texture Texture -->
+  <path d="M70 170 C100 215 200 215 230 170" fill="none" stroke="#7A5223" stroke-width="2" opacity="0.4" />
+  <path d="M85 185 C110 220 190 220 215 185" fill="none" stroke="#7A5223" stroke-width="2" opacity="0.4" />
+
+  <!-- White Eggs Arranged Neatly in Bowl -->
+  <g filter="url(#shadowWhite)">
+    <!-- Back Row -->
+    <ellipse cx="120" cy="155" rx="25" ry="33" fill="url(#whiteEggGrad2)" transform="rotate(-18 120 155)" />
+    <ellipse cx="180" cy="155" rx="25" ry="33" fill="url(#whiteEggGrad1)" transform="rotate(18 180 155)" />
+    <ellipse cx="150" cy="142" rx="26" ry="34" fill="url(#whiteEggGrad1)" />
+
+    <!-- Center/Front Row -->
+    <ellipse cx="108" cy="178" rx="24" ry="31" fill="url(#whiteEggGrad1)" transform="rotate(-30 108 178)" />
+    <ellipse cx="138" cy="175" rx="25" ry="33" fill="url(#whiteEggGrad2)" transform="rotate(-5 138 175)" />
+    <ellipse cx="168" cy="175" rx="25" ry="33" fill="url(#whiteEggGrad1)" transform="rotate(8 168 175)" />
+    <ellipse cx="192" cy="178" rx="24" ry="31" fill="url(#whiteEggGrad2)" transform="rotate(30 192 178)" />
+    <ellipse cx="150" cy="190" rx="24" ry="32" fill="url(#whiteEggGrad1)" transform="rotate(5 150 190)" />
+  </g>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="redPouchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E83025"/>
+      <stop offset="50%" stop-color="#C71D12"/>
+      <stop offset="100%" stop-color="#8F0D05"/>
+    </linearGradient>
+    <filter id="noodleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="150" cy="258" rx="55" ry="12" fill="#000000" opacity="0.09" />
+
+  <!-- Red Package -->
+  <g filter="url(#noodleShadow)">
+    <rect x="95" y="45" width="110" height="205" rx="10" fill="url(#redPouchGrad)" />
+
+    <!-- Top Crimped Seal -->
+    <rect x="95" y="45" width="110" height="12" fill="#800A03" rx="3" />
+
+    <!-- Brand Header -->
+    <rect x="110" y="65" width="80" height="22" rx="4" fill="#FFFFFF" />
+    <text x="150" y="80" font-family="Arial, sans-serif" font-size="11" font-weight="900" fill="#E83025" text-anchor="middle">CHING'S</text>
+
+    <!-- Product Title -->
+    <text x="150" y="105" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">EGG</text>
+    <text x="150" y="122" font-family="Arial, sans-serif" font-size="13" font-weight="900" fill="#FFE500" text-anchor="middle">NOODLES</text>
+
+    <!-- Center Window with Egg Noodles -->
+    <rect x="105" y="132" width="90" height="95" rx="6" fill="#FFF4D1" stroke="#FCE79F" stroke-width="2" />
+
+    <!-- Noodle Strands Inside Window -->
+    <g fill="none" stroke="#D19E26" stroke-width="2.5" stroke-linecap="round">
+      <path d="M115 145 Q125 170 118 215" />
+      <path d="M125 142 Q138 175 130 220" />
+      <path d="M138 140 Q150 168 145 218" />
+      <path d="M152 143 Q162 172 158 220" />
+      <path d="M165 141 Q178 170 172 215" />
+      <path d="M178 145 Q185 175 182 212" />
+    </g>
+
+    <!-- Bottom Seal -->
+    <rect x="95" y="240" width="110" height="10" fill="#800A03" rx="2" />
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="pastaBagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E8E8E8" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="bagShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="150" cy="255" rx="65" ry="12" fill="#000000" opacity="0.08" />
+
+  <!-- Pasta Pouch Package -->
+  <g filter="url(#bagShadow)">
+    <!-- Main Clear Bag -->
+    <path d="M90 60 L210 60 L218 245 L82 245 Z" fill="#FFF6D6" stroke="#D1C49D" stroke-width="1.5" />
+
+    <!-- Green Top Header -->
+    <path d="M88 55 L212 55 L214 95 L86 95 Z" fill="#1C5E3B" />
+    <rect x="144" y="55" width="12" height="40" fill="#E23E3E" />
+
+    <!-- AS Logo Badge -->
+    <circle cx="150" cy="115" r="18" fill="#1C5E3B" stroke="#FFFFFF" stroke-width="2" />
+    <text x="150" y="121" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">AS</text>
+
+    <!-- Golden Pasta / Macaroni Shapes Inside Package -->
+    <g fill="#E5B239" stroke="#C4921E" stroke-width="1.5">
+      <path d="M105 150 Q115 140 125 150 Q120 162 105 150 Z" />
+      <path d="M140 155 Q150 145 160 155 Q155 167 140 155 Z" />
+      <path d="M175 148 Q185 138 195 148 Q190 160 175 148 Z" />
+      <path d="M115 178 Q125 168 135 178 Q130 190 115 178 Z" />
+      <path d="M150 182 Q160 172 170 182 Q165 194 150 182 Z" />
+      <path d="M100 205 Q110 195 120 205 Q115 217 100 205 Z" />
+      <path d="M135 210 Q145 200 155 210 Q150 222 135 210 Z" />
+      <path d="M170 202 Q180 192 190 202 Q185 214 170 202 Z" />
+    </g>
+
+    <!-- Bottom Seal -->
+    <rect x="82" y="240" width="136" height="8" fill="#1C5E3B" opacity="0.8" />
+  </g>
+</svg>

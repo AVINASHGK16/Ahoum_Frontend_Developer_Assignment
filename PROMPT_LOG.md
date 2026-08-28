@@ -1003,3 +1003,278 @@ Run typecheck and production build and verify the complete Home → Product Deta
 
 ### Human Decision
 Accepted the implementation after manually testing the Product Detail screen and confirming navigation, quantity controls, favourite, back navigation, and Add To Basket behavior.
+
+## Prompt 012 — Figma Screen 16: Search Results / Product Search
+
+Implemented the Figma Screen 16/22 Search Results experience.
+
+### Requirements
+- Implement the search results screen based on the Figma reference.
+- Search products dynamically based on the entered query.
+- Search must support `/search?q=Egg`.
+- Display matching products in the same reusable product-card style used throughout the application.
+- Include search input, clear button, and filter action.
+- Product results must remain connected to the existing product catalog.
+- Clicking a product must navigate to the existing dynamic product detail route.
+- Preserve the existing Home, Explore, Category, Product Detail, Cart, Session, and navigation functionality.
+- Mobile-first implementation, with responsive behavior for larger screens.
+
+### Implementation
+- Implemented dynamic search filtering in `SearchPage.tsx`.
+- Added URL query synchronization using the search query parameter.
+- Added clear-search interaction.
+- Added empty-search/no-results handling.
+- Added the required Figma Screen 16 egg products to the catalog.
+- Added/ restored local product image assets required by the search results.
+- Reused the existing `ProductCard` and product-detail flow.
+- Preserved the existing application architecture and routing.
+
+### Regression Fix
+During Search implementation, existing Home/Explore product images were temporarily broken because the product catalog/image mappings were altered.
+
+The regression was fixed by restoring the correct existing image references while retaining the newly added search products.
+
+Verified that:
+- Home product images load correctly.
+- Home promotional banner loads correctly.
+- Explore category images load correctly.
+- Category product images load correctly.
+- Search product images load correctly.
+- Existing product-detail navigation remains functional.
+
+### Verification
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- Search query `Egg` — PASS
+- Egg result images — PASS
+- Existing catalog images — PASS
+- Product → Product Detail navigation — PASS
+- No unrelated architecture changes made.
+
+### Current Status
+Figma Screens 12–16 implemented:
+- Screen 12 — Home / Shop
+- Screen 13 — Product Information
+- Screen 14 — Explore / Find Products
+- Screen 15 — Category Product Listing
+- Screen 16 — Search Results
+
+## Prompt 013 — Figma Screens 17–19: Cart, Checkout & Order Confirmation Flow
+
+### Prompt
+Implement the Figma Cart and Checkout flow while preserving all previously completed Home, Product Detail, Explore, Category, and Search functionality.
+
+Use the provided Figma references as the visual source of truth.
+
+Implement the Cart page first, followed by the Checkout page and the Order Confirmation / Checkout Result page.
+
+The flow must be fully connected to the existing global cart state so products added from any existing product-discovery screen remain available when the user opens Cart.
+
+Products added from:
+- Home / Shop
+- Product Detail
+- Explore → Category
+- Search Results
+
+must all use the existing cartStore and appear correctly in the Cart page.
+
+### Cart Requirements
+
+Implement the Figma Cart screen with:
+
+- "My Cart" header
+- Product image
+- Product name
+- Product unit
+- Remove `X` action
+- Quantity decrement `-`
+- Current quantity
+- Quantity increment `+`
+- Dynamic line-item price
+- Dynamic overall cart total
+- "Go to Checkout" CTA
+- Total price displayed inside the checkout CTA
+- Empty-cart state with appropriate shopping action
+- Existing BottomNav with reactive Cart badge
+
+Cart behavior must:
+- Preserve products added from all existing pages
+- Merge duplicate additions of the same product into its quantity
+- Increase/decrease quantity correctly
+- Prevent quantity from becoming less than 1 through the quantity controls
+- Remove products through the `X` action
+- Recalculate line totals immediately
+- Recalculate the overall cart total immediately
+- Keep the BottomNav Cart badge synchronized with the actual cart state
+
+### Checkout Requirements
+
+Create a dedicated `/checkout` page connected to the existing cart state.
+
+Implement:
+- Delivery/location summary using the existing sessionStore
+- Order item summary
+- Quantities
+- Item prices
+- Overall order total
+- Payment method selection
+- Cash on Delivery
+- Credit/Debit Card
+- Mobile Banking
+- "Place Order" CTA
+
+Payment is a simulated frontend interaction only.
+
+Do not introduce a real payment gateway, backend payment API, authentication changes, database changes, or unnecessary dependencies.
+
+The checkout page must use the current cart contents and must not use hardcoded order data.
+
+### Order Confirmation Requirements
+
+Implement the Figma order confirmation/result screen with:
+- Success checkmark visual
+- "Your Order has been accepted"
+- Supporting confirmation text
+- "Track Order" CTA
+- "Back to Home" navigation
+
+When the order is successfully placed:
+- Clear the active cart
+- Navigate to the checkout result page
+- Ensure the Cart badge updates accordingly
+
+### Architecture Constraints
+
+Reuse the existing:
+- `Product` type
+- `products.json`
+- Product API/mock layer
+- `useCartStore`
+- `useSessionStore`
+- `AppLayout`
+- BottomNav
+- Existing router
+
+Do not:
+- Create a second cart store
+- Duplicate product/cart state
+- Modify product image assets or image paths
+- Replace existing image assets
+- Modify Home, Product Detail, Explore, Category, or Search visual implementations unnecessarily
+- Change authentication architecture
+- Add backend APIs
+- Add database changes
+- Add real payment processing
+- Implement future Figma screens
+- Refactor unrelated working functionality
+
+The previously implemented product images and image paths must remain untouched.
+
+Implement mobile-first using the provided Figma references and then provide sensible tablet/desktop responsive behavior without simply stretching the mobile design.
+
+### Verification Requirements
+
+Run:
+- `npm run typecheck`
+- `npm run build`
+
+Then verify in the browser:
+
+1. Home → Add product → Cart
+2. Search → Add product → Cart
+3. Explore → Category → Add product → Cart
+4. Product Detail → Select quantity → Add To Basket → Cart
+5. Multiple additions of the same product merge correctly
+6. Cart `+` / `-` quantity controls
+7. Cart item removal
+8. Dynamic line-item totals
+9. Dynamic overall total
+10. Cart badge synchronization
+11. Empty cart behavior
+12. Cart → Checkout
+13. Checkout item and price accuracy
+14. Payment method selection
+15. Place Order
+16. Cart clearing after successful order
+17. Checkout Result screen
+18. Back to Home
+19. Verify existing product images remain functional
+20. Verify browser console contains no errors
+
+Do not consider the implementation complete unless typecheck, production build, and browser verification all pass.
+
+### Result
+- Implemented Figma Cart screen and connected it to the existing global cart state.
+- Added dynamic cart item rendering using catalog product data.
+- Added quantity increment/decrement controls.
+- Added product removal functionality.
+- Added dynamic line-item and overall cart totals.
+- Added empty-cart state.
+- Connected Cart badge to the actual global cart quantity.
+- Implemented dedicated `/checkout` page.
+- Added delivery/location summary using existing session state.
+- Added order review and dynamic pricing.
+- Added simulated Cash on Delivery, Credit/Debit Card, and Mobile Banking payment selection.
+- Implemented Place Order interaction.
+- Implemented `/checkout/result` order confirmation screen.
+- Successful checkout clears the cart and navigates to the confirmation screen.
+- Preserved existing product image assets and paths.
+- Preserved existing Home, Product Detail, Explore, Category, and Search functionality.
+- Added responsive mobile/tablet/desktop behavior.
+
+### Files Created
+- `src/pages/CheckoutPage.tsx`
+
+### Files Modified
+- `src/stores/cartStore.ts`
+- `src/pages/CartPage.tsx`
+- `src/pages/CheckoutResultPage.tsx`
+- `src/app/router.tsx`
+
+### Routes
+- `/cart`
+- `/checkout`
+- `/checkout/result`
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Home → Cart → PASS
+- Search → Cart → PASS
+- Explore → Category → Cart → PASS
+- Product Detail → Cart → PASS
+- Duplicate product quantity merging → PASS
+- Quantity +/- controls → PASS
+- Minimum quantity handling → PASS
+- Product removal → PASS
+- Dynamic line totals → PASS
+- Dynamic overall total → PASS
+- Cart badge synchronization → PASS
+- Empty cart state → PASS
+- Cart → Checkout → PASS
+- Checkout item review → PASS
+- Payment selection → PASS
+- Place Order → PASS
+- Cart clearing after order → PASS
+- Checkout Result → PASS
+- Back to Home → PASS
+- Existing image assets → PASS
+- Browser console errors → 0
+
+### AI Review
+- Cart state continues to use the existing `useCartStore` rather than introducing duplicate shopping state.
+- Products added from Home, Search, Explore/Category, and Product Detail all converge into the same cart.
+- Quantity changes and total calculations are derived from the actual cart contents.
+- Checkout consumes the active cart rather than hardcoding products or prices.
+- Payment behavior is intentionally simulated because real payment processing was not requested.
+- Successful checkout clears the cart and keeps the global Cart badge consistent.
+- Existing product and category image assets were explicitly preserved and verified.
+- No unrelated backend, authentication, database, or future-screen work was introduced.
+- The implementation maintains the previously completed application architecture.
+
+### Human Decision
+Accepted the Cart + Checkout implementation after manually reviewing the flow and confirming that products added from the existing Home, Search, Explore/Category, and Product Detail screens correctly appear in Cart.
+
+Manually verified quantity controls, item removal, dynamic pricing, Cart badge updates, Checkout navigation, payment selection, order placement, cart clearing, and the Order Confirmation screen.
+
+Confirmed that the previously working product/category images remain intact and that the implementation does not require changes to the completed Home, Product Detail, Explore, Category, or Search screens.

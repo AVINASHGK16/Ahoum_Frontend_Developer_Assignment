@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="basketGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DE9B52"/>
+      <stop offset="50%" stop-color="#C67B2A"/>
+      <stop offset="100%" stop-color="#8F4F0E"/>
+    </linearGradient>
+    <linearGradient id="eggRedGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0E6"/>
+      <stop offset="40%" stop-color="#F7D0BC"/>
+      <stop offset="100%" stop-color="#E2A687"/>
+    </linearGradient>
+    <linearGradient id="eggRedGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5EE"/>
+      <stop offset="50%" stop-color="#F2C5AF"/>
+      <stop offset="100%" stop-color="#D99773"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#553011" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background Shadow -->
+  <ellipse cx="150" cy="245" rx="90" ry="18" fill="#000000" opacity="0.08" />
+
+  <!-- Floating Green Leaf Accent -->
+  <path d="M78 82 C65 60 90 40 100 45 C110 50 105 85 78 82 Z" fill="#69C23C" />
+  <path d="M102 120 C106 100 120 95 125 105 C128 115 118 128 102 120 Z" fill="#84D857" opacity="0.8" />
+
+  <!-- Eggs Group with Depth -->
+  <g filter="url(#shadow)">
+    <!-- Back Row Eggs -->
+    <ellipse cx="115" cy="130" rx="26" ry="34" fill="url(#eggRedGrad2)" transform="rotate(-15 115 130)" />
+    <ellipse cx="185" cy="130" rx="26" ry="34" fill="url(#eggRedGrad1)" transform="rotate(15 185 130)" />
+    <ellipse cx="150" cy="115" rx="28" ry="36" fill="url(#eggRedGrad1)" />
+
+    <!-- Middle Row Eggs -->
+    <ellipse cx="100" cy="155" rx="25" ry="33" fill="url(#eggRedGrad1)" transform="rotate(-25 100 155)" />
+    <ellipse cx="132" cy="148" rx="26" ry="35" fill="url(#eggRedGrad2)" transform="rotate(-5 132 148)" />
+    <ellipse cx="168" cy="148" rx="26" ry="35" fill="url(#eggRedGrad1)" transform="rotate(8 168 148)" />
+    <ellipse cx="200" cy="155" rx="25" ry="33" fill="url(#eggRedGrad2)" transform="rotate(22 200 155)" />
+
+    <!-- Front Row Eggs -->
+    <ellipse cx="118" cy="172" rx="24" ry="32" fill="url(#eggRedGrad2)" transform="rotate(-12 118 172)" />
+    <ellipse cx="150" cy="170" rx="26" ry="34" fill="url(#eggRedGrad1)" />
+    <ellipse cx="182" cy="172" rx="24" ry="32" fill="url(#eggRedGrad2)" transform="rotate(12 182 172)" />
+  </g>
+
+  <!-- Wicker Basket -->
+  <g filter="url(#shadow)">
+    <!-- Basket Body -->
+    <path d="M65 175 C68 230 100 248 150 248 C200 248 232 230 235 175 Z" fill="url(#basketGrad)" />
+    
+    <!-- Basket Rim -->
+    <ellipse cx="150" cy="175" rx="86" ry="14" fill="#E8AA63" stroke="#9C5E1B" stroke-width="2.5" />
+
+    <!-- Woven Pattern Lines -->
+    <path d="M85 185 C92 215 110 238 150 245 C190 238 208 215 215 185" fill="none" stroke="#7A3F05" stroke-width="2.5" opacity="0.3" />
+    <path d="M100 182 C108 210 125 235 150 243 C175 235 192 210 200 182" fill="none" stroke="#7A3F05" stroke-width="2.5" opacity="0.3" />
+    <path d="M72 195 C100 220 200 220 228 195" fill="none" stroke="#683403" stroke-width="2.5" opacity="0.35" />
+    <path d="M80 215 C105 235 195 235 220 215" fill="none" stroke="#683403" stroke-width="2.5" opacity="0.35" />
+    <path d="M95 230 C115 245 185 245 205 230" fill="none" stroke="#683403" stroke-width="2" opacity="0.35" />
+  </g>
+</svg>

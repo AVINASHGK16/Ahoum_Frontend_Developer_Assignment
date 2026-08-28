@@ -52,6 +52,78 @@
     "image": "/images/product-ginger.jpg"
   },
   {
+    "id": "prod-egg-01",
+    "name": "Egg Chicken Red",
+    "categoryId": "dairy-eggs",
+    "price": 1.99,
+    "unit": "4pcs, Price",
+    "description": "Farm-fresh organic red shell country chicken eggs packed with protein and vitamins.",
+    "inStock": true,
+    "rating": 4.9,
+    "tags": ["dairy-eggs", "egg", "eggs", "chicken", "red", "protein"],
+    "image": "/images/product-egg-chicken-red.svg"
+  },
+  {
+    "id": "prod-egg-02",
+    "name": "Egg Chicken White",
+    "categoryId": "dairy-eggs",
+    "price": 1.50,
+    "unit": "180g, Price",
+    "description": "Premium farm fresh white grade-A chicken eggs for everyday cooking and baking.",
+    "inStock": true,
+    "rating": 4.8,
+    "tags": ["dairy-eggs", "egg", "eggs", "chicken", "white", "protein"],
+    "image": "/images/product-egg-chicken-white.svg"
+  },
+  {
+    "id": "prod-egg-03",
+    "name": "Egg Pasta",
+    "categoryId": "bakery-snacks",
+    "price": 15.99,
+    "unit": "30gm, Price",
+    "description": "Artisan bronze-cut Italian egg pasta made with whole fresh farm eggs and durum wheat.",
+    "inStock": true,
+    "rating": 4.7,
+    "tags": ["bakery-snacks", "egg", "pasta", "italian", "noodles"],
+    "image": "/images/product-egg-pasta.svg"
+  },
+  {
+    "id": "prod-egg-04",
+    "name": "Egg Noodles",
+    "categoryId": "bakery-snacks",
+    "price": 15.99,
+    "unit": "2L, Price",
+    "description": "Authentic wok-ready traditional egg noodles crafted with natural egg yolk.",
+    "inStock": true,
+    "rating": 4.8,
+    "tags": ["bakery-snacks", "egg", "noodles", "asian", "pasta"],
+    "image": "/images/product-egg-noodles.svg"
+  },
+  {
+    "id": "prod-egg-05",
+    "name": "Mayonnais Eggless",
+    "categoryId": "dairy-eggs",
+    "price": 4.99,
+    "unit": "1kg, Price",
+    "description": "Thick, creamy, rich gourmet eggless mayonnaise for sandwiches, burgers, and dips.",
+    "inStock": true,
+    "rating": 4.6,
+    "tags": ["dairy-eggs", "egg", "mayonnais", "eggless", "spread", "condiment"],
+    "image": "/images/product-mayonnais.svg"
+  },
+  {
+    "id": "prod-egg-06",
+    "name": "Egg Noodles Classic",
+    "categoryId": "bakery-snacks",
+    "price": 12.99,
+    "unit": "250gm, Price",
+    "description": "Classic ribbon-cut egg noodles ideal for soups, stir-fries, and casseroles.",
+    "inStock": true,
+    "rating": 4.8,
+    "tags": ["bakery-snacks", "egg", "noodles", "classic"],
+    "image": "/images/product-egg-noodles-classic.svg"
+  },
+  {
     "id": "prod-bv-01",
     "name": "Diet Coke",
     "categoryId": "beverages",
@@ -222,7 +294,7 @@
     "description": "Grade-A brown eggs from humanely raised, free-range pasture hens.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["dairy-eggs", "dairy", "eggs", "protein", "organic"],
+    "tags": ["dairy-eggs", "dairy", "eggs", "egg", "protein", "organic"],
     "image": "/images/product-eggs.jpg"
   }
 ]

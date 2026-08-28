@@ -14,12 +14,10 @@ export const ExplorePage: React.FC = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/search');
     }
   };
-
-  const filteredCategories = categories.filter((cat) =>
-    cat.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="mx-auto flex w-full max-w-md md:max-w-3xl flex-col pb-8 select-none">
@@ -30,7 +28,7 @@ export const ExplorePage: React.FC = () => {
         </h1>
       </div>
 
-      {/* Search Bar */}
+      {/* Search Bar (Navigates to /search for product search) */}
       <form onSubmit={handleSearchSubmit} className="mt-4">
         <div className="relative flex items-center">
           <svg
@@ -51,6 +49,7 @@ export const ExplorePage: React.FC = () => {
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => navigate('/search')}
             placeholder="Search Store"
             className="h-13 w-full rounded-[15px] bg-[#F2F3F2] pl-12 pr-4 text-sm sm:text-base font-semibold text-[#181725] placeholder-[#7C7C7C] transition-all focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#53B175] shadow-2xs"
             aria-label="Search Store"
@@ -71,15 +70,9 @@ export const ExplorePage: React.FC = () => {
             onRetry={refetch}
             retryLabel="Try Again"
           />
-        ) : filteredCategories.length === 0 ? (
-          <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-8 text-center">
-            <p className="text-sm font-medium text-[#7C7C7C]">
-              No categories found matching &ldquo;{searchQuery}&rdquo;
-            </p>
-          </div>
         ) : (
           <div className="grid grid-cols-2 gap-3.5 sm:gap-4 md:grid-cols-3">
-            {filteredCategories.map((category) => (
+            {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
           </div>

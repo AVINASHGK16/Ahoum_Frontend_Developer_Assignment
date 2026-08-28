@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="purpleRibbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#843B8F"/>
+      <stop offset="60%" stop-color="#6B2875"/>
+      <stop offset="100%" stop-color="#4E1557"/>
+    </linearGradient>
+    <filter id="packShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="150" cy="225" rx="85" ry="14" fill="#000000" opacity="0.08" />
+
+  <!-- Horizontal Noodle Pack -->
+  <g filter="url(#packShadow)">
+    <!-- Clear Center Bag -->
+    <rect x="55" y="115" width="190" height="95" rx="6" fill="#FFF8DE" stroke="#E5D6A7" stroke-width="1.5" />
+
+    <!-- Left & Right Purple Header Tabs -->
+    <path d="M55 115 L80 115 L80 210 L55 210 Z" fill="url(#purpleRibbonGrad)" />
+    <path d="M220 115 L245 115 L245 210 L220 210 Z" fill="url(#purpleRibbonGrad)" />
+
+    <!-- Red Center Badge -->
+    <rect x="110" y="125" width="80" height="24" rx="4" fill="#E83025" />
+    <text x="150" y="141" font-family="Arial, sans-serif" font-size="10" font-weight="900" fill="#FFFFFF" text-anchor="middle">EGG NOODLES</text>
+
+    <!-- Ribbon / Noodle Strands Inside Package -->
+    <g fill="none" stroke="#D19E26" stroke-width="3" stroke-linecap="round">
+      <path d="M88 160 Q120 155 150 162 Q180 158 212 160" />
+      <path d="M90 172 Q125 168 152 174 Q185 170 210 172" />
+      <path d="M88 184 Q118 180 150 186 Q182 181 212 184" />
+      <path d="M92 196 Q122 192 154 198 Q180 193 210 196" />
+    </g>
+  </g>
+</svg>

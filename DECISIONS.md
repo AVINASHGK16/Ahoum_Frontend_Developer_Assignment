@@ -374,3 +374,11 @@ assignment's frontend scope.
 
 A production implementation would move authentication and credential
 verification to a secure backend/authentication provider.
+
+## Location Flow
+
+The selected delivery location from the onboarding/session flow is reused throughout the application.
+
+The Home / Shop screen reads the selected location from `sessionStore` and displays it in the location area, with the existing default fallback preserved.
+
+This keeps location state centralized in the existing session store rather than introducing a separate location state architecture.
