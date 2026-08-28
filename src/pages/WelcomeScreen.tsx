@@ -4,11 +4,19 @@ import { Link } from 'react-router-dom';
 export const WelcomeScreen: React.FC = () => {
   return (
     <div className="relative flex h-screen w-full flex-col justify-end overflow-hidden bg-neutral-950 select-none">
-      {/* Full-Screen Photographic Background Image */}
+      {/* Full-Screen Ambient Background Image (Fills widescreen viewports without extreme zoom) */}
+      <img
+        src="/images/welcome-bg.jpg"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-center blur-2xl scale-110 opacity-60"
+      />
+
+      {/* Main Photographic Background Image (Preserves full face, cap, shoulders, and body) */}
       <img
         src="/images/welcome-bg.jpg"
         alt="Grocery delivery person carrying a fresh grocery box"
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        className="absolute inset-0 mx-auto h-full w-full max-w-2xl object-cover object-top"
       />
 
       {/* Dark Gradient Overlay for Maximum Foreground Typography Contrast */}
