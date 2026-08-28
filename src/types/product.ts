@@ -20,4 +20,5 @@ export interface Product {
   rating?: number;
   tags?: string[];
   image?: string;
+  brand?: string;
 }

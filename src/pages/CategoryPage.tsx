@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCategoryDetail } from '../hooks/useCategories';
 import { useProducts } from '../hooks/useProducts';
 import { ProductCard } from '../components/product/ProductCard';
 import { LoadingSpinner } from '../components/feedback/LoadingSpinner';
 import { ErrorMessage } from '../components/feedback/ErrorMessage';
+import { FilterModal } from '../components/filter/FilterModal';
+import { applyProductFilters } from '../utils/filterUtils';
 
 export const CategoryPage: React.FC = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -12,14 +14,24 @@ export const CategoryPage: React.FC = () => {
 
   const { category, isLoading: isCatLoading } = useCategoryDetail(categoryId);
   const { products, isLoading: isProdLoading, error, refetch } = useProducts(categoryId);
-  const [filterToast, setFilterToast] = useState<string | null>(null);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
   const isLoading = isCatLoading || isProdLoading;
 
-  const handleFilterClick = () => {
-    setFilterToast('Filters will be available in future releases.');
-    setTimeout(() => setFilterToast(null), 2500);
+  const handleApplyFilters = (categories: string[], brands: string[]) => {
+    setSelectedCategories(categories);
+    setSelectedBrands(brands);
   };
+
+  const hasActiveFilters = selectedCategories.length > 0 || selectedBrands.length > 0;
+  const activeFilterCount = selectedCategories.length + selectedBrands.length;
+
+  const filteredProducts = useMemo(() => {
+    return applyProductFilters(products, selectedCategories, selectedBrands);
+  }, [products, selectedCategories, selectedBrands]);
 
   const categoryTitle = category?.name ?? (categoryId ? categoryId.replace('-', ' ') : 'Category');
 
@@ -54,11 +66,15 @@ export const CategoryPage: React.FC = () => {
           {categoryTitle}
         </h1>
 
-        {/* Filter / Settings Button */}
+        {/* Filter / Settings Button (Figma Screen 17/22 Integration) */}
         <button
           type="button"
-          onClick={handleFilterClick}
-          className="flex h-10 w-10 items-center justify-center rounded-full text-[#181725] transition hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+          onClick={() => setIsFilterOpen(true)}
+          className={`relative flex h-10 w-10 items-center justify-center rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] ${
+            hasActiveFilters
+              ? 'bg-[#53B175] text-white shadow-md'
+              : 'text-[#181725] hover:bg-neutral-100'
+          }`}
           aria-label="Filter products"
         >
           <svg
@@ -74,13 +90,61 @@ export const CategoryPage: React.FC = () => {
               d="M6 13.5V3.75m0 9.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25m6-9.75V3.75m0 6.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25m6-12.75V3.75m0 3.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25"
             />
           </svg>
+          {hasActiveFilters && (
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white shadow-xs">
+              {activeFilterCount}
+            </span>
+          )}
         </button>
       </div>
 
-      {/* Filter Toast Feedback */}
-      {filterToast && (
-        <div className="my-1 rounded-lg bg-neutral-900 px-3 py-2 text-center text-xs font-medium text-white shadow-md animate-fade-in">
-          {filterToast}
+      {/* Active Filter Chips Row */}
+      {hasActiveFilters && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          {selectedCategories.map((cat) => (
+            <span
+              key={cat}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#53B175]/10 px-3 py-1 text-xs font-semibold text-[#53B175]"
+            >
+              {cat}
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedCategories((prev) => prev.filter((c) => c !== cat))
+                }
+                className="hover:text-red-500"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+          {selectedBrands.map((brand) => (
+            <span
+              key={brand}
+              className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+            >
+              {brand}
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedBrands((prev) => prev.filter((b) => b !== brand))
+                }
+                className="hover:text-red-500"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCategories([]);
+              setSelectedBrands([]);
+            }}
+            className="text-xs font-semibold text-neutral-500 hover:text-red-500 underline ml-1"
+          >
+            Clear all
+          </button>
         </div>
       )}
 
@@ -99,13 +163,25 @@ export const CategoryPage: React.FC = () => {
               retryLabel="Try Again"
             />
           </div>
-        ) : products.length === 0 ? (
+        ) : filteredProducts.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-neutral-100 bg-neutral-50 p-8 text-center">
-            <p className="text-base font-semibold text-[#181725]">No products in this category</p>
+            <p className="text-base font-semibold text-[#181725]">No products match the selected filters</p>
             <p className="mt-1 text-sm text-[#7C7C7C]">
-              Products will appear here once they are in stock.
+              Try clearing filters or exploring other categories.
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center gap-2">
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategories([]);
+                    setSelectedBrands([]);
+                  }}
+                  className="inline-flex items-center rounded-xl bg-neutral-200 px-4 py-2 text-sm font-semibold text-[#181725] transition hover:bg-neutral-300"
+                >
+                  Clear Filters
+                </button>
+              )}
               <Link
                 to="/explore"
                 className="inline-flex items-center rounded-xl bg-[#53B175] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#489E67]"
@@ -116,12 +192,21 @@ export const CategoryPage: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3.5 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
       </div>
+
+      {/* Filter Modal */}
+      <FilterModal
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        selectedCategories={selectedCategories}
+        selectedBrands={selectedBrands}
+        onApply={handleApplyFilters}
+      />
     </div>
   );
 };

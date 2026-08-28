@@ -10,7 +10,8 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["exclusive", "offer", "organic", "fresh", "fruit"],
-    "image": "/images/product-bananas.jpg"
+    "image": "/images/product-bananas.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-fv-02",
@@ -23,7 +24,8 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["exclusive", "offer", "fresh", "apples", "fruit"],
-    "image": "/images/product-apple.jpg"
+    "image": "/images/product-apple.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-fv-03",
@@ -36,7 +38,8 @@
     "inStock": true,
     "rating": 4.7,
     "tags": ["best-selling", "vegetable", "fresh"],
-    "image": "/images/product-bell-pepper.jpg"
+    "image": "/images/product-bell-pepper.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-fv-04",
@@ -49,7 +52,8 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["best-selling", "organic", "spice", "fresh"],
-    "image": "/images/product-ginger.jpg"
+    "image": "/images/product-ginger.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-egg-01",
@@ -61,7 +65,8 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["dairy-eggs", "egg", "eggs", "chicken", "red", "protein"],
-    "image": "/images/product-egg-chicken-red.svg"
+    "image": "/images/product-egg-chicken-red.svg",
+    "brand": "Kazi Farmas"
   },
   {
     "id": "prod-egg-02",
@@ -73,7 +78,8 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["dairy-eggs", "egg", "eggs", "chicken", "white", "protein"],
-    "image": "/images/product-egg-chicken-white.svg"
+    "image": "/images/product-egg-chicken-white.svg",
+    "brand": "Kazi Farmas"
   },
   {
     "id": "prod-egg-03",
@@ -84,8 +90,9 @@
     "description": "Artisan bronze-cut Italian egg pasta made with whole fresh farm eggs and durum wheat.",
     "inStock": true,
     "rating": 4.7,
-    "tags": ["bakery-snacks", "egg", "pasta", "italian", "noodles"],
-    "image": "/images/product-egg-pasta.svg"
+    "tags": ["bakery-snacks", "egg", "pasta", "italian", "noodles", "Noodles & Pasta"],
+    "image": "/images/product-egg-pasta.svg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-egg-04",
@@ -96,8 +103,9 @@
     "description": "Authentic wok-ready traditional egg noodles crafted with natural egg yolk.",
     "inStock": true,
     "rating": 4.8,
-    "tags": ["bakery-snacks", "egg", "noodles", "asian", "pasta"],
-    "image": "/images/product-egg-noodles.svg"
+    "tags": ["bakery-snacks", "egg", "noodles", "asian", "pasta", "Noodles & Pasta"],
+    "image": "/images/product-egg-noodles.svg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-egg-05",
@@ -108,8 +116,9 @@
     "description": "Thick, creamy, rich gourmet eggless mayonnaise for sandwiches, burgers, and dips.",
     "inStock": true,
     "rating": 4.6,
-    "tags": ["dairy-eggs", "egg", "mayonnais", "eggless", "spread", "condiment"],
-    "image": "/images/product-mayonnais.svg"
+    "tags": ["dairy-eggs", "egg", "mayonnais", "eggless", "spread", "condiment", "Fast Food"],
+    "image": "/images/product-mayonnais.svg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-egg-06",
@@ -120,8 +129,9 @@
     "description": "Classic ribbon-cut egg noodles ideal for soups, stir-fries, and casseroles.",
     "inStock": true,
     "rating": 4.8,
-    "tags": ["bakery-snacks", "egg", "noodles", "classic"],
-    "image": "/images/product-egg-noodles-classic.svg"
+    "tags": ["bakery-snacks", "egg", "noodles", "classic", "Noodles & Pasta"],
+    "image": "/images/product-egg-noodles-classic.svg",
+    "brand": "Ifad"
   },
   {
     "id": "prod-bv-01",
@@ -133,8 +143,9 @@
     "description": "Crisp, refreshing sugar-free Diet Coke with zero calories and legendary taste.",
     "inStock": true,
     "rating": 4.8,
-    "tags": ["beverages", "soda", "coke", "diet"],
-    "image": "/images/product-diet-coke.jpg"
+    "tags": ["beverages", "soda", "coke", "diet", "Fast Food"],
+    "image": "/images/product-diet-coke.jpg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-bv-02",
@@ -145,8 +156,9 @@
     "description": "Crisp, cool, and clean lemon-lime sparkling refreshment with 100% natural flavors.",
     "inStock": true,
     "rating": 4.7,
-    "tags": ["beverages", "soda", "sprite", "lemon-lime"],
-    "image": "/images/product-sprite.jpg"
+    "tags": ["beverages", "soda", "sprite", "lemon-lime", "Fast Food"],
+    "image": "/images/product-sprite.jpg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-bv-03",
@@ -159,7 +171,8 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["beverages", "juice", "apple", "grape"],
-    "image": "/images/product-apple-grape-juice.jpg"
+    "image": "/images/product-apple-grape-juice.jpg",
+    "brand": "Ifad"
   },
   {
     "id": "prod-bv-04",
@@ -171,7 +184,8 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["beverages", "juice", "orange", "citrus"],
-    "image": "/images/product-orange-juice.jpg"
+    "image": "/images/product-orange-juice.jpg",
+    "brand": "Ifad"
   },
   {
     "id": "prod-bv-05",
@@ -182,8 +196,9 @@
     "description": "Classic refreshing Coca-Cola taste in a chilled aluminum can.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["beverages", "soda", "coca-cola", "classic"],
-    "image": "/images/product-coca-cola.jpg"
+    "tags": ["beverages", "soda", "coca-cola", "classic", "Fast Food"],
+    "image": "/images/product-coca-cola.jpg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-bv-06",
@@ -194,8 +209,9 @@
     "description": "Bold, refreshing cola flavor that invigorates your senses with every sip.",
     "inStock": true,
     "rating": 4.7,
-    "tags": ["beverages", "soda", "pepsi", "cola"],
-    "image": "/images/product-pepsi.jpg"
+    "tags": ["beverages", "soda", "pepsi", "cola", "Fast Food"],
+    "image": "/images/product-pepsi.jpg",
+    "brand": "Cocola"
   },
   {
     "id": "prod-co-01",
@@ -208,7 +224,8 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["cooking-oil-ghee", "oil", "olive-oil", "cooking"],
-    "image": "/images/product-olive-oil.jpg"
+    "image": "/images/product-olive-oil.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-co-02",
@@ -221,7 +238,8 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["cooking-oil-ghee", "ghee", "butter", "cooking"],
-    "image": "/images/product-ghee.jpg"
+    "image": "/images/product-ghee.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-mf-01",
@@ -232,8 +250,9 @@
     "description": "Premium ocean-fresh Atlantic salmon fillet rich in Omega-3 fatty acids.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["meat-fish", "meat", "fish", "salmon", "fresh"],
-    "image": "/images/product-salmon.jpg"
+    "tags": ["meat-fish", "meat", "fish", "salmon", "fresh", "Fast Food"],
+    "image": "/images/product-salmon.jpg",
+    "brand": "Kazi Farmas"
   },
   {
     "id": "prod-mf-02",
@@ -245,8 +264,9 @@
     "description": "Prime grade marbled beef ribeye steak, aged to perfection for maximum tenderness.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["meat-fish", "meat", "beef", "steak"],
-    "image": "/images/product-beef.jpg"
+    "tags": ["meat-fish", "meat", "beef", "steak", "Fast Food"],
+    "image": "/images/product-beef.jpg",
+    "brand": "Kazi Farmas"
   },
   {
     "id": "prod-bs-01",
@@ -258,8 +278,9 @@
     "description": "Handcrafted naturally fermented sourdough bread with a crispy crust and chewy crumb.",
     "inStock": true,
     "rating": 4.8,
-    "tags": ["bakery-snacks", "bakery", "bread", "sourdough", "artisan"],
-    "image": "/images/product-sourdough.jpg"
+    "tags": ["bakery-snacks", "bakery", "bread", "sourdough", "artisan", "Chips & Crisps"],
+    "image": "/images/product-sourdough.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-bs-02",
@@ -270,8 +291,9 @@
     "description": "Flaky, golden Parisian all-butter croissants freshly baked to perfection.",
     "inStock": true,
     "rating": 4.9,
-    "tags": ["bakery-snacks", "bakery", "croissant", "pastry"],
-    "image": "/images/product-croissant.jpg"
+    "tags": ["bakery-snacks", "bakery", "croissant", "pastry", "Chips & Crisps"],
+    "image": "/images/product-croissant.jpg",
+    "brand": "Individual Callection"
   },
   {
     "id": "prod-de-01",
@@ -283,7 +305,8 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["dairy-eggs", "dairy", "milk", "fresh", "calcium"],
-    "image": "/images/product-milk.jpg"
+    "image": "/images/product-milk.jpg",
+    "brand": "Ifad"
   },
   {
     "id": "prod-de-02",
@@ -295,6 +318,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["dairy-eggs", "dairy", "eggs", "egg", "protein", "organic"],
-    "image": "/images/product-eggs.jpg"
+    "image": "/images/product-eggs.jpg",
+    "brand": "Kazi Farmas"
   }
 ]

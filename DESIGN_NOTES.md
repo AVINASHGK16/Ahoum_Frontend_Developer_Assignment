@@ -77,3 +77,27 @@ external runtime image URL.
 The image was generated to reproduce the visual characteristics of the
 provided Figma reference. It should be visually compared against the
 reference during final QA.
+
+---
+
+## Account Page — Responsive Application Destination
+
+The Account screen follows the application's existing mobile-first navigation pattern.
+
+On mobile, Account remains accessible through the persistent bottom navigation and presents user information and relevant shopping state in a focused vertical layout.
+
+On larger screens, the Account content can occupy a constrained max-width content area rather than stretching across the viewport.
+
+The design prioritizes user identity and actionable state over adding unnecessary account-management sections that are not represented by the current application requirements.
+
+---
+
+## Explore Filter — Shared Filtering Entry Point
+
+The Explore screen now exposes the existing Filter capability alongside Search.
+
+The Filter interaction retains the established Categories / Brands separation rather than introducing a different Explore-specific filtering UI.
+
+On desktop, the Filter control remains associated with the search/discovery controls while the resulting products use the existing responsive product-grid treatment.
+
+This keeps filtering discoverable without disrupting the existing category-discovery hierarchy.

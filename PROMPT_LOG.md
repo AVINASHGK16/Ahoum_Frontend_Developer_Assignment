@@ -1637,3 +1637,187 @@ Then manually verify both success and failure flows in the browser, including ca
 
 ### Human Decision
 Accepted the implementation after manually reviewing the Order Success and Order Failure states and confirming the checkout outcome flow, navigation, retry behavior, and cart-state handling.
+
+---
+
+## Prompt 017 — Account Page & Authenticated Account Navigation
+
+### Tool / Model
+
+Antigravity
+
+### Status
+
+**Completed and reviewed**
+
+### Objective
+
+Fix the Account bottom-navigation behavior and implement the authenticated user's Account state.
+
+The existing Account navigation incorrectly redirected an authenticated user to the Login / Sign Up screen.
+
+The required behavior was:
+
+- Authenticated user → Account page
+- Unauthenticated user → existing Login / Sign Up flow
+
+The Account page should display the user's existing session information and expose unfinished shopping/checkout state when applicable.
+
+### Prompt Given to AI
+
+Fix the Account bottom-navigation behavior.
+
+When the user is already authenticated, clicking Account must open a proper Account page instead of redirecting to Login / Sign Up.
+
+Reuse the existing authentication/session state and do not introduce a second authentication mechanism or duplicate store.
+
+Display the authenticated user's actual username/name and email from the existing session state.
+
+If the user has an unfinished cart/checkout state, display an appropriate Pending Checkout section with the current item count and total and provide a Continue Checkout action that returns to the existing checkout flow without losing cart state.
+
+If there is no pending cart/checkout state, do not display misleading checkout information.
+
+Preserve all existing authentication, cart, favourite, search, explore, product detail, checkout, payment, delivery, promo, success, and failure behavior.
+
+Do not modify product images, image paths, backend APIs, database schema, or authentication architecture.
+
+Use the existing responsive design system.
+
+Run typecheck and production build and verify the Account navigation and regression flows.
+
+### What AI Implemented
+
+- Corrected authenticated Account navigation.
+- Added/updated the Account page.
+- Connected Account information to the existing session/auth state.
+- Displayed the authenticated user's username/name and email.
+- Added pending checkout information when the cart contains an unfinished purchase.
+- Added Continue Checkout behavior using the existing checkout flow.
+- Preserved the existing cart state during checkout continuation.
+- Preserved the unauthenticated Login / Sign Up behavior.
+- Maintained existing bottom navigation and responsive behavior.
+
+### What Was Accepted
+
+The implementation was accepted after manually verifying that an authenticated user can access Account without being redirected to Login / Sign Up.
+
+The Account page correctly uses existing session data rather than hardcoded user information.
+
+The existing cart and checkout state remain the source of truth.
+
+### AI Review
+
+The implementation reuses the existing session/auth and cart architecture rather than introducing duplicate authentication or checkout state.
+
+No backend, database, authentication architecture, or unrelated application flow was changed.
+
+The Account page is treated as an authenticated application destination rather than another entry/login screen.
+
+### Verification
+
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- Authenticated user → Account — PASS
+- Username/name rendered from session state — PASS
+- Email rendered from session state — PASS
+- Pending checkout state — PASS
+- Continue Checkout — PASS
+- Cart state preserved — PASS
+- Unauthenticated Account behavior — PASS
+- Bottom navigation regression check — PASS
+- Existing images unchanged — PASS
+- Browser console errors — 0
+
+### Human Decision
+
+Reviewed the Account flow manually and accepted the implementation.
+
+The incorrect authenticated-user redirect was confirmed fixed, and the Account page now behaves as an application destination containing user and relevant shopping state.
+
+---
+
+## Prompt 018 — Explore Filter Integration
+
+### Tool / Model
+
+Antigravity
+
+### Status
+
+**Completed and reviewed**
+
+### Objective
+
+Expose the existing Filter functionality from the Explore page.
+
+The Explore page previously provided category discovery and search but did not provide access to the application's existing category/brand filtering capability.
+
+The requirement was to make the existing Filter feature available from Explore without creating a duplicate filtering system.
+
+### Prompt Given to AI
+
+Add the existing Filter capability to the Explore page.
+
+The Explore page must provide a Filter control near the existing Search Store field.
+
+Reuse the existing filter component, filter state, category filtering logic, brand filtering logic, Apply Filter behavior, and product-result flow.
+
+Do not create a duplicate filter store, duplicate filtering logic, or separate Explore-specific filter implementation.
+
+The filter UI must clearly separate:
+
+- Categories
+- Brands
+
+When the user selects category and/or brand filters and presses Apply Filter, only matching products should be displayed through the existing product/results flow.
+
+Preserve the existing Explore category cards, category images, search functionality, bottom navigation, responsive behavior, and all previously implemented application flows.
+
+Do not modify product images, image paths, product data, backend APIs, authentication, cart, favourite, checkout, payment, or unrelated pages.
+
+Run typecheck and production build and manually verify filtering from Explore.
+
+### What AI Implemented
+
+- Added access to the existing Filter functionality from Explore.
+- Reused the existing filter state and filtering behavior.
+- Preserved the separation between Categories and Brands.
+- Connected Apply Filter to the existing product-result flow.
+- Preserved existing Explore category cards and images.
+- Preserved existing Search behavior.
+- Preserved existing application navigation and responsive behavior.
+
+### What Was Accepted
+
+The implementation was accepted after manually verifying that Filter can now be opened directly from Explore and that applying filters changes the displayed product results correctly.
+
+No duplicate filter architecture was introduced.
+
+### AI Review
+
+The filter remains a shared application capability rather than becoming an Explore-specific implementation.
+
+The Explore page acts as another entry point into the existing filtering flow.
+
+This avoids maintaining separate filtering rules or separate filter state for Search, Explore, or product-result screens.
+
+### Verification
+
+- `npm run typecheck` — PASS
+- `npm run build` — PASS
+- Explore → Filter — PASS
+- Category selection — PASS
+- Brand selection — PASS
+- Category + Brand filtering — PASS
+- Apply Filter — PASS
+- Filtered product results — PASS
+- Existing Explore categories — PASS
+- Existing Search behavior — PASS
+- Existing images unchanged — PASS
+- Browser console errors — 0
+
+### Human Decision
+
+Reviewed the Explore filtering flow manually and accepted the implementation.
+
+The existing Filter functionality is now accessible from Explore without introducing a second filtering system.

@@ -382,3 +382,67 @@ The selected delivery location from the onboarding/session flow is reused throug
 The Home / Shop screen reads the selected location from `sessionStore` and displays it in the location area, with the existing default fallback preserved.
 
 This keeps location state centralized in the existing session store rather than introducing a separate location state architecture.
+
+---
+
+## Decision 006 — Account as a State-Aware Application Destination
+
+### Problem
+
+The Account bottom-navigation item was redirecting authenticated users to the Login / Sign Up screen.
+
+This created an incorrect navigation model because authentication state and account access were being treated as the same destination.
+
+### Options Considered
+
+1. Always navigate Account to Login / Sign Up.
+2. Always navigate Account to an Account page.
+3. Make Account state-aware using the existing authentication/session state.
+
+### Decision
+
+Use a state-aware Account destination.
+
+- Authenticated user → Account page.
+- Unauthenticated user → existing Login / Sign Up flow.
+
+The Account page reuses the existing session state for username/name and email and reuses the existing cart state for pending checkout information.
+
+### Trade-off
+
+This adds a small amount of conditional navigation logic, but avoids duplicating authentication state and provides behavior consistent with a real authenticated application.
+
+The existing authentication architecture remains unchanged.
+
+---
+
+## Decision 007 — Reuse Shared Filter Capability Across Explore
+
+### Problem
+
+Explore provided category discovery and search but did not expose the application's existing category/brand Filter functionality.
+
+Creating a separate Explore filter implementation would risk having different filtering behavior and state between Explore and the existing product/search flow.
+
+### Options Considered
+
+1. Create a new Explore-specific filter component and state.
+2. Duplicate the existing category/brand filtering logic inside Explore.
+3. Reuse the existing Filter implementation and expose it as another entry point from Explore.
+
+### Decision
+
+Reuse the existing Filter implementation and state.
+
+Explore provides an entry point to the shared filtering flow, while the existing filtering logic remains responsible for:
+
+- Category selection
+- Brand selection
+- Apply Filter behavior
+- Product-result filtering
+
+### Trade-off
+
+Explore has slightly more coupling to the shared filter flow, but this is preferable to duplicated filtering logic.
+
+A single filtering implementation keeps behavior consistent and reduces the risk of Search, Explore, and product-result screens producing different results for the same filters.

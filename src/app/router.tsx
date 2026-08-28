@@ -17,6 +17,8 @@ import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { CheckoutResultPage } from '../pages/CheckoutResultPage';
 import { FavouritePage } from '../pages/FavouritePage';
+import { FiltersPage } from '../pages/FiltersPage';
+import { AccountPage } from '../pages/AccountPage';
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +92,14 @@ export const router = createBrowserRouter([
       {
         path: 'favourite',
         element: <FavouritePage />,
+      },
+      {
+        path: 'filters',
+        element: <FiltersPage />,
+      },
+      {
+        path: 'account',
+        element: <AccountPage />,
       },
     ],
   },

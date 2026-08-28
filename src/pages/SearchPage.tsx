@@ -4,15 +4,19 @@ import { useProducts } from '../hooks/useProducts';
 import { ProductCard } from '../components/product/ProductCard';
 import { LoadingSpinner } from '../components/feedback/LoadingSpinner';
 import { ErrorMessage } from '../components/feedback/ErrorMessage';
+import { FilterModal } from '../components/filter/FilterModal';
+import { applyProductFilters } from '../utils/filterUtils';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(urlQuery);
-  const [filterToast, setFilterToast] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const { products, isLoading, error, refetch } = useProducts();
 
   // Synchronize local input state if URL param changes externally
@@ -32,6 +36,8 @@ export const SearchPage: React.FC = () => {
 
   const handleClear = () => {
     setQuery('');
+    setSelectedCategories([]);
+    setSelectedBrands([]);
     setSearchParams({}, { replace: true });
     inputRef.current?.focus();
   };
@@ -45,24 +51,33 @@ export const SearchPage: React.FC = () => {
     }
   };
 
-  const handleFilterClick = () => {
-    setFilterToast('Filters will be available in upcoming updates.');
-    setTimeout(() => setFilterToast(null), 2500);
+  const handleApplyFilters = (categories: string[], brands: string[]) => {
+    setSelectedCategories(categories);
+    setSelectedBrands(brands);
   };
 
-  // Perform case-insensitive search across product name, tags, and description
+  const hasActiveFilters = selectedCategories.length > 0 || selectedBrands.length > 0;
+  const activeFilterCount = selectedCategories.length + selectedBrands.length;
+
+  // Search filter + Category/Brand filter pipeline
   const filteredProducts = useMemo(() => {
+    // 1. Text Search filtering
     const trimmed = query.trim().toLowerCase();
-    if (!trimmed) {
-      return products;
+    let result = products;
+
+    if (trimmed) {
+      result = products.filter((product) => {
+        const nameMatch = product.name.toLowerCase().includes(trimmed);
+        const tagMatch = product.tags?.some((t) => t.toLowerCase() === trimmed);
+        const descMatch = product.description.toLowerCase().includes(trimmed);
+        const brandMatch = product.brand?.toLowerCase().includes(trimmed);
+        return nameMatch || tagMatch || descMatch || brandMatch;
+      });
     }
-    return products.filter((product) => {
-      const nameMatch = product.name.toLowerCase().includes(trimmed);
-      const tagMatch = product.tags?.some((t) => t.toLowerCase() === trimmed);
-      const descMatch = product.description.toLowerCase().includes(trimmed);
-      return nameMatch || tagMatch || descMatch;
-    });
-  }, [products, query]);
+
+    // 2. Category & Brand filter
+    return applyProductFilters(result, selectedCategories, selectedBrands);
+  }, [products, query, selectedCategories, selectedBrands]);
 
   return (
     <div className="mx-auto flex w-full max-w-md md:max-w-4xl flex-col pb-8 select-none">
@@ -118,11 +133,15 @@ export const SearchPage: React.FC = () => {
           </div>
         </form>
 
-        {/* Filter / Settings Button */}
+        {/* Filter / Settings Button (Figma Screen 17/22 Integration) */}
         <button
           type="button"
-          onClick={handleFilterClick}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[#181725] transition hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+          onClick={() => setIsFilterOpen(true)}
+          className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] ${
+            hasActiveFilters
+              ? 'bg-[#53B175] text-white shadow-md'
+              : 'text-[#181725] hover:bg-neutral-100'
+          }`}
           aria-label="Filter products"
         >
           <svg
@@ -138,13 +157,61 @@ export const SearchPage: React.FC = () => {
               d="M6 13.5V3.75m0 9.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25m6-9.75V3.75m0 6.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25m6-12.75V3.75m0 3.75a3 3 0 010 6m0-6a3 3 0 000 6m0 0V20.25"
             />
           </svg>
+          {hasActiveFilters && (
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-xs">
+              {activeFilterCount}
+            </span>
+          )}
         </button>
       </div>
 
-      {/* Filter Toast Feedback */}
-      {filterToast && (
-        <div className="my-2 rounded-lg bg-neutral-900 px-3 py-2 text-center text-xs font-medium text-white shadow-md animate-fade-in">
-          {filterToast}
+      {/* Active Filter Chips Row */}
+      {hasActiveFilters && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {selectedCategories.map((cat) => (
+            <span
+              key={cat}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#53B175]/10 px-3 py-1 text-xs font-semibold text-[#53B175]"
+            >
+              {cat}
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedCategories((prev) => prev.filter((c) => c !== cat))
+                }
+                className="hover:text-red-500"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+          {selectedBrands.map((brand) => (
+            <span
+              key={brand}
+              className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+            >
+              {brand}
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedBrands((prev) => prev.filter((b) => b !== brand))
+                }
+                className="hover:text-red-500"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCategories([]);
+              setSelectedBrands([]);
+            }}
+            className="text-xs font-semibold text-neutral-500 hover:text-red-500 underline ml-1"
+          >
+            Clear all
+          </button>
         </div>
       )}
 
@@ -170,15 +237,29 @@ export const SearchPage: React.FC = () => {
             </div>
             <h2 className="text-base font-bold text-[#181725]">No products found</h2>
             <p className="mt-1 text-sm text-[#7C7C7C]">
-              We couldn&rsquo;t find any matches for &ldquo;{query}&rdquo;. Try another search term.
+              {hasActiveFilters
+                ? 'No products matched your combined search and active filter selections.'
+                : `We couldn't find any matches for "${query}". Try another search term.`}
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center gap-2">
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategories([]);
+                    setSelectedBrands([]);
+                  }}
+                  className="inline-flex items-center rounded-xl bg-neutral-200 px-4 py-2.5 text-sm font-semibold text-[#181725] transition hover:bg-neutral-300"
+                >
+                  Clear Filters
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleClear}
                 className="inline-flex items-center rounded-xl bg-[#53B175] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#489E67]"
               >
-                Clear Search
+                Reset Search
               </button>
             </div>
           </div>
@@ -190,6 +271,15 @@ export const SearchPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Filter Modal (Figma Screen 17/22) */}
+      <FilterModal
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        selectedCategories={selectedCategories}
+        selectedBrands={selectedBrands}
+        onApply={handleApplyFilters}
+      />
     </div>
   );
 };
