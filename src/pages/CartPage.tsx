@@ -1,10 +1,18 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
+import { CheckoutModal } from '../components/cart/CheckoutModal';
 
-export const CartPage: React.FC = () => {
+export interface CartPageProps {
+  initialCheckoutOpen?: boolean;
+}
+
+export const CartPage: React.FC<CartPageProps> = ({ initialCheckoutOpen = false }) => {
   const { items, updateQuantity, removeItem, getTotalAmount } = useCartStore();
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const shouldOpenCheckout = initialCheckoutOpen || searchParams.get('checkout') === 'true';
+
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(shouldOpenCheckout);
   const totalAmount = getTotalAmount();
 
   if (items.length === 0) {
@@ -158,7 +166,7 @@ export const CartPage: React.FC = () => {
       <div className="mt-8 pt-2">
         <button
           type="button"
-          onClick={() => navigate('/checkout')}
+          onClick={() => setIsCheckoutOpen(true)}
           className="relative flex h-14 sm:h-16 w-full items-center justify-between rounded-[19px] bg-[#53B175] px-6 text-base sm:text-lg font-semibold text-white shadow-lg shadow-[#53B175]/25 transition-all hover:bg-[#489E67] hover:shadow-xl active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2"
         >
           <span className="flex-1 text-center font-bold">Go to Checkout</span>
@@ -167,6 +175,12 @@ export const CartPage: React.FC = () => {
           </span>
         </button>
       </div>
+
+      {/* Checkout Bottom Sheet Modal */}
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+      />
     </div>
   );
 };

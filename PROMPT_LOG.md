@@ -1378,3 +1378,130 @@ Confirmed:
 - Product images remain correctly displayed.
 - Navigation and responsive behavior are clean.
 - Corrected the **"Favourite" → "Favorite"** spelling issue.
+
+## Prompt 015 — Figma Screen 20/22: Checkout / Payment Flow
+
+### Prompt
+Implement the Figma Checkout / Payment flow shown in Screen 20/22.
+
+Use the provided Figma reference as the visual source of truth. Implement the checkout experience as a bottom-sheet/modal flow opened from the Cart page.
+
+The checkout flow must include:
+- Delivery method selection
+- Payment method selection
+- Promo code / discount selection
+- Dynamic total cost calculation
+- Terms and conditions text
+- Place Order CTA
+- Connection to the existing cart state
+- Navigation to the existing order confirmation screen after successful order placement
+
+Delivery options should update the delivery fee and total dynamically.
+
+Payment options should be mutually exclusive. The selected payment method must be reflected both inside the payment-selection UI and in the Checkout summary row.
+
+Supported payment methods:
+- Mastercard / Credit or Debit Card
+- Cash on Delivery
+- Mobile Banking
+
+Promo selection should update the final payable amount dynamically.
+
+Place Order should use the existing cart state, clear the cart after successful placement, and navigate to the existing checkout result / order confirmation screen.
+
+Reuse the existing cartStore, routing architecture, product data, session state, and application layout.
+
+Do not introduce a second cart store, payment store, backend payment gateway, authentication changes, database changes, or unnecessary dependencies.
+
+Do not modify or replace existing product/category/banner images.
+
+Do not alter Home, Explore, Category, Search, Favourite, Product Detail, or other unrelated page behavior.
+
+Keep the implementation mobile-first and provide a clean responsive adaptation for larger viewports.
+
+Run typecheck and production build and verify the complete Cart → Checkout → Order Confirmation flow in the browser.
+
+### Result
+- Implemented the Figma Checkout / Payment bottom-sheet flow.
+- Added delivery method selection with dynamic delivery fees.
+- Added mutually exclusive payment method selection.
+- Added dynamic payment summary synchronization.
+- Added promo code / discount selection.
+- Added dynamic total cost calculation.
+- Added Terms and Conditions acknowledgement text.
+- Connected Place Order to the existing cart state.
+- Connected successful order placement to the existing checkout result screen.
+- Preserved the existing cart architecture and application routing.
+- Preserved all existing product and category images.
+
+### Files Created
+- `src/components/cart/CheckoutModal.tsx`
+
+### Files Modified
+- `src/pages/CartPage.tsx`
+- `src/pages/CheckoutPage.tsx`
+
+### Route
+- `/checkout`
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Cart → Checkout → PASS
+- Delivery method selection → PASS
+- Delivery fee calculation → PASS
+- Payment method selection → PASS
+- Payment summary synchronization → PASS
+- Promo code selection → PASS
+- Dynamic total calculation → PASS
+- Place Order → PASS
+- Checkout Result → PASS
+- Existing Cart behavior → PASS
+- Existing Favourite behavior → PASS
+- Existing Search behavior → PASS
+- Existing images → PASS (31/31 endpoints)
+- Browser console errors → 0
+
+### Bug Fix
+During manual review, the Payment selection drawer initially displayed `Selected` for multiple payment methods simultaneously, and the Checkout summary continued displaying the Mastercard representation after switching to another payment method.
+
+The issue was corrected by making payment selection mutually exclusive and deriving the Checkout summary directly from the active payment selection.
+
+The Payment label was also corrected from `Pament` to `Payment`.
+
+### Bug Fix Verification
+- Mastercard / Card selection → PASS
+- Cash on Delivery selection → PASS
+- Mobile Banking selection → PASS
+- Only the active payment method displays `Selected` → PASS
+- Payment summary updates with selected method → PASS
+- Delivery selection remains functional → PASS
+- Promo code remains functional → PASS
+- Dynamic total remains functional → PASS
+- Place Order remains functional → PASS
+- Existing images remain intact → PASS
+- Browser console errors → 0
+
+### AI Review
+- Checkout state remains local to the Checkout flow and does not introduce a duplicate global cart/payment architecture.
+- Payment selection is mutually exclusive and the summary is derived from the active selection, preventing stale UI state.
+- Delivery fees and promo discounts are incorporated into the final total instead of using a hardcoded checkout amount.
+- Existing cartStore remains the source of truth for cart contents.
+- No backend payment integration was introduced because the Figma requirement is a frontend checkout/payment-selection experience.
+- No product images or unrelated application screens were modified.
+- Existing Cart, Favourite, Search, Product Detail, and order confirmation flows remain intact.
+
+### Human Decision
+Reviewed the Checkout flow manually after implementation and identified a payment-selection state bug where multiple payment methods appeared selected and the summary remained on Mastercard.
+
+The bug was corrected and manually re-tested.
+
+Accepted the implementation after confirming:
+- Delivery selection works.
+- Payment selection is mutually exclusive.
+- Payment summary changes according to the selected method.
+- Promo selection changes the total.
+- Total cost updates correctly.
+- Place Order completes the flow.
+- Existing cart behavior remains intact.
+- Existing images remain intact.
