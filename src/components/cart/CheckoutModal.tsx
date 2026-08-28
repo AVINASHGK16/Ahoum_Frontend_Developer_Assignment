@@ -91,10 +91,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
     if (items.length === 0) return;
     setIsPlacingOrder(true);
     setTimeout(() => {
+      if (customPromoInput.trim().toUpperCase() === 'FAIL') {
+        setIsPlacingOrder(false);
+        onClose();
+        navigate('/checkout/result?status=failed');
+        return;
+      }
+
       clearCart();
       setIsPlacingOrder(false);
       onClose();
-      navigate('/checkout/result');
+      navigate('/checkout/result?status=success');
     }, 600);
   };
 

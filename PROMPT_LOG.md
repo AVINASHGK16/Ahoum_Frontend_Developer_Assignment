@@ -1505,3 +1505,135 @@ Accepted the implementation after confirming:
 - Place Order completes the flow.
 - Existing cart behavior remains intact.
 - Existing images remain intact.
+
+## Prompt 016 — Figma Screen 22/22: Order Success & Order Failure States
+
+### Prompt
+Implement the final Figma Screen 22/22 checkout outcome states: Order Success and Order Failure.
+
+Use the provided Figma references as the visual source of truth. Implement two distinct post-checkout states while preserving the existing Cart → Checkout flow.
+
+#### Order Success State
+Implement the accepted-order screen matching the reference:
+
+- Green circular checkmark illustration with the surrounding celebratory confetti/ribbons.
+- Heading:
+  `Your Order has been accepted`
+- Supporting text:
+  `Your items has been placed and is on it’s way to being processed`
+- Primary green CTA:
+  `Track Order`
+- Secondary text action:
+  `Back to home`
+- Maintain the clean centered layout, typography, spacing, and soft background treatment from the reference.
+- Make the screen responsive across mobile, tablet, and desktop.
+
+#### Order Failure State
+Implement the failed-order modal/state matching the reference:
+
+- Dimmed background overlay.
+- White rounded modal.
+- Top-left close `X` action.
+- Grocery bag illustration with groceries.
+- Heading:
+  `Oops! Order Failed`
+- Supporting text:
+  `Something went terribly wrong.`
+- Primary green CTA:
+  `Please Try Again`
+- Secondary text action:
+  `Back to home`
+- Preserve the existing cart contents when an order fails so the user can retry.
+- Make the modal responsive and accessible.
+
+#### Checkout Integration
+Connect these states to the existing checkout order-placement flow:
+
+- Successful order placement → Success state.
+- Failed order placement/error → Failure state.
+- On success, clear the cart using the existing `cartStore`.
+- On failure, do NOT clear the cart.
+- `Please Try Again` must return the user to the existing checkout flow with the cart contents intact.
+- `Track Order` should use the existing order-tracking/navigation behavior if already available.
+- `Back to home` should navigate to the existing home route.
+- Preserve existing checkout, cart, favorite, search, explore, category, and product-detail behavior.
+
+#### Implementation Constraints
+Reuse the existing routing, layout, cart state, checkout logic, and components wherever appropriate.
+
+Do NOT:
+- Modify product data.
+- Modify product images or image paths.
+- Replace, regenerate, or move existing image assets.
+- Modify the Cart page behavior.
+- Modify Favorite functionality.
+- Modify Search functionality.
+- Modify Explore or Category pages.
+- Modify Product Detail functionality.
+- Introduce a new backend/API.
+- Introduce authentication changes.
+- Introduce unnecessary dependencies.
+- Create duplicate cart/order state.
+- Rewrite unrelated components.
+- Change existing checkout functionality except where necessary to route the order outcome into the correct success/failure state.
+
+Keep the implementation strictly scoped to the final checkout result states and their integration with the existing checkout flow.
+
+Run:
+- `npm run typecheck`
+- `npm run build`
+
+Then manually verify both success and failure flows in the browser, including cart behavior and navigation.
+
+### Result
+- Implemented Figma Screen 22/22 Order Success and Order Failure states.
+- Added the accepted-order success presentation with checkmark/confetti illustration, Track Order CTA, and Back to home action.
+- Added the failed-order modal with grocery bag illustration, retry action, close action, and Back to home action.
+- Integrated both states with the existing checkout order-placement flow.
+- Success clears the cart.
+- Failure preserves the cart for retry.
+- Retry returns to the existing checkout flow with cart contents intact.
+- Existing application architecture and checkout behavior were preserved.
+- Responsive behavior was implemented for mobile/tablet/desktop.
+
+### Files Created
+- None.
+
+### Files Modified
+- `src/pages/CheckoutResultPage.tsx`
+- `src/components/cart/CheckoutModal.tsx`
+
+### Routes
+- `/checkout/result?status=success`
+- `/checkout/result?status=failed`
+- Existing `/checkout` route preserved.
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Checkout → Success state → PASS
+- Checkout → Failure state → PASS
+- Success cart clearing → PASS
+- Failure cart preservation → PASS
+- Please Try Again → PASS
+- Track Order → PASS
+- Back to home → PASS
+- Failure close `X` → PASS
+- Existing Cart behavior → PASS
+- Existing Favorite behavior → PASS
+- Existing Search behavior → PASS
+- Existing Explore/Category behavior → PASS
+- Existing Product Detail behavior → PASS
+- Existing product images → PASS
+- Browser console errors → 0
+
+### AI Review
+- Reused the existing checkout and cart architecture instead of introducing duplicate state.
+- Success and failure are represented as distinct checkout outcome states.
+- Cart behavior is intentionally different for each outcome: success clears the cart, while failure preserves it for retry.
+- Existing product data and image assets were left untouched.
+- Existing application pages and functionality were preserved.
+- The implementation remains scoped to the final checkout result experience.
+
+### Human Decision
+Accepted the implementation after manually reviewing the Order Success and Order Failure states and confirming the checkout outcome flow, navigation, retry behavior, and cart-state handling.
