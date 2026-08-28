@@ -15,16 +15,19 @@ export interface SessionState {
   sessionId: string | null;
   location: UserLocation | null;
   user: UserSession | null;
+  favorites: string[];
   setLocation: (location: UserLocation) => void;
   login: (email: string, username?: string) => void;
   signup: (email: string, username: string) => void;
   logout: () => void;
+  toggleFavorite: (productId: string) => void;
 }
 
 export const useSessionStore = create<SessionState>((set) => ({
   sessionId: null,
   location: null,
   user: null,
+  favorites: [],
   setLocation: (location) => set({ location }),
   login: (email, username) =>
     set({
@@ -49,5 +52,11 @@ export const useSessionStore = create<SessionState>((set) => ({
       sessionId: null,
       user: null,
     }),
+  toggleFavorite: (productId) =>
+    set((state) => ({
+      favorites: state.favorites.includes(productId)
+        ? state.favorites.filter((id) => id !== productId)
+        : [...state.favorites, productId],
+    })),
 }));
 

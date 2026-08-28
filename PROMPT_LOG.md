@@ -920,3 +920,86 @@ Requirements:
 
 ### Human Decision
 Accepted the Home / Shop implementation after manually testing the mobile-first flow and confirming the screen and interactions behave correctly.
+
+## Prompt 011 — Figma Screen 13: Product Information / Detail Page
+
+### Prompt
+Implement Figma Screen 13/22 — Product Information / Product Detail page.
+
+Use the provided Figma reference as the visual source of truth. Implement mobile-first first, matching the reference's layout, typography, spacing, colors, borders, radii, icons, product image area, quantity controls, price, product details, nutrition, reviews, favourite control, share control, and Add To Basket CTA.
+
+Connect the Home / Shop product cards so clicking a product opens a dynamic `/product/:productId` route.
+
+Reuse the existing Product type, product data, product API/mock layer, cartStore, sessionStore, AppLayout, and routing architecture.
+
+The product detail page must be driven by the selected product ID and must not hardcode Red Apple.
+
+Implement:
+- Back navigation
+- Dynamic product information
+- Product image
+- Favourite toggle
+- Share interaction with graceful browser fallback
+- Quantity +/- controls with minimum quantity of 1
+- Dynamic total price
+- Product Detail section
+- Nutrition row
+- Review/rating row
+- Add To Basket using the existing cartStore
+- Reactive cart badge update
+- Safe invalid-product handling
+
+The Home page's green `+` button must remain a quick-add action and must not accidentally navigate to the product page.
+
+Do not add backend APIs, authentication changes, database changes, duplicate stores, unnecessary dependencies, or future Figma screens.
+
+Implement mobile-first and then provide a thoughtful tablet/desktop responsive adaptation rather than simply stretching the mobile layout.
+
+Run typecheck and production build and verify the complete Home → Product Detail flow in the browser.
+
+### Result
+- Implemented Figma Screen 13/22 Product Information / Detail page.
+- Added dynamic `/product/:productId` product detail rendering.
+- Connected Home product cards to the product detail page.
+- Added quantity controls and dynamic pricing.
+- Connected Add To Basket to the existing cartStore.
+- Added favourite interaction.
+- Added browser share with fallback behavior.
+- Added product-detail error handling.
+- Preserved the existing application architecture.
+- Added responsive mobile/tablet/desktop adaptation.
+
+### Files Created
+- None.
+
+### Files Modified
+- `src/pages/ProductDetailPage.tsx`
+- `src/stores/cartStore.ts`
+- `src/stores/sessionStore.ts`
+
+### Route
+- `/product/:productId`
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Home → Product Detail → PASS
+- Dynamic product rendering → PASS
+- Back navigation → PASS
+- Quantity +/- → PASS
+- Minimum quantity of 1 → PASS
+- Favourite toggle → PASS
+- Share interaction → PASS
+- Add To Basket → PASS
+- Cart badge update → PASS
+- Invalid product handling → PASS
+- Browser console errors → 0
+
+### AI Review
+- Product detail uses the existing product and cart architecture instead of introducing duplicate state or APIs.
+- Product cards retain their quick-add behavior while the card itself opens the product detail page.
+- Static nutrition/review presentation was kept limited to the information required by Screen 13.
+- Desktop/tablet behavior was treated as a responsive adaptation rather than a stretched mobile layout.
+
+### Human Decision
+Accepted the implementation after manually testing the Product Detail screen and confirming navigation, quantity controls, favourite, back navigation, and Add To Basket behavior.
