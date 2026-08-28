@@ -3,29 +3,13 @@ import { Link } from 'react-router-dom';
 import type { Product } from '../../types/product';
 import { useCartStore } from '../../stores/cartStore';
 import { useSessionStore } from '../../stores/sessionStore';
+import { formatProductUnit, formatBrandName } from '../../utils/productFormatters';
 
 export interface ProductCardProps {
   product: Product;
   onAddToCart?: (product: Product) => void;
   className?: string;
 }
-
-/**
- * Normalizes raw unit copy from data (e.g., "7pcs, Priceg" -> "7 pcs", "1kg, Priceg" -> "1 kg").
- */
-export const formatProductUnit = (rawUnit?: string): string => {
-  if (!rawUnit) return '';
-  return rawUnit
-    .replace(/,\s*priceg/gi, '')
-    .replace(/priceg/gi, '')
-    .replace(/7pcs/gi, '7 pcs')
-    .replace(/(\d+)\s*pcs/gi, '$1 pcs')
-    .replace(/(\d+)\s*gm/gi, '$1g')
-    .replace(/(\d+)\s*kg/gi, '$1 kg')
-    .replace(/(\d+)\s*ml/gi, '$1 ml')
-    .replace(/(\d+)\s*l\b/gi, '$1 L')
-    .trim();
-};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -135,8 +119,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         className="flex flex-col flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] rounded-xl pt-1"
         aria-label={`View details for ${name}`}
       >
-        {/* Normalized Product Image Frame */}
-        <div className="relative flex h-28 sm:h-32 md:h-36 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-50/60 p-2">
+        {/* Normalized Product Image Frame — Stable aspect-square container */}
+        <div className="relative aspect-square w-full items-center justify-center overflow-hidden rounded-xl bg-[#F2F3F2]/50 flex p-3">
           {image ? (
             <img
               src={image}
@@ -163,7 +147,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Brand / Department Tag (if available) */}
         {brand && (
           <p className="mt-2 text-[10px] sm:text-[11px] font-semibold text-[#7C7C7C] uppercase tracking-wider truncate">
-            {brand}
+            {formatBrandName(brand)}
           </p>
         )}
 

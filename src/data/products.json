@@ -65,7 +65,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["dairy-eggs", "egg", "eggs", "chicken", "red", "protein"],
-    "image": "/images/product-egg-chicken-red.svg",
+    "image": "/images/product-egg-chicken-red.jpg",
     "brand": "Kazi Farmas"
   },
   {
@@ -78,7 +78,7 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["dairy-eggs", "egg", "eggs", "chicken", "white", "protein"],
-    "image": "/images/product-egg-chicken-white.svg",
+    "image": "/images/product-egg-chicken-white.jpg",
     "brand": "Kazi Farmas"
   },
   {
@@ -86,12 +86,12 @@
     "name": "Egg Pasta",
     "categoryId": "bakery-snacks",
     "price": 15.99,
-    "unit": "30gm, Price",
+    "unit": "500 g pack",
     "description": "Artisan bronze-cut Italian egg pasta made with whole fresh farm eggs and durum wheat.",
     "inStock": true,
     "rating": 4.7,
     "tags": ["bakery-snacks", "egg", "pasta", "italian", "noodles", "Noodles & Pasta"],
-    "image": "/images/product-egg-pasta.svg",
+    "image": "/images/product-egg-pasta.jpg",
     "brand": "Cocola"
   },
   {
@@ -99,12 +99,12 @@
     "name": "Egg Noodles",
     "categoryId": "bakery-snacks",
     "price": 15.99,
-    "unit": "2L, Price",
+    "unit": "250 g pack",
     "description": "Authentic wok-ready traditional egg noodles crafted with natural egg yolk.",
     "inStock": true,
     "rating": 4.8,
     "tags": ["bakery-snacks", "egg", "noodles", "asian", "pasta", "Noodles & Pasta"],
-    "image": "/images/product-egg-noodles.svg",
+    "image": "/images/product-egg-noodles.jpg",
     "brand": "Cocola"
   },
   {
@@ -117,7 +117,7 @@
     "inStock": true,
     "rating": 4.6,
     "tags": ["dairy-eggs", "egg", "mayonnais", "eggless", "spread", "condiment", "Fast Food"],
-    "image": "/images/product-mayonnais.svg",
+    "image": "/images/product-mayonnais.jpg",
     "brand": "Individual Callection"
   },
   {
@@ -130,7 +130,7 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["bakery-snacks", "egg", "noodles", "classic", "Noodles & Pasta"],
-    "image": "/images/product-egg-noodles-classic.svg",
+    "image": "/images/product-egg-noodles-classic.jpg",
     "brand": "Ifad"
   },
   {

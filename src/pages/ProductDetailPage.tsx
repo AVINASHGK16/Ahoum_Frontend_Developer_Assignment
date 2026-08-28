@@ -6,6 +6,8 @@ import { useSessionStore } from '../stores/sessionStore';
 import { LoadingSpinner } from '../components/feedback/LoadingSpinner';
 import { ErrorMessage } from '../components/feedback/ErrorMessage';
 
+import { formatProductUnit, formatBrandName } from '../utils/productFormatters';
+
 export const ProductDetailPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
@@ -93,6 +95,13 @@ export const ProductDetailPage: React.FC = () => {
   }
 
   const totalPrice = (product.price * quantity).toFixed(2);
+  const formattedUnit = formatProductUnit(product.unit);
+  const formattedBrand = formatBrandName(product.brand);
+  const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
+  const discountPercent =
+    product.originalPrice && product.originalPrice > product.price
+      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+      : 0;
 
   return (
     <div className="mx-auto flex w-full max-w-md md:max-w-2xl flex-col pb-6 select-none">
@@ -177,15 +186,27 @@ export const ProductDetailPage: React.FC = () => {
 
       {/* Product Information Section */}
       <div className="mt-5 space-y-6 px-1">
-        {/* Title, Unit & Favorite Button Row */}
+        {/* Title, Brand, Unit & Favorite Button Row */}
         <div className="flex items-start justify-between gap-4">
           <div>
+            {formattedBrand && (
+              <p className="text-xs font-bold uppercase tracking-wider text-[#53B175] mb-1">
+                {formattedBrand}
+              </p>
+            )}
             <h1 className="text-2xl sm:text-[26px] font-bold text-[#181725] tracking-tight leading-tight">
               {product.name}
             </h1>
-            <p className="mt-1 text-sm sm:text-base font-semibold text-[#7C7C7C]">
-              {product.unit}
-            </p>
+            <div className="mt-1 flex items-center gap-2">
+              <p className="text-sm sm:text-base font-semibold text-[#7C7C7C]">
+                {formattedUnit}
+              </p>
+              {hasDiscount && (
+                <span className="rounded-lg bg-red-500 px-2 py-0.5 text-[11px] font-bold text-white shadow-2xs">
+                  {discountPercent}% OFF
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Favourite Heart Toggle Button */}
