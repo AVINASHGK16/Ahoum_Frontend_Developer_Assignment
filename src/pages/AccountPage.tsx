@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSessionStore } from '../stores/sessionStore';
 import { useCartStore } from '../stores/cartStore';
 import { useProducts } from '../hooks/useProducts';
@@ -47,12 +47,21 @@ export const AccountPage: React.FC = () => {
   const { items, getTotalAmount, addItem } = useCartStore();
   const { products } = useProducts();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<AccountTab>('overview');
+  const initialTab = (searchParams.get('tab') as AccountTab) || 'overview';
+  const [activeTab, setActiveTab] = useState<AccountTab>(initialTab);
   const [reorderSuccess, setReorderSuccess] = useState<string | null>(null);
 
-  // If user is not authenticated, show polished compact access card inside page layout
-  if (!user || !user.isAuthenticated) {
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as AccountTab | null;
+    if (tabParam && ['overview', 'orders', 'track', 'profile', 'help'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
+  // If user is not authenticated and not explicitly viewing track order tab, show polished compact access card inside page layout
+  if ((!user || !user.isAuthenticated) && activeTab !== 'track') {
     return (
       <div className="mx-auto flex min-h-[60vh] w-full max-w-7xl flex-col items-center justify-center px-4 py-8 sm:py-12 select-none">
         <div className="w-full max-w-[420px] rounded-3xl border border-[#E2E2E2] bg-white p-6 sm:p-8 shadow-sm">
@@ -183,8 +192,8 @@ export const AccountPage: React.FC = () => {
     );
   }
 
-  const username = user.username || user.email.split('@')[0] || 'Ahoum Member';
-  const email = user.email;
+  const username = user?.username || (user?.email ? user.email.split('@')[0] : 'Ahoum Member') || 'Ahoum Member';
+  const email = user?.email || 'guest@ahoum.com';
   const locationText = location?.area ? `${location.zone}, ${location.area}` : 'Dhaka, Banasree';
 
   const totalCartItems = items.reduce((acc, it) => acc + it.quantity, 0);

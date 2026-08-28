@@ -217,7 +217,7 @@ export const CheckoutResultPage: React.FC = () => {
         {/* Track Order Button */}
         <button
           type="button"
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/account?tab=track')}
           className="flex h-14 sm:h-16 w-full items-center justify-center rounded-[19px] bg-[#53B175] text-base sm:text-lg font-bold text-white shadow-lg shadow-[#53B175]/25 transition hover:bg-[#489E67] active:scale-95"
         >
           Track Order
