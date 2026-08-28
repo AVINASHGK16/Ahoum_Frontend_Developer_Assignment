@@ -45,8 +45,8 @@ export const ProductDetailPage: React.FC = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: product?.name ?? 'Nectar Product',
-          text: `Check out ${product?.name ?? 'this product'} on Nectar!`,
+          title: product?.name ?? 'Ahoum Grocery Product',
+          text: `Check out ${product?.name ?? 'this product'} on Ahoum Grocery!`,
           url,
         });
         return;

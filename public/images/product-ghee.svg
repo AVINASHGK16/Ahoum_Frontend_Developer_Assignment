@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="gheeShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#4E3602" flood-opacity="0.16" />
+    </filter>
+    <linearGradient id="gheeGoldenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EAB308" />
+      <stop offset="30%" stop-color="#FACC15" />
+      <stop offset="60%" stop-color="#FDE047" />
+      <stop offset="85%" stop-color="#EAB308" />
+      <stop offset="100%" stop-color="#CA8A04" />
+    </linearGradient>
+    <linearGradient id="gheeLidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B45309" />
+      <stop offset="40%" stop-color="#F59E0B" />
+      <stop offset="70%" stop-color="#FCD34D" />
+      <stop offset="100%" stop-color="#92400E" />
+    </linearGradient>
+    <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
+      <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.4" />
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.7" />
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadows -->
+  <ellipse cx="180" cy="335" rx="80" ry="16" fill="#000000" opacity="0.1" />
+  <ellipse cx="295" cy="340" rx="45" ry="10" fill="#000000" opacity="0.08" />
+
+  <!-- Main Ghee Jar Group -->
+  <g filter="url(#gheeShadow)">
+    <!-- Jar Glass Body & Ghee Content -->
+    <rect x="115" y="125" width="130" height="195" rx="20" fill="url(#gheeGoldenGrad)" stroke="#B45309" stroke-width="1.5" />
+    
+    <!-- Jar Neck & Shoulder -->
+    <path d="M125 125 C125 105 145 98 180 98 C215 98 235 105 235 125 Z" fill="url(#gheeGoldenGrad)" />
+
+    <!-- Jar Golden Metallic Screw Lid -->
+    <rect x="135" y="75" width="90" height="24" rx="6" fill="url(#gheeLidGrad)" stroke="#78350F" stroke-width="1" />
+    <!-- Lid Ridges -->
+    <line x1="148" y1="75" x2="148" y2="99" stroke="#78350F" stroke-width="1.5" opacity="0.5" />
+    <line x1="162" y1="75" x2="162" y2="99" stroke="#78350F" stroke-width="1.5" opacity="0.5" />
+    <line x1="180" y1="75" x2="180" y2="99" stroke="#78350F" stroke-width="1.5" opacity="0.5" />
+    <line x1="198" y1="75" x2="198" y2="99" stroke="#78350F" stroke-width="1.5" opacity="0.5" />
+    <line x1="212" y1="75" x2="212" y2="99" stroke="#78350F" stroke-width="1.5" opacity="0.5" />
+
+    <!-- Pure Desi Ghee Front Label -->
+    <rect x="125" y="165" width="110" height="115" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5" />
+    <rect x="130" y="170" width="100" height="105" rx="8" fill="none" stroke="#D97706" stroke-dasharray="3,3" stroke-width="1" />
+    
+    <!-- Label Typography & Icon -->
+    <circle cx="180" cy="192" r="12" fill="#F59E0B" opacity="0.2" />
+    <text x="180" y="196" font-family="'Inter', sans-serif" font-size="12" fill="#B45309" text-anchor="middle">👑</text>
+    <text x="180" y="218" font-family="'Inter', 'Georgia', serif" font-weight="900" font-size="13" fill="#78350F" text-anchor="middle" letter-spacing="1">PURE DESI</text>
+    <text x="180" y="235" font-family="'Inter', sans-serif" font-weight="800" font-size="14" fill="#D97706" text-anchor="middle" letter-spacing="1.5">GHEE</text>
+    <text x="180" y="255" font-family="'Inter', sans-serif" font-weight="700" font-size="8" fill="#92400E" text-anchor="middle" letter-spacing="1">100% ORGANIC • 450g</text>
+
+    <!-- Glass Specular Reflection Highlight -->
+    <rect x="115" y="125" width="130" height="195" rx="20" fill="url(#glassReflection)" />
+  </g>
+
+  <!-- Side Clarified Butter Small Ceramic Bowl -->
+  <g filter="url(#gheeShadow)">
+    <!-- Bowl Base -->
+    <ellipse cx="295" cy="305" rx="42" ry="24" fill="#FDE68A" stroke="#D97706" stroke-width="1.5" />
+    <!-- Melted Liquid Gold Ghee inside Bowl -->
+    <ellipse cx="295" cy="302" rx="36" ry="18" fill="url(#gheeGoldenGrad)" />
+    <!-- Ghee Specular Point -->
+    <ellipse cx="285" cy="298" rx="8" ry="4" fill="#FFFFFF" opacity="0.6" />
+
+    <!-- Wooden Dipper / Spoon -->
+    <path d="M260 270 Q285 295 320 280" fill="none" stroke="#92400E" stroke-width="6" stroke-linecap="round" />
+    <circle cx="320" cy="280" r="7" fill="#B45309" />
+  </g>
+</svg>

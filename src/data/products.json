@@ -197,7 +197,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["beverages", "soda", "coca-cola", "classic", "Fast Food"],
-    "image": "/images/product-coca-cola.jpg",
+    "image": "/images/product-coca-cola.svg",
     "brand": "Cocola"
   },
   {
@@ -210,7 +210,7 @@
     "inStock": true,
     "rating": 4.7,
     "tags": ["beverages", "soda", "pepsi", "cola", "Fast Food"],
-    "image": "/images/product-pepsi.jpg",
+    "image": "/images/product-pepsi.svg",
     "brand": "Cocola"
   },
   {
@@ -238,7 +238,7 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["cooking-oil-ghee", "ghee", "butter", "cooking"],
-    "image": "/images/product-ghee.jpg",
+    "image": "/images/product-ghee.svg",
     "brand": "Individual Callection"
   },
   {
@@ -251,7 +251,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["meat-fish", "meat", "fish", "salmon", "fresh", "Fast Food"],
-    "image": "/images/product-salmon.jpg",
+    "image": "/images/product-salmon.svg",
     "brand": "Kazi Farmas"
   },
   {
@@ -265,7 +265,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["meat-fish", "meat", "beef", "steak", "Fast Food"],
-    "image": "/images/product-beef.jpg",
+    "image": "/images/product-beef.svg",
     "brand": "Kazi Farmas"
   },
   {
@@ -279,7 +279,7 @@
     "inStock": true,
     "rating": 4.8,
     "tags": ["bakery-snacks", "bakery", "bread", "sourdough", "artisan", "Chips & Crisps"],
-    "image": "/images/product-sourdough.jpg",
+    "image": "/images/product-sourdough.svg",
     "brand": "Individual Callection"
   },
   {
@@ -292,7 +292,7 @@
     "inStock": true,
     "rating": 4.9,
     "tags": ["bakery-snacks", "bakery", "croissant", "pastry", "Chips & Crisps"],
-    "image": "/images/product-croissant.jpg",
+    "image": "/images/product-croissant.svg",
     "brand": "Individual Callection"
   },
   {

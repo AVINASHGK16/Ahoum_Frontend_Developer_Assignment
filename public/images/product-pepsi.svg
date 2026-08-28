@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Soft Drop Shadow -->
+    <filter id="pepsiShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#001C55" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="pepsiCanBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#002F87" />
+      <stop offset="18%" stop-color="#0057B8" />
+      <stop offset="45%" stop-color="#0066D6" />
+      <stop offset="70%" stop-color="#0050A8" />
+      <stop offset="90%" stop-color="#002D7A" />
+      <stop offset="100%" stop-color="#001A4E" />
+    </linearGradient>
+    <linearGradient id="silverRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B0B5BA" />
+      <stop offset="30%" stop-color="#E2E6EA" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="70%" stop-color="#D1D5DA" />
+      <stop offset="100%" stop-color="#9AA0A6" />
+    </linearGradient>
+    <linearGradient id="canHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
+      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.35" />
+      <stop offset="42%" stop-color="#FFFFFF" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="pepsiRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E31B23" />
+      <stop offset="100%" stop-color="#C01018" />
+    </linearGradient>
+    <linearGradient id="pepsiBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004B93" />
+      <stop offset="100%" stop-color="#002B66" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Contact Shadow -->
+  <ellipse cx="200" cy="358" rx="85" ry="14" fill="#000000" opacity="0.1" />
+  <ellipse cx="200" cy="356" rx="65" ry="9" fill="#001844" opacity="0.18" />
+
+  <!-- Can Main Group -->
+  <g filter="url(#pepsiShadow)">
+    <!-- Can Body Cylinder Base -->
+    <rect x="135" y="80" width="130" height="260" rx="18" fill="url(#pepsiCanBody)" />
+
+    <!-- Top Chime / Taper -->
+    <path d="M142 80 C142 66 155 58 200 58 C245 58 258 66 258 80 Z" fill="url(#silverRim)" />
+    <!-- Top Rim Oval -->
+    <ellipse cx="200" cy="60" rx="55" ry="12" fill="url(#silverRim)" stroke="#8C939A" stroke-width="1" />
+    <ellipse cx="200" cy="59" rx="48" ry="9.5" fill="#D5D9DC" />
+    <ellipse cx="200" cy="58.5" rx="44" ry="8" fill="#ECEFF1" />
+
+    <!-- Can Bottom Chime -->
+    <path d="M135 325 C135 342 152 348 200 348 C248 348 265 342 265 325 Z" fill="url(#silverRim)" />
+
+    <!-- Pepsi Iconic Globe Logo -->
+    <!-- White Circle Backdrop -->
+    <circle cx="200" cy="185" r="42" fill="#FFFFFF" />
+    
+    <!-- Top Red Wave -->
+    <path d="M158 185 C165 152 195 143 200 143 C225 143 240 162 242 185 C230 185 215 174 195 174 C175 174 165 185 158 185 Z" fill="url(#pepsiRed)" />
+    
+    <!-- Bottom Blue Wave -->
+    <path d="M158 185 C162 210 180 227 200 227 C225 227 238 212 242 185 C228 198 210 200 195 200 C175 200 166 185 158 185 Z" fill="url(#pepsiBlue)" />
+
+    <!-- Pepsi Typography -->
+    <text x="200" y="260" font-family="'Inter', 'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="25" fill="#FFFFFF" text-anchor="middle" letter-spacing="2" font-style="italic">pepsi</text>
+
+    <!-- Volume / Spec Badging -->
+    <text x="200" y="282" font-family="'Inter', sans-serif" font-weight="600" font-size="9" fill="#90CAF9" text-anchor="middle" letter-spacing="1">ORIGINAL TASTE • 330ml</text>
+
+    <!-- Vertical Specular Light Highlight -->
+    <rect x="135" y="80" width="130" height="260" rx="18" fill="url(#canHighlight)" />
+
+    <!-- Condensation Cool Droplets -->
+    <circle cx="152" cy="115" r="2.5" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="155" cy="122" r="1.8" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="148" cy="220" r="3" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="245" cy="130" r="2.5" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="248" cy="140" r="1.5" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="242" cy="245" r="2.8" fill="#FFFFFF" opacity="0.55" />
+    <circle cx="160" cy="295" r="2.2" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="235" cy="305" r="2.5" fill="#FFFFFF" opacity="0.6" />
+  </g>
+</svg>

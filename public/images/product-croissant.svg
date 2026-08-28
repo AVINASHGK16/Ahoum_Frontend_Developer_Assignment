@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="croissantShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#4E2602" flood-opacity="0.16" />
+    </filter>
+    <linearGradient id="crGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="40%" stop-color="#F59E0B" />
+      <stop offset="80%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#92400E" />
+    </linearGradient>
+    <linearGradient id="crCrustGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="200" cy="320" rx="140" ry="24" fill="#000000" opacity="0.1" />
+
+  <g filter="url(#croissantShadow)">
+    <!-- Back Croissant (Left-Angled) -->
+    <g transform="translate(-25, -20) scale(0.85) rotate(-12 180 180)" opacity="0.95">
+      <!-- Outer Crescent Curve -->
+      <path d="M80 240 C60 170 120 110 200 110 C280 110 340 170 320 240 C300 230 250 170 200 170 C150 170 100 230 80 240 Z" fill="url(#crGoldGrad)" />
+      <!-- Pastry Layer Rolls -->
+      <path d="M125 145 C150 125 200 125 225 145 C205 160 175 160 125 145 Z" fill="url(#crCrustGrad)" />
+      <path d="M150 135 C170 120 200 120 215 135 C200 150 180 150 150 135 Z" fill="#FDE68A" />
+    </g>
+
+    <!-- Front Main Golden Croissant -->
+    <g>
+      <!-- Crescent Base Body -->
+      <path d="M70 260 C50 180 110 120 200 120 C290 120 350 180 330 260 C305 245 255 185 200 185 C145 185 95 245 70 260 Z" fill="url(#crGoldGrad)" />
+
+      <!-- Segment 1: Left Wing Roll -->
+      <path d="M70 260 C80 220 115 175 145 165 C130 205 105 245 70 260 Z" fill="url(#crCrustGrad)" />
+      
+      <!-- Segment 2: Right Wing Roll -->
+      <path d="M330 260 C320 220 285 175 255 165 C270 205 295 245 330 260 Z" fill="url(#crCrustGrad)" />
+
+      <!-- Segment 3: Outer Middle Shell Roll -->
+      <path d="M120 180 C145 140 200 135 255 170 C235 205 165 210 120 180 Z" fill="url(#crGoldGrad)" />
+
+      <!-- Segment 4: Central Puffed Core -->
+      <path d="M150 160 C170 135 210 135 235 155 C220 185 175 185 150 160 Z" fill="url(#crCrustGrad)" />
+      <path d="M170 148 C185 135 205 135 218 145 C208 168 185 168 170 148 Z" fill="#FEF3C7" />
+
+      <!-- Golden Flaky Crumb / Crisp Seams -->
+      <path d="M100 225 Q130 190 155 175" stroke="#78350F" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4" />
+      <path d="M300 225 Q270 190 245 175" stroke="#78350F" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4" />
+      <path d="M135 195 Q180 170 225 185" stroke="#78350F" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4" />
+      <path d="M165 175 Q195 160 215 170" stroke="#78350F" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4" />
+
+      <!-- Specular Butter Glaze Shine -->
+      <ellipse cx="195" cy="142" rx="16" ry="6" fill="#FFFFFF" opacity="0.45" transform="rotate(-5 195 142)" />
+      <ellipse cx="140" cy="172" rx="14" ry="5" fill="#FFFFFF" opacity="0.35" transform="rotate(-25 140 172)" />
+      <ellipse cx="260" cy="172" rx="14" ry="5" fill="#FFFFFF" opacity="0.35" transform="rotate(25 260 172)" />
+    </g>
+  </g>
+</svg>

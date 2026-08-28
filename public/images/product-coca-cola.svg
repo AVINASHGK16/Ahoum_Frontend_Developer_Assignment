@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Soft Drop Shadow -->
+    <filter id="cokeShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#4A0505" flood-opacity="0.22" />
+    </filter>
+    <linearGradient id="cokeCanBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B0000" />
+      <stop offset="18%" stop-color="#D81B28" />
+      <stop offset="45%" stop-color="#F40009" />
+      <stop offset="70%" stop-color="#D00810" />
+      <stop offset="90%" stop-color="#9C040A" />
+      <stop offset="100%" stop-color="#6B0000" />
+    </linearGradient>
+    <linearGradient id="cokeSilverRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B0B5BA" />
+      <stop offset="30%" stop-color="#E2E6EA" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="70%" stop-color="#D1D5DA" />
+      <stop offset="100%" stop-color="#9AA0A6" />
+    </linearGradient>
+    <linearGradient id="cokeHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
+      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.35" />
+      <stop offset="42%" stop-color="#FFFFFF" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Contact Shadow -->
+  <ellipse cx="200" cy="358" rx="85" ry="14" fill="#000000" opacity="0.1" />
+  <ellipse cx="200" cy="356" rx="65" ry="9" fill="#3D0000" opacity="0.2" />
+
+  <!-- Can Main Group -->
+  <g filter="url(#cokeShadow)">
+    <!-- Can Body Cylinder Base -->
+    <rect x="135" y="80" width="130" height="260" rx="18" fill="url(#cokeCanBody)" />
+
+    <!-- Top Chime / Taper -->
+    <path d="M142 80 C142 66 155 58 200 58 C245 58 258 66 258 80 Z" fill="url(#cokeSilverRim)" />
+    <!-- Top Rim Oval -->
+    <ellipse cx="200" cy="60" rx="55" ry="12" fill="url(#cokeSilverRim)" stroke="#8C939A" stroke-width="1" />
+    <ellipse cx="200" cy="59" rx="48" ry="9.5" fill="#D5D9DC" />
+    <ellipse cx="200" cy="58.5" rx="44" ry="8" fill="#ECEFF1" />
+
+    <!-- Can Bottom Chime -->
+    <path d="M135 325 C135 342 152 348 200 348 C248 348 265 342 265 325 Z" fill="url(#cokeSilverRim)" />
+
+    <!-- Classic Coca-Cola Script & Dynamic Ribbon Wave -->
+    <!-- White Dynamic Wave Ribbon -->
+    <path d="M140 225 C165 210 200 245 260 215 C260 223 205 255 140 235 Z" fill="#FFFFFF" opacity="0.9" />
+    <path d="M140 236 C165 220 205 258 260 228 C260 232 208 262 140 242 Z" fill="#FFFFFF" opacity="0.5" />
+
+    <!-- Cursive Logo / Brand Typography -->
+    <text x="200" y="165" font-family="'Brush Script MT', 'Segoe Script', 'Great Vibes', cursive, sans-serif" font-weight="bold" font-size="34" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">Coca-Cola</text>
+    <text x="200" y="195" font-family="'Inter', sans-serif" font-weight="700" font-size="10" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ORIGINAL TASTE</text>
+
+    <!-- Volume / Spec Badging -->
+    <text x="200" y="275" font-family="'Inter', sans-serif" font-weight="600" font-size="9" fill="#FFCDD2" text-anchor="middle" letter-spacing="1">Delicious &amp; Refreshing • 325ml</text>
+
+    <!-- Vertical Specular Light Highlight -->
+    <rect x="135" y="80" width="130" height="260" rx="18" fill="url(#cokeHighlight)" />
+
+    <!-- Condensation Cool Droplets -->
+    <circle cx="152" cy="115" r="2.5" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="155" cy="122" r="1.8" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="148" cy="220" r="3" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="245" cy="130" r="2.5" fill="#FFFFFF" opacity="0.6" />
+    <circle cx="248" cy="140" r="1.5" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="242" cy="245" r="2.8" fill="#FFFFFF" opacity="0.55" />
+    <circle cx="160" cy="295" r="2.2" fill="#FFFFFF" opacity="0.5" />
+    <circle cx="235" cy="305" r="2.5" fill="#FFFFFF" opacity="0.6" />
+  </g>
+</svg>

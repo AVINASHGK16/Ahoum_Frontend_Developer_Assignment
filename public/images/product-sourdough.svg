@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="sourdoughShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#3D2005" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="breadCrustGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="40%" stop-color="#B45309" />
+      <stop offset="70%" stop-color="#92400E" />
+      <stop offset="100%" stop-color="#5B2104" />
+    </linearGradient>
+    <linearGradient id="crumbInsideGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="60%" stop-color="#FEF3C7" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="200" cy="315" rx="140" ry="22" fill="#000000" opacity="0.12" />
+
+  <g filter="url(#sourdoughShadow)">
+    <!-- Main Sourdough Boule Loaf Body -->
+    <path d="M80 260 C65 170 120 100 200 100 C280 100 335 170 320 260 C300 295 100 295 80 260 Z" fill="url(#breadCrustGrad)" />
+
+    <!-- Flour Dust Texture Coating on Loaf Crown -->
+    <path d="M95 240 C85 180 130 115 200 115 C270 115 315 180 305 240 C280 210 240 185 200 185 C160 185 120 210 95 240 Z" fill="#FFFBEB" opacity="0.4" />
+
+    <!-- Artisan Score Cuts / Sourdough Ear Cracks -->
+    <!-- Center Curved Score Ear -->
+    <path d="M125 190 Q170 130 250 145 Q210 170 160 195 Z" fill="url(#crumbInsideGrad)" stroke="#78350F" stroke-width="2" />
+    <!-- Secondary Score Cut -->
+    <path d="M160 225 Q215 175 285 205 Q245 225 195 235 Z" fill="url(#crumbInsideGrad)" stroke="#78350F" stroke-width="2" />
+    <!-- Upper Left Diagonal Cut -->
+    <path d="M135 145 Q165 120 200 125 Q175 140 148 152 Z" fill="url(#crumbInsideGrad)" stroke="#78350F" stroke-width="1.8" />
+
+    <!-- Crumb Air Pockets / Open Aeration inside score cuts -->
+    <ellipse cx="185" cy="160" rx="6" ry="3.5" fill="#B45309" opacity="0.6" />
+    <ellipse cx="215" cy="155" rx="5" ry="3" fill="#B45309" opacity="0.5" />
+    <ellipse cx="225" cy="200" rx="7" ry="4" fill="#B45309" opacity="0.6" />
+    <ellipse cx="255" cy="205" rx="5" ry="3" fill="#B45309" opacity="0.5" />
+
+    <!-- Crisp Flour Specks across the rustic crust -->
+    <circle cx="120" cy="165" r="2.5" fill="#FFFFFF" opacity="0.75" />
+    <circle cx="150" cy="118" r="2" fill="#FFFFFF" opacity="0.8" />
+    <circle cx="175" cy="110" r="2.8" fill="#FFFFFF" opacity="0.85" />
+    <circle cx="230" cy="112" r="2.2" fill="#FFFFFF" opacity="0.8" />
+    <circle cx="270" cy="135" r="2.5" fill="#FFFFFF" opacity="0.75" />
+    <circle cx="295" cy="185" r="2" fill="#FFFFFF" opacity="0.7" />
+    <circle cx="105" cy="225" r="2.5" fill="#FFFFFF" opacity="0.7" />
+    <circle cx="140" cy="265" r="2" fill="#FFFFFF" opacity="0.65" />
+  </g>
+</svg>

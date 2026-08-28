@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="salmonShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#5A1E00" flood-opacity="0.15" />
+    </filter>
+    <linearGradient id="salmonMeatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7B59" />
+      <stop offset="50%" stop-color="#FA5D38" />
+      <stop offset="100%" stop-color="#E24522" />
+    </linearGradient>
+    <linearGradient id="lemonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF176" />
+      <stop offset="100%" stop-color="#FBC02D" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="200" cy="310" rx="130" ry="22" fill="#000000" opacity="0.08" />
+
+  <g filter="url(#salmonShadow)">
+    <!-- Salmon Fillet Slab Shape -->
+    <path d="M90 200 C85 140 140 110 240 115 C295 118 315 155 310 220 C305 270 250 290 160 285 C100 280 92 240 90 200 Z" fill="url(#salmonMeatGrad)" />
+
+    <!-- Dark Salmon Skin Edge -->
+    <path d="M90 200 C88 235 96 275 160 285 C220 290 290 275 310 220 C312 235 295 285 240 295 C150 300 95 280 88 230 Z" fill="#2E3C48" opacity="0.9" />
+
+    <!-- White Muscle Striations / Intramuscular Marbling -->
+    <path d="M120 150 Q160 190 200 240" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M150 140 Q190 185 230 245" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.8" />
+    <path d="M185 130 Q225 180 260 240" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.8" />
+    <path d="M220 128 Q255 175 285 230" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" opacity="0.75" />
+    <path d="M255 130 Q280 170 300 215" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+
+    <!-- Sub-striations for rich realism -->
+    <path d="M135 145 Q175 188 215 242" fill="none" stroke="#FFEAE2" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+    <path d="M168 135 Q208 182 245 242" fill="none" stroke="#FFEAE2" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+    <path d="M202 129 Q240 177 272 235" fill="none" stroke="#FFEAE2" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+
+    <!-- Lemon Wedge Garnish -->
+    <path d="M80 170 C95 130 145 135 155 165 Z" fill="url(#lemonGrad)" stroke="#F57F17" stroke-width="2" />
+    <path d="M85 168 C98 138 140 142 148 165 Z" fill="#FFFDE7" />
+    <!-- Lemon Segments -->
+    <path d="M116 142 L116 165 M98 152 L116 165 M136 150 L116 165" stroke="#FBC02D" stroke-width="2" />
+
+    <!-- Fresh Herb Garnish (Rosemary/Dill Sprigs) -->
+    <path d="M250 250 Q280 230 310 240" fill="none" stroke="#2E7D32" stroke-width="3" stroke-linecap="round" />
+    <path d="M265 242 L260 232 M280 236 L278 224 M295 236 L300 224" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+</svg>

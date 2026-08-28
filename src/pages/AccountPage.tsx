@@ -43,7 +43,7 @@ const MOCK_ORDERS: OrderRecord[] = [
 ];
 
 export const AccountPage: React.FC = () => {
-  const { user, location, favorites, logout } = useSessionStore();
+  const { user, location, favorites, logout, login } = useSessionStore();
   const { items, getTotalAmount, addItem } = useCartStore();
   const { products } = useProducts();
   const navigate = useNavigate();
@@ -51,23 +51,134 @@ export const AccountPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AccountTab>('overview');
   const [reorderSuccess, setReorderSuccess] = useState<string | null>(null);
 
-  // If user is not authenticated, redirect to login
+  // If user is not authenticated, show polished compact access card inside page layout
   if (!user || !user.isAuthenticated) {
     return (
-      <div className="mx-auto flex w-full max-w-md md:max-w-xl flex-col items-center justify-center py-16 text-center select-none">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#53B175]/10 text-4xl">
-          👤
+      <div className="mx-auto flex min-h-[60vh] w-full max-w-7xl flex-col items-center justify-center px-4 py-8 sm:py-12 select-none">
+        <div className="w-full max-w-[420px] rounded-3xl border border-[#E2E2E2] bg-white p-6 sm:p-8 shadow-sm">
+          {/* Brand & Account Icon Header */}
+          <div className="flex flex-col items-center text-center">
+            <span className="rounded-full bg-[#53B175]/10 px-3 py-1 text-xs font-bold text-[#53B175]">
+              Ahoum Grocery
+            </span>
+
+            <div className="mt-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#53B175]/10 text-[#53B175]">
+              <svg
+                className="h-8 w-8 stroke-current stroke-[1.8]"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+            </div>
+
+            <h1 className="mt-4 text-xl sm:text-2xl font-extrabold tracking-tight text-[#181725]">
+              Your Ahoum Grocery Account
+            </h1>
+            <p className="mt-1.5 text-xs sm:text-sm text-[#7C7C7C] font-normal leading-relaxed">
+              Sign in to manage your grocery orders, track deliveries, and access member perks.
+            </p>
+          </div>
+
+          {/* Member Benefits List */}
+          <div className="mt-6 space-y-2.5 rounded-2xl bg-neutral-50/70 p-4 text-xs sm:text-sm text-[#181725]">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#53B175]/20 text-[#53B175] text-xs font-bold">
+                ✓
+              </span>
+              <span>Track active orders and real-time delivery status</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#53B175]/20 text-[#53B175] text-xs font-bold">
+                ✓
+              </span>
+              <span>Save favourite groceries and reorder with 1 click</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#53B175]/20 text-[#53B175] text-xs font-bold">
+                ✓
+              </span>
+              <span>Access exclusive member deals &amp; promo discounts</span>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="mt-6 space-y-3">
+            {/* Primary Action: Log In */}
+            <Link
+              to="/login"
+              className="flex h-13 w-full items-center justify-center rounded-2xl bg-[#53B175] text-sm sm:text-base font-bold text-white shadow-xs transition-all duration-200 hover:bg-[#489E67] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2"
+              aria-label="Log in to your account"
+            >
+              Log In
+            </Link>
+
+            {/* Secondary Action: Sign Up */}
+            <Link
+              to="/signup"
+              className="flex h-12 w-full items-center justify-center rounded-2xl border border-neutral-200 bg-white text-xs sm:text-sm font-bold text-[#181725] transition hover:bg-neutral-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+              aria-label="Create a new account"
+            >
+              Don&rsquo;t have an account? Sign Up
+            </Link>
+          </div>
+
+          {/* Social Quick Login */}
+          <div className="mt-5 border-t border-neutral-100 pt-4">
+            <p className="text-center text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+              Or sign in with
+            </p>
+            <div className="grid grid-cols-2 gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  login('google_user@ahoum.com');
+                  navigate('/account');
+                }}
+                className="flex h-10 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-[#181725] transition hover:bg-neutral-50 shadow-2xs"
+                aria-label="Sign in with Google"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+                <span>Google</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  login('facebook_user@ahoum.com');
+                  navigate('/account');
+                }}
+                className="flex h-10 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-[#181725] transition hover:bg-neutral-50 shadow-2xs"
+                aria-label="Sign in with Facebook"
+              >
+                <svg className="h-4 w-4 fill-[#1877F2]" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+                <span>Facebook</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Low-emphasis Back to Shop */}
+          <div className="mt-5 text-center">
+            <Link
+              to="/"
+              className="text-xs font-semibold text-[#7C7C7C] hover:text-[#181725] hover:underline"
+            >
+              ← Continue browsing as guest
+            </Link>
+          </div>
         </div>
-        <h1 className="mt-5 text-2xl font-bold text-[#181725]">Account</h1>
-        <p className="mt-2 max-w-xs text-sm font-medium text-[#7C7C7C]">
-          Please log in or sign up to view and manage your account details.
-        </p>
-        <Link
-          to="/login"
-          className="mt-6 inline-flex h-13 items-center justify-center rounded-[19px] bg-[#53B175] px-8 text-base font-bold text-white shadow-md transition hover:bg-[#489E67] active:scale-95"
-        >
-          Log In / Sign Up
-        </Link>
       </div>
     );
   }

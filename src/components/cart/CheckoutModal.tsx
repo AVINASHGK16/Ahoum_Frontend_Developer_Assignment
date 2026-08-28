@@ -40,6 +40,7 @@ const PAYMENT_OPTIONS: PaymentOption[] = [
 ];
 
 const PROMO_OPTIONS: PromoOption[] = [
+  { code: 'AHOUM10', label: '10% OFF Order', discountType: 'percentage', discountValue: 10 },
   { code: 'NECTAR10', label: '10% OFF Order', discountType: 'percentage', discountValue: 10 },
   { code: 'GROCERY2', label: '$2.00 OFF', discountType: 'fixed', discountValue: 2.0 },
   { code: 'FREESHIP', label: 'Free Delivery', discountType: 'fixed', discountValue: 2.0 },
@@ -83,7 +84,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
       setActiveSubSheet(null);
       setCustomPromoInput('');
     } else {
-      setPromoError('Invalid promo code. Try "NECTAR10" or "GROCERY2".');
+      setPromoError('Invalid promo code. Try "AHOUM10" or "GROCERY2".');
     }
   };
 

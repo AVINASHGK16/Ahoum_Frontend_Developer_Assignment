@@ -7,9 +7,9 @@ export const SplashScreen: React.FC = () => {
       <Link
         to="/welcome"
         className="flex items-center gap-3.5 sm:gap-4.5 text-white transition-transform duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#53B175] rounded-xl p-3"
-        aria-label="Nectar - Online Groceriet. Click to continue to welcome screen."
+        aria-label="Ahoum Grocery - Online Groceries. Click to continue to welcome screen."
       >
-        {/* Nectar Stylized Carrot Logo */}
+        {/* Ahoum Stylized Carrot Logo */}
         <svg
           className="h-12 w-auto sm:h-14 lg:h-16"
           viewBox="0 0 54 54"
@@ -27,7 +27,7 @@ export const SplashScreen: React.FC = () => {
             d="M32.5 19.8C30.2 18.2 26.8 18.8 24.2 21.2L9.4 34.8C7.5 36.5 6.9 39.3 8.1 41.6C9.3 43.8 11.9 44.8 14.2 43.8L31.5 36.2C34.6 34.8 36.8 32.1 37.2 28.7C37.6 25.2 35.8 22.1 32.5 19.8Z"
             fill="white"
           />
-          {/* Carrot Cuts / Texture Accents (Cutout with background color) */}
+          {/* Carrot Cuts */}
           <path
             d="M17.5 34.5L23.2 32.2M22.5 28.5L29.2 25.8M14.2 39.5L18.5 37.8"
             stroke="#53B175"
@@ -38,11 +38,11 @@ export const SplashScreen: React.FC = () => {
 
         {/* Brand Text & Subtitle */}
         <div className="flex flex-col justify-center">
-          <span className="font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl lowercase leading-none text-white font-sans">
-            nectar
+          <span className="font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-none text-white font-sans">
+            Ahoum
           </span>
           <span className="mt-1 text-[10px] sm:text-xs tracking-[0.32em] text-white/95 uppercase font-medium">
-            online groceriet
+            online groceries
           </span>
         </div>
       </Link>
