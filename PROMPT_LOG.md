@@ -1278,3 +1278,103 @@ Accepted the Cart + Checkout implementation after manually reviewing the flow an
 Manually verified quantity controls, item removal, dynamic pricing, Cart badge updates, Checkout navigation, payment selection, order placement, cart clearing, and the Order Confirmation screen.
 
 Confirmed that the previously working product/category images remain intact and that the implementation does not require changes to the completed Home, Product Detail, Explore, Category, or Search screens.
+
+## Prompt 014 — Figma Favorite Products Flow
+
+### Prompt
+Implement the Figma Favorite Products flow.
+
+Add a clear Favorite control to product cards across the relevant product-discovery screens so users can distinguish between:
+- Adding a product to Cart using the existing `+` button.
+- Adding/removing a product from Favorites using the Favorite icon.
+
+Use the existing product catalog and application state architecture. Do not introduce duplicate product state, duplicate stores, backend APIs, authentication changes, database changes, or unnecessary dependencies.
+
+Implement:
+- Favorite toggle on relevant product cards.
+- Clear visual distinction between Favorite and Add To Cart actions.
+- Persistent favorite state while navigating between Home, Explore, Category, Search, Product Detail, and Favorite screens where applicable.
+- Dedicated Favorite page showing only products currently marked as Favorite.
+- Favorite product rows/cards with product image, name, unit, price, navigation affordance, and Favorite toggle.
+- Favorite removal directly from the Favorite page.
+- "Add All To Cart" action at the bottom of the Favorite page.
+- Add All To Cart should transfer all currently favorited products into the existing global cartStore.
+- Preserve existing cart quantities and cart behavior.
+- Connect the Favorite bottom-navigation item to the Favorite page.
+- Ensure the cart badge updates correctly after using "Add All To Cart."
+- Keep the existing product images and image paths completely unchanged.
+
+Use the existing Figma reference as the visual source of truth and preserve the existing application architecture.
+
+Do not modify unrelated pages, product images, search behavior, cart behavior, checkout behavior, routing behavior, or existing product data unless strictly required for the Favorite feature.
+
+Implement mobile-first and maintain the existing responsive desktop/tablet adaptation.
+
+Run typecheck and production build and verify the complete Favorite flow in the browser.
+
+### Result
+- Implemented the Favorite product flow.
+- Added Favorite controls to relevant product cards.
+- Kept Favorite and Add To Cart as separate user actions.
+- Added persistent Favorite state using the existing application state architecture.
+- Implemented the dedicated Favorite page.
+- Favorite page displays only products currently marked as Favorite.
+- Added Favorite removal directly from the Favorite page.
+- Added "Add All To Cart" functionality.
+- Connected "Add All To Cart" to the existing global cartStore.
+- Cart badge updates correctly after transferring favorite products to the cart.
+- Connected the Favorite bottom-navigation item to the Favorite page.
+- Preserved existing product images and image paths.
+- Preserved existing Cart, Search, Explore, Category, Product Detail, and Checkout behavior.
+- Corrected the UI terminology to consistently use **"Favorite"** instead of **"Favourite"**.
+
+### Files Created
+- None.
+
+### Files Modified
+- `src/pages/FavoritePage.tsx`
+- `src/stores/...` — existing favorite state/store location, if applicable
+- Relevant product-card/component files containing the Favorite control
+- Relevant routing/navigation files, if applicable
+
+### Route
+- `/favorite`
+
+### Verification
+- `npm run typecheck` → PASS
+- `npm run build` → PASS
+- Home → Favorite → PASS
+- Explore → Favorite → PASS
+- Category → Favorite → PASS
+- Search → Favorite → PASS
+- Favorite toggle → PASS
+- Favorite removal → PASS
+- Favorite persistence across navigation → PASS
+- Favorite page shows only favorited products → PASS
+- Add All To Cart → PASS
+- Cart badge update → PASS
+- Existing cart behavior preserved → PASS
+- Existing product images preserved → PASS
+- Browser console errors → 0
+
+### AI Review
+- Favorite state reuses the existing application architecture rather than introducing duplicate product/cart state.
+- Favorite and Cart actions remain intentionally separate so users can save a product without adding it to the cart.
+- "Add All To Cart" transfers the currently favorited products into the existing cart rather than creating a separate checkout path.
+- Existing product image paths and assets were not altered.
+- Existing Home, Explore, Category, Search, Product Detail, Cart, and Checkout flows were preserved.
+- The spelling inconsistency was corrected so the feature consistently uses **"Favorite"** throughout the UI.
+
+### Human Decision
+Accepted the implementation after manually testing the Favorite flow.
+
+Confirmed:
+- Favorite icons are clearly distinguishable from Add To Cart buttons.
+- Products can be added to and removed from Favorites.
+- Favorite products appear correctly on the Favorite page.
+- Removing a Favorite works correctly.
+- "Add All To Cart" transfers all Favorite products to the cart.
+- Existing cart behavior remains intact.
+- Product images remain correctly displayed.
+- Navigation and responsive behavior are clean.
+- Corrected the **"Favourite" → "Favorite"** spelling issue.

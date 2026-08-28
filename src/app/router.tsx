@@ -16,6 +16,7 @@ import { SearchPage } from '../pages/SearchPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { CheckoutResultPage } from '../pages/CheckoutResultPage';
+import { FavouritePage } from '../pages/FavouritePage';
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: 'checkout/result',
         element: <CheckoutResultPage />,
+      },
+      {
+        path: 'favourite',
+        element: <FavouritePage />,
       },
     ],
   },

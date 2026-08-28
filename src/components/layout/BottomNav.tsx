@@ -115,7 +115,7 @@ export const BottomNav: React.FC = () => {
 
         {/* 4. Favourite Tab */}
         <NavLink
-          to="/cart"
+          to="/favourite"
           className={({ isActive }) =>
             `flex flex-col items-center justify-center gap-1 transition-colors ${
               isActive ? 'text-[#53B175]' : 'text-[#181725] hover:text-[#53B175]'
