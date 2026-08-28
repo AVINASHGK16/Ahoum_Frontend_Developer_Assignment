@@ -1,38 +1,56 @@
 [
   {
     "id": "fruits-vegetables",
-    "name": "Fresh Fruits & Vegetables",
+    "name": "Frash Fruits & Vegetable",
     "description": "Farm-fresh organic fruits and crisp vegetables",
-    "itemCount": 4
+    "itemCount": 4,
+    "image": "/images/cat-fruits-vegetables.jpg",
+    "bgColor": "#EEF7F1",
+    "borderColor": "rgba(83, 177, 117, 0.7)"
   },
   {
-    "id": "dairy-bakery",
-    "name": "Dairy & Bakery",
-    "description": "Fresh milk, artisan breads, farm cheeses, and eggs",
-    "itemCount": 4
+    "id": "cooking-oil-ghee",
+    "name": "Cooking Oil & Ghee",
+    "description": "Premium extra virgin olive oils, cooking oils, and pure ghee",
+    "itemCount": 4,
+    "image": "/images/cat-cooking-oil.jpg",
+    "bgColor": "#FDF0E6",
+    "borderColor": "rgba(248, 164, 76, 0.7)"
+  },
+  {
+    "id": "meat-fish",
+    "name": "Meat & Fish",
+    "description": "Fresh premium cuts of beef, whole salmon, and tender chicken",
+    "itemCount": 4,
+    "image": "/images/cat-meat-fish.jpg",
+    "bgColor": "#FDE8E4",
+    "borderColor": "rgba(247, 165, 147, 0.7)"
+  },
+  {
+    "id": "bakery-snacks",
+    "name": "Bakery & Snacks",
+    "description": "Artisan baked sourdough breads, croissants, and snacks",
+    "itemCount": 4,
+    "image": "/images/cat-bakery-snacks.jpg",
+    "bgColor": "#F4EBF7",
+    "borderColor": "rgba(211, 176, 224, 0.7)"
+  },
+  {
+    "id": "dairy-eggs",
+    "name": "Dairy & Eggs",
+    "description": "Fresh farm milk, artisan cheese wheels, butter, and grade-A eggs",
+    "itemCount": 4,
+    "image": "/images/cat-dairy-eggs.jpg",
+    "bgColor": "#FFF8E5",
+    "borderColor": "rgba(253, 229, 152, 0.7)"
   },
   {
     "id": "beverages",
-    "name": "Beverages & Drinks",
-    "description": "Fresh juices, cold brews, herbal teas, and sparkling water",
-    "itemCount": 4
-  },
-  {
-    "id": "snacks",
-    "name": "Snacks & Munchies",
-    "description": "Artisan chips, roasted nuts, crackers, and dried fruits",
-    "itemCount": 4
-  },
-  {
-    "id": "staples-grains",
-    "name": "Staples & Grains",
-    "description": "Organic rice, whole grains, pulses, flour, and cooking oils",
-    "itemCount": 4
-  },
-  {
-    "id": "packaged-food",
-    "name": "Packaged & Gourmet",
-    "description": "Organic pasta sauces, breakfast cereals, spreads, and jams",
-    "itemCount": 4
+    "name": "Beverages",
+    "description": "Sparkling soda cans, cold pressed juices, and refreshing drinks",
+    "itemCount": 6,
+    "image": "/images/cat-beverages.jpg",
+    "bgColor": "#EDF7FC",
+    "borderColor": "rgba(183, 223, 245, 0.7)"
   }
 ]

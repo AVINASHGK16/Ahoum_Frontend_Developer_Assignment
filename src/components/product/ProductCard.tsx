@@ -17,6 +17,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { id, name, price, unit, image } = product;
   const addItem = useCartStore((state) => state.addItem);
   const [added, setAdded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,10 +46,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       >
         {/* Product Image Area */}
         <div className="flex h-24 sm:h-28 w-full items-center justify-center overflow-hidden py-1">
-          {image ? (
+          {image && !imgError ? (
             <img
               src={image}
               alt={name}
+              onError={() => setImgError(true)}
               className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
             />
@@ -64,7 +66,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {name}
         </h3>
 
-        {/* Unit / Quantity (e.g. 7pcs, Priceg / 1kg, Priceg) */}
+        {/* Unit / Quantity */}
         <p className="mt-0.5 text-xs font-normal text-[#7C7C7C]">
           {unit}
         </p>

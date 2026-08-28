@@ -3,6 +3,9 @@ export interface Category {
   name: string;
   description: string;
   itemCount: number;
+  image?: string;
+  bgColor?: string;
+  borderColor?: string;
 }
 
 export interface Product {

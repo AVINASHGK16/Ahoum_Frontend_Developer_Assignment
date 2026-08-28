@@ -28,15 +28,15 @@ export const HomePage: React.FC = () => {
 
   // Divide products into Exclusive Offer & Best Selling collections
   const exclusiveOffers = products.filter(
-    (p) => p.tags?.includes('exclusive') || p.tags?.includes('offer')
+    (p) => p.tags?.includes('exclusive')
   );
   const bestSelling = products.filter(
-    (p) => p.tags?.includes('best-selling') || p.tags?.includes('fresh')
+    (p) => p.tags?.includes('best-selling')
   );
 
   // Fallbacks if tags are missing
-  const displayExclusive = exclusiveOffers.length > 0 ? exclusiveOffers : products.slice(0, 4);
-  const displayBestSelling = bestSelling.length > 0 ? bestSelling : products.slice(4, 8);
+  const displayExclusive = exclusiveOffers.length > 0 ? exclusiveOffers : products.slice(0, 2);
+  const displayBestSelling = bestSelling.length > 0 ? bestSelling : products.slice(2, 4);
 
   return (
     <div className="mx-auto flex w-full max-w-md md:max-w-4xl flex-col space-y-6 sm:space-y-8 select-none">

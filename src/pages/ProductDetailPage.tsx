@@ -18,6 +18,7 @@ export const ProductDetailPage: React.FC = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(true);
   const [shareFeedback, setShareFeedback] = useState<string | null>(null);
   const [addedFeedback, setAddedFeedback] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const isFav = productId ? favorites.includes(productId) : false;
 
@@ -154,10 +155,11 @@ export const ProductDetailPage: React.FC = () => {
       <div className="relative mt-2 flex flex-col items-center justify-center rounded-b-[25px] sm:rounded-b-[32px] bg-[#F2F3F2]/60 px-6 pt-4 pb-8 overflow-hidden">
         {/* Product Image */}
         <div className="flex h-52 sm:h-64 w-full items-center justify-center py-2">
-          {product.image ? (
+          {product.image && !imgError ? (
             <img
               src={product.image}
               alt={product.name}
+              onError={() => setImgError(true)}
               className="max-h-full max-w-full object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
             />
           ) : (

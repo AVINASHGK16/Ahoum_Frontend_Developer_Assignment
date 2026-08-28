@@ -9,6 +9,7 @@ import { LocationScreen } from '../pages/LocationScreen';
 import { LoginScreen } from '../pages/LoginScreen';
 import { SignupScreen } from '../pages/SignupScreen';
 import { HomePage } from '../pages/HomePage';
+import { ExplorePage } from '../pages/ExplorePage';
 import { CategoryPage } from '../pages/CategoryPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
 import { SearchPage } from '../pages/SearchPage';
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'explore',
+        element: <ExplorePage />,
       },
       {
         path: 'category/:categoryId',
