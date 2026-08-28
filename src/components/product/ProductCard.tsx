@@ -62,8 +62,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <article
-      className={`group relative flex flex-col justify-between rounded-[18px] border border-[#E2E2E2] bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-[#53B175]/60 hover:shadow-md select-none ${className}`}
+      className={`group relative flex flex-col justify-between rounded-[18px] border border-[#E2E2E2] bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-[#53B175]/60 hover:shadow-md select-none h-full ${className}`}
     >
+      {/* Discount Badge (Top Left) */}
+      {product.originalPrice && product.originalPrice > price && (
+        <span className="absolute top-2.5 left-2.5 z-10 rounded-lg bg-red-500 px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-white shadow-xs">
+          {Math.round(((product.originalPrice - price) / product.originalPrice) * 100)}% OFF
+        </span>
+      )}
       {/* Heart Favourite Button (Top Right) */}
       <button
         type="button"
@@ -92,7 +98,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         aria-label={`View details for ${name}`}
       >
         {/* Product Image Area */}
-        <div className="flex h-24 sm:h-28 w-full items-center justify-center overflow-hidden py-1">
+        <div className="flex h-28 sm:h-32 md:h-36 w-full items-center justify-center overflow-hidden py-1">
           {image ? (
             <img
               src={image}
@@ -112,17 +118,30 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {name}
         </h3>
 
-        {/* Unit / Quantity */}
-        <p className="mt-0.5 text-xs font-normal text-[#7C7C7C]">
-          {unit}
-        </p>
+        {/* Unit / Quantity & Rating */}
+        <div className="mt-0.5 flex items-center justify-between gap-1 text-xs text-[#7C7C7C]">
+          <span>{unit}</span>
+          {product.rating && (
+            <span className="flex items-center gap-0.5 font-semibold text-amber-600">
+              <span className="text-[11px]">★</span>
+              <span>{product.rating.toFixed(1)}</span>
+            </span>
+          )}
+        </div>
       </Link>
 
       {/* Price & Green Stepper / Add Button Row */}
       <div className="mt-3 flex items-center justify-between pt-1">
-        <span className="text-base sm:text-lg font-bold text-[#181725] tracking-tight">
-          ${price.toFixed(2)}
-        </span>
+        <div className="flex flex-col">
+          <span className="text-base sm:text-lg font-bold text-[#181725] tracking-tight">
+            ${price.toFixed(2)}
+          </span>
+          {product.originalPrice && product.originalPrice > price && (
+            <span className="text-[11px] font-medium text-[#7C7C7C] line-through">
+              ${product.originalPrice.toFixed(2)}
+            </span>
+          )}
+        </div>
 
         {/* Cart Interaction: Single '+' when 0 in cart, or Stepper [- qty +] when > 0 */}
         {cartQuantity > 0 ? (

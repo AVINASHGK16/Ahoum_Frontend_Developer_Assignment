@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
+import { useCategories } from '../hooks/useCategories';
 import { useSessionStore } from '../stores/sessionStore';
 import { ProductCard } from '../components/product/ProductCard';
+import { ProductCarousel } from '../components/product/ProductCarousel';
 import { LoadingSpinner } from '../components/feedback/LoadingSpinner';
 import { ErrorMessage } from '../components/feedback/ErrorMessage';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const { products, isLoading, error, refetch } = useProducts();
+  const { categories } = useCategories();
   const location = useSessionStore((state) => state.location);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -26,7 +29,10 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  // Divide products into Exclusive Offer & Best Selling collections
+  // Product collections from existing tags
+  const flashDeals = products.filter(
+    (p) => p.originalPrice && p.originalPrice > p.price
+  );
   const exclusiveOffers = products.filter(
     (p) => p.tags?.includes('exclusive')
   );
@@ -34,14 +40,22 @@ export const HomePage: React.FC = () => {
     (p) => p.tags?.includes('best-selling')
   );
 
-  // Fallbacks if tags are missing
-  const displayExclusive = exclusiveOffers.length > 0 ? exclusiveOffers : products.slice(0, 2);
-  const displayBestSelling = bestSelling.length > 0 ? bestSelling : products.slice(2, 4);
+  // Fallbacks if tags are sparse
+  const displayFlashDeals = flashDeals.length > 0 ? flashDeals : products.slice(0, 4);
+  const displayExclusive = exclusiveOffers.length > 0 ? exclusiveOffers : products.slice(0, 4);
+  const displayBestSelling = bestSelling.length > 0 ? bestSelling : products.slice(2, 6);
+
+  // Remaining products for Groceries section (not already in exclusive/best-selling)
+  const featuredIds = new Set([
+    ...displayExclusive.map((p) => p.id),
+    ...displayBestSelling.map((p) => p.id),
+  ]);
+  const groceries = products.filter((p) => !featuredIds.has(p.id));
 
   return (
-    <div className="mx-auto flex w-full max-w-md md:max-w-4xl flex-col space-y-6 sm:space-y-8 select-none">
-      {/* Top Section: Nectar Carrot Mark & Location Bar (Figma Screen 12/22) */}
-      <header className="flex flex-col items-center justify-center pt-1 text-center">
+    <div className="mx-auto flex w-full max-w-none flex-col space-y-7 sm:space-y-9 select-none">
+      {/* 1. Mobile-only Header: Nectar Carrot Mark & Location Bar */}
+      <header className="flex flex-col items-center justify-center pt-1 text-center md:hidden">
         {/* Nectar Brand Carrot Logo */}
         <div className="flex items-center justify-center">
           <svg
@@ -88,10 +102,10 @@ export const HomePage: React.FC = () => {
         </div>
       </header>
 
-      {/* Search Store Bar (Figma Screen 12/22) */}
-      <section aria-label="Search Store">
-        <form onSubmit={handleSearchSubmit} className="relative w-full">
-          <div className="flex h-13 w-full items-center rounded-[15px] bg-[#F2F3F2] px-4 transition-all focus-within:ring-2 focus-within:ring-[#53B175] focus-within:bg-white border border-transparent focus-within:border-[#53B175]">
+      {/* 2. Mobile-only Search Bar (Desktop uses the unified Global Header search) */}
+      <section aria-label="Search Store" className="w-full md:hidden">
+        <form onSubmit={handleSearchSubmit} className="flex flex-col items-stretch gap-3">
+          <div className="flex h-13 flex-1 min-w-0 items-center rounded-[15px] bg-[#F2F3F2] px-4 transition-all focus-within:ring-2 focus-within:ring-[#53B175] focus-within:bg-white border border-transparent focus-within:border-[#53B175] shadow-2xs">
             <svg
               className="h-5 w-5 text-[#181725] shrink-0 stroke-[2.2]"
               fill="none"
@@ -109,41 +123,68 @@ export const HomePage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search Store"
+              placeholder="Search store for fresh vegetables, fruits, dairy..."
               aria-label="Search Store"
               className="w-full bg-transparent pl-3 pr-2 text-sm sm:text-base font-medium text-[#181725] placeholder:text-[#7C7C7C] focus:outline-none"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="text-xs text-neutral-400 hover:text-neutral-700 p-1"
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
           </div>
         </form>
       </section>
 
-      {/* Promotional Banner: Fresh Vegetables (Figma Screen 12/22) */}
+      {/* 3. Hero / Promotional Banner */}
       <section aria-label="Promotional Banner" className="relative">
-        <div className="relative h-28 sm:h-32 md:h-36 w-full overflow-hidden rounded-[8px] sm:rounded-2xl border border-neutral-100 bg-[#FBF7F0] shadow-xs">
-          {/* Background Illustration & Veggies */}
+        <div className="relative h-44 sm:h-52 md:h-64 lg:h-72 w-full overflow-hidden rounded-2xl border border-neutral-100 bg-[#FBF7F0] shadow-xs">
+          {/* Background Illustration & Produce */}
           <img
             src="/images/banner-fresh-vegetables.jpg"
-            alt="Fresh Vegetables banner with crisp greens and tomatoes"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            alt="Fresh farm vegetables banner"
+            className="absolute inset-0 h-full w-full object-cover object-right md:object-center"
           />
 
-          {/* Soft Centered Background Tint to ensure text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FBF7F0]/80 via-[#FBF7F0]/90 to-[#FBF7F0]/80" />
+          {/* Soft Centered Background Tint to ensure text contrast across viewports */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FBF7F0]/95 via-[#FBF7F0]/85 to-[#FBF7F0]/40 md:from-[#FBF7F0]/90 md:via-[#FBF7F0]/70 md:to-transparent" />
 
-          {/* Banner Text Overlay */}
-          <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
-            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#181725] leading-tight">
+          {/* Banner Text Overlay with Clear Call-to-Action */}
+          <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-10 md:px-12 max-w-xl">
+            <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#53B175] bg-[#53B175]/10 px-2.5 py-1 rounded-full w-fit mb-1.5">
+              Special Promotion
+            </span>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#181725] leading-tight">
               Fresh Vegetables
             </h2>
-            <p className="mt-0.5 text-xs sm:text-sm font-semibold text-[#53B175] tracking-tight">
-              Get Up To 40% OFF
+
+            <p className="mt-1 text-sm sm:text-base font-bold text-[#53B175] tracking-tight">
+              Get Up To 40% OFF this week
             </p>
 
-            {/* Carousel Pagination Dots */}
-            <div className="mt-2.5 flex items-center gap-1.5" aria-hidden="true">
-              <span className="h-1.5 w-4 rounded-full bg-[#53B175]" />
-              <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
-              <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
+            <div className="mt-3.5 sm:mt-4 flex items-center gap-3">
+              <Link
+                to="/category/fruits-vegetables"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#53B175] px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm transition hover:bg-[#489E67] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+              >
+                <span>Shop Now</span>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
+
+              {/* Carousel Pagination Dots */}
+              <div className="flex items-center gap-1.5 pl-2" aria-hidden="true">
+                <span className="h-2 w-5 rounded-full bg-[#53B175]" />
+                <span className="h-2 w-2 rounded-full bg-neutral-300" />
+                <span className="h-2 w-2 rounded-full bg-neutral-300" />
+              </div>
             </div>
           </div>
         </div>
@@ -161,47 +202,117 @@ export const HomePage: React.FC = () => {
         />
       )}
 
-      {/* Section 1: Exclusive Offer */}
-      {!isLoading && !error && (
-        <section aria-labelledby="exclusive-offer-heading" className="space-y-3 sm:space-y-4">
-          <div className="flex items-center justify-between">
-            <h2
-              id="exclusive-offer-heading"
-              className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
-            >
-              Exclusive Offer
-            </h2>
+      {/* 4. Category Quick-Access Grid / Row */}
+      {categories.length > 0 && (
+        <section aria-labelledby="categories-heading">
+          <div className="flex items-center justify-between mb-3.5">
+            <div>
+              <h2
+                id="categories-heading"
+                className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+              >
+                Categories
+              </h2>
+              <p className="text-xs sm:text-sm text-[#7C7C7C] mt-0.5 hidden sm:block">
+                Browse our fresh organic departments
+              </p>
+            </div>
             <Link
-              to="/search"
+              to="/explore"
               className="text-sm sm:text-base font-semibold text-[#53B175] transition hover:text-[#489E67] hover:underline"
             >
               See all
             </Link>
           </div>
 
-          {/* Horizontal Scrollable Carousel on Mobile / Responsive Grid on Desktop */}
-          <div className="flex gap-3.5 overflow-x-auto pb-2 pt-1 scrollbar-none sm:grid sm:grid-cols-2 md:grid-cols-4 sm:overflow-visible">
-            {displayExclusive.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                className="w-[160px] sm:w-auto shrink-0"
-              />
+          {/* Desktop/Tablet 6-Column Grid | Mobile Horizontal Scroll Row */}
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none snap-x md:grid md:grid-cols-3 lg:grid-cols-6 md:overflow-visible">
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                to={`/category/${cat.id}`}
+                style={{
+                  backgroundColor: cat.bgColor ?? '#EEF7F1',
+                  borderColor: cat.borderColor ?? 'rgba(83, 177, 117, 0.7)',
+                }}
+                className="flex shrink-0 w-[140px] md:w-auto flex-col items-center justify-between rounded-2xl border p-3.5 sm:p-4 text-center transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] select-none"
+                aria-label={`Browse ${cat.name}`}
+              >
+                <div className="flex h-16 sm:h-20 w-full items-center justify-center overflow-hidden py-1">
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt=""
+                      className="max-h-full max-w-full object-contain drop-shadow-2xs transition-transform duration-300 hover:scale-105"
+                      loading="lazy"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span className="text-3xl">🧺</span>
+                  )}
+                </div>
+                <span className="mt-2 text-xs sm:text-sm font-bold text-[#181725] line-clamp-2 leading-tight">
+                  {cat.name}
+                </span>
+              </Link>
             ))}
           </div>
         </section>
       )}
 
-      {/* Section 2: Best Selling */}
-      {!isLoading && !error && (
-        <section aria-labelledby="best-selling-heading" className="space-y-3 sm:space-y-4 pt-2">
+      {/* 5. Merchandised Flash Deals Section */}
+      {!isLoading && !error && displayFlashDeals.length > 0 && (
+        <section aria-labelledby="flash-deals-heading" className="space-y-3.5 sm:space-y-4">
           <div className="flex items-center justify-between">
-            <h2
-              id="best-selling-heading"
-              className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10 text-lg text-amber-600" aria-hidden="true">
+                ⚡
+              </span>
+              <div>
+                <h2
+                  id="flash-deals-heading"
+                  className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+                >
+                  Flash Deals
+                </h2>
+                <p className="text-xs sm:text-sm text-[#7C7C7C] hidden sm:block">
+                  Special reduced prices on fresh daily groceries
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/search"
+              className="text-sm sm:text-base font-semibold text-[#53B175] transition hover:text-[#489E67] hover:underline"
             >
-              Best Selling
-            </h2>
+              See all deals
+            </Link>
+          </div>
+
+          <ProductCarousel>
+            {displayFlashDeals.map((product) => (
+              <div key={product.id} className="w-[170px] sm:w-[195px] md:w-[215px] lg:w-[225px] shrink-0 snap-start">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </ProductCarousel>
+        </section>
+      )}
+
+      {/* 6. Section: Exclusive Offer */}
+      {!isLoading && !error && displayExclusive.length > 0 && (
+        <section aria-labelledby="exclusive-offer-heading" className="space-y-3.5 sm:space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2
+                id="exclusive-offer-heading"
+                className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+              >
+                Exclusive Offer
+              </h2>
+              <p className="text-xs sm:text-sm text-[#7C7C7C] hidden sm:block">
+                Curated organic picks specially selected for you
+              </p>
+            </div>
             <Link
               to="/search"
               className="text-sm sm:text-base font-semibold text-[#53B175] transition hover:text-[#489E67] hover:underline"
@@ -210,14 +321,75 @@ export const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          {/* Horizontal Scrollable Carousel on Mobile / Responsive Grid on Desktop */}
-          <div className="flex gap-3.5 overflow-x-auto pb-2 pt-1 scrollbar-none sm:grid sm:grid-cols-2 md:grid-cols-4 sm:overflow-visible">
+          <ProductCarousel>
+            {displayExclusive.map((product) => (
+              <div key={product.id} className="w-[170px] sm:w-[195px] md:w-[215px] lg:w-[225px] shrink-0 snap-start">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </ProductCarousel>
+        </section>
+      )}
+
+      {/* 7. Section: Best Selling */}
+      {!isLoading && !error && displayBestSelling.length > 0 && (
+        <section aria-labelledby="best-selling-heading" className="space-y-3.5 sm:space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2
+                id="best-selling-heading"
+                className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+              >
+                Best Selling
+              </h2>
+              <p className="text-xs sm:text-sm text-[#7C7C7C] hidden sm:block">
+                Most popular items ordered by customers
+              </p>
+            </div>
+            <Link
+              to="/search"
+              className="text-sm sm:text-base font-semibold text-[#53B175] transition hover:text-[#489E67] hover:underline"
+            >
+              See all
+            </Link>
+          </div>
+
+          <ProductCarousel>
             {displayBestSelling.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                className="w-[160px] sm:w-auto shrink-0"
-              />
+              <div key={product.id} className="w-[170px] sm:w-[195px] md:w-[215px] lg:w-[225px] shrink-0 snap-start">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </ProductCarousel>
+        </section>
+      )}
+
+      {/* 8. Section: Groceries — Full Catalog Responsive Grid */}
+      {!isLoading && !error && groceries.length > 0 && (
+        <section aria-labelledby="groceries-heading" className="space-y-3.5 sm:space-y-4 pt-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2
+                id="groceries-heading"
+                className="text-xl sm:text-2xl font-bold text-[#181725] tracking-tight"
+              >
+                Groceries & Essentials
+              </h2>
+              <p className="text-xs sm:text-sm text-[#7C7C7C] hidden sm:block">
+                All everyday pantry items, dairy, beverages, and meats
+              </p>
+            </div>
+            <Link
+              to="/explore"
+              className="text-sm sm:text-base font-semibold text-[#53B175] transition hover:text-[#489E67] hover:underline"
+            >
+              See all
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 sm:gap-4 md:gap-5">
+            {groceries.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </section>

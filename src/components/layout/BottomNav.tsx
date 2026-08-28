@@ -14,7 +14,7 @@ export const BottomNav: React.FC = () => {
   return (
     <nav
       aria-label="Bottom Navigation"
-      className="fixed bottom-0 inset-x-0 z-40 bg-white/98 backdrop-blur-md border-t border-neutral-100 shadow-[0_-8px_24px_rgba(0,0,0,0.06)] rounded-t-[18px] sm:rounded-t-[22px]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/98 backdrop-blur-md border-t border-neutral-100 shadow-[0_-8px_24px_rgba(0,0,0,0.06)] rounded-t-[18px] sm:rounded-t-[22px]"
     >
       <div className="mx-auto flex h-[70px] max-w-md items-center justify-around px-3 sm:px-6">
         {/* 1. Shop Tab */}

@@ -1,474 +1,774 @@
-# Engineering Decisions
+🧠 Ahoum Grocery App — Engineering Decisions
 
-# Decision 001 — Adopt Official Figma as Visual Source of Truth
+This document records the non-trivial engineering and architecture decisions
+made during development of the Ahoum Grocery App.
 
-## Problem
+It intentionally does not reproduce individual AI prompts or implementation
+logs. The purpose of this document is to explain what was decided, why it
+was decided, what alternatives were considered, and what trade-offs were
+accepted.
 
-The official Figma design was initially unavailable when implementation began.
-A documented internal mobile-first visual system was therefore used to avoid
-blocking architectural and functional development.
+Decision 001 — Use the Official Figma as the Visual Source of Truth
 
-The official Figma design has now been received.
+Context
 
-## Decision
+The project initially used a documented provisional visual system because the
+official Figma reference was not available at the beginning of implementation.
 
-The official Figma is now the primary visual source of truth for the frontend.
+The official Figma subsequently became available.
 
-Existing architectural, data-access, state-management, hook, and API boundaries
-will be preserved unless the Figma reveals a genuine functional requirement
-that requires architectural adjustment.
+Options Considered
 
-The provisional visual system is no longer authoritative. All new UI work must be derived from the official Figma unless a deliberate implementation adaptation is documented.
+Rebuild the entire application around the Figma.
 
-## Rationale
+Continue treating the provisional visual system as authoritative.
 
-The existing architecture was intentionally separated from presentation logic.
-Rebuilding the project would discard completed engineering work without
-providing a technical benefit.
+Adopt the official Figma for presentation while preserving stable application
+architecture.
 
-Adopting the Figma at the presentation layer allows visual fidelity to improve
-while preserving the existing application boundaries and tested functionality.
+Decision
 
-## Trade-off
+Choose Option 3.
 
-Some existing UI implementation will need to be revised or replaced.
-However, this is preferable to rebuilding stable data, state, routing, hooks,
-and architectural foundations.
+The official Figma is the primary visual reference for UI implementation.
 
----
+Existing data access, state management, hooks, routing, and application
+boundaries are preserved unless the Figma introduces a genuine functional
+requirement.
 
-## Decision 002 — Separate UI, Data Access, and Shared State Responsibilities
+Rationale
 
-### Problem
+The presentation layer can be adapted without throwing away working
+application architecture.
 
-The application contains asynchronous data fetching, shared cart/favorites state,
-static mock data, and multiple screens that consume the same information.
+This avoids unnecessary rewrites while allowing the implementation to converge
+toward the supplied design.
 
-Putting these responsibilities directly inside page components would make the
-application harder to reason about and would tightly couple UI code to
-implementation details.
+Trade-off
 
-### Options Considered
+Some existing UI components may need visual changes. This is accepted because
+visual fidelity is a presentation concern and does not justify rebuilding
+stable application foundations.
 
-1. **Keep API calls and shared state directly inside pages/components**
+Decision 002 — Separate Presentation, Data Access, and Shared State
 
-   - Fewer files.
-   - Simpler initially.
-   - Makes asynchronous behaviour and shared state harder to isolate and test.
+Context
 
-2. **Use a single global state layer for everything**
+The application contains pages, reusable UI components, asynchronous search,
+mock API/data access, cart and favourite state, and session information.
 
-   - Centralizes application behaviour.
-   - Creates unnecessary global state and weakens ownership boundaries.
+Keeping all of this logic inside page components would create unnecessary
+coupling.
 
-3. **Separate presentation, reusable asynchronous logic, data access, and genuinely
-   shared state**
+Options Considered
 
-   - Requires more structure.
-   - Makes ownership and debugging clearer.
+Option
 
-### Decision
+Benefit
 
-Choose **Option 3**.
+Problem
 
-The application follows these boundaries:
+Page-level API/state logic
 
-```text
-                    Pages / Components
-                           │
-             ┌─────────────┴─────────────┐
-             ↓                           ↓
-     Hooks / Application Logic      Zustand Stores
-             │                       (shared state)
-             ↓
-         Mock API
-             ↓
-       Static JSON
+Simple initially
 
-# Decision 003 — Keep Full-Screen Entry Screens Outside AppLayout
+High coupling and harder debugging
 
-## Problem
+One global store for everything
 
-The official Figma contains full-screen entry screens that do not use the
-shared application header, navigation, or footer.
+Centralized
 
-Rendering these screens inside AppLayout would introduce UI chrome that does
-not exist in the reference design.
+Unnecessary global state
 
-## Decision
+Separate presentation, data access, hooks, and shared state
 
-Full-screen entry/flow screens will remain outside the shared AppLayout route
-when their visual and interaction requirements do not include the application
-shell.
+Clear ownership
 
-The existing shopping/catalog routes will continue to use AppLayout.
+More project structure
 
-## Rationale
+Decision
 
-AppLayout represents the shared application shell. Entry screens with a
-different visual structure should not be forced into that shell merely for
-routing convenience.
+Use separated responsibilities.
 
-This preserves both Figma fidelity and the existing route architecture.
+The intended boundary is:
 
-## Trade-off
+Pages / Components
+        │
+        ├── Hooks / Application Logic
+        │
+        └── Zustand Stores
+                │
+                ↓
+             Mock API
+                │
+                ↓
+            Static Data
 
-The router contains separate route branches rather than placing every screen
-under a single layout.
+Rationale
 
-This is intentional and keeps route-level presentation boundaries explicit.
+Each layer has a clear responsibility:
 
-## Decision 004 — Collect Delivery Location During Onboarding
+Components render and handle UI interaction.
 
-### Problem
+Hooks contain reusable application behavior.
 
-Figma Screen 6 requires the user to select a delivery Zone and Area after
-mobile verification.
+Stores own genuinely shared client state.
 
-The application needs to decide whether location should be requested repeatedly
-or collected as part of the initial onboarding flow, and where that state should
-live.
+The mock API/data layer isolates data access from presentation.
 
-### Options Considered
+Trade-off
 
-1. **Request location every time the application is opened**
-   - Keeps the location current.
-   - Creates unnecessary friction for returning users.
-   - Does not match the onboarding flow represented by the Figma.
+There are more files and boundaries than a page-only implementation, but the
+result is easier to maintain and reason about.
 
-2. **Collect location once during onboarding and keep it in local component state**
-   - Simple implementation.
-   - Loses the selected location when the screen is unmounted.
-   - Other parts of the application cannot reliably access the selected delivery location.
+Decision 003 — Keep Full-Screen Entry Flows Outside AppLayout
 
-3. **Collect location during onboarding and store it in the existing session store**
-   - Matches the onboarding flow.
-   - Makes the selected location available to other application areas during the session.
-   - Avoids introducing another global store.
-   - Does not require backend persistence or GPS infrastructure.
+Context
 
-### Decision
+The onboarding/authentication screens do not use the same application shell as
+the shopping experience.
 
-Choose **Option 3**.
+Forcing them inside the shared layout would add navigation/header elements that
+do not belong to those screens.
 
-The user selects their delivery Zone and Area during the onboarding flow after
-verification.
+Decision
 
-The selected location is stored in the existing `sessionStore` as session-level
-frontend state.
+Full-screen entry and authentication flows remain outside the shared
+AppLayout when their design does not require the application shell.
 
-The application does not repeatedly ask for the location during the same
-onboarding/session flow.
+Shopping/catalog routes continue to use the shared application layout.
 
-If a future Figma screen explicitly introduces address/location editing, that
-flow can provide an intentional way for the user to change the selected
-location.
+Rationale
 
-### Rationale
+AppLayout represents the authenticated/main application shell. Entry flows
+have a different presentation boundary and should remain independent.
 
-Location is part of establishing the user's delivery context during onboarding,
-not an action that should interrupt every application entry.
+Trade-off
 
-Using the existing `sessionStore` follows the established separation of
-responsibilities and avoids creating unnecessary global state.
+The route structure has separate branches instead of placing every screen
+under one universal layout. This is intentional.
 
-No backend persistence, GPS permissions, geolocation service, or external
-location API is required because the assignment explicitly allows a frontend
-implementation using mock JSON data and does not require a backend.
+Decision 004 — Store Delivery Location in Existing Session State
 
-### Trade-off
+Context
 
-The current implementation represents location only at the frontend session
-level. It does not provide permanent account-level persistence across sessions.
+The onboarding flow requires the user to select a delivery Zone and Area.
 
-This is an intentional scope decision rather than an incomplete backend
-implementation.
+The application needs this information later on the Shop/Home experience.
 
-If persistent accounts were introduced in a production version, delivery
-location would be persisted as account/user data and could be changed through
-an explicit address-management flow.
+Options Considered
 
-## Prompt 011 — Figma Screen 7: Login
+Ask for location repeatedly.
 
-### Tool / Model
+Keep location only in the onboarding component.
 
-Antigravity
+Store the selected location in the existing session store.
 
-### Objective
+Decision
 
-Implement the official Figma Screen 7/22 Login screen with high visual fidelity while preserving the established frontend architecture and mock-authentication scope.
+Choose Option 3.
 
-### Prompt Given to AI
+The selected delivery Zone and Area are stored as session-level frontend state
+using the existing sessionStore.
 
-Implement the official Figma Screen 7/22: Login screen.
+The Shop/Home experience reads the selected location from that state.
 
-Treat the supplied Figma reference as the visual source of truth.
+Rationale
 
-Before making changes:
-- Inspect the existing project architecture.
-- Inspect the router and onboarding flow.
-- Inspect `sessionStore.ts` and existing user/session state.
-- Reuse existing components, tokens, utilities, and architecture where appropriate.
-- Do not refactor unrelated functionality.
+Location establishes the user's delivery context during onboarding and should
+remain available to other application areas during the session.
 
-Requirements:
-- Reproduce the Figma layout, typography, spacing, colors, borders, radii and visual hierarchy closely.
-- Preserve the mobile-first design.
-- Provide a thoughtful constrained desktop adaptation rather than stretching the mobile screen.
-- Implement email and password inputs.
-- Password must be masked by default.
-- Add a functional eye/eye-off control for showing and hiding the password.
-- Add client-side validation for required login fields.
-- Implement the "Forgot Password?" interaction without inventing unnecessary backend functionality.
-- Implement the "Signup" navigation according to the existing application flow.
-- Use frontend-only mock authentication.
-- Do not add a backend authentication server, OAuth provider, Firebase/Auth0, password hashing infrastructure, or unnecessary dependencies.
-- Use existing session state where appropriate rather than creating another global store.
-- Do not store passwords as a production authentication mechanism.
-- Preserve the existing folder structure.
-- Do not modify unrelated catalog, cart, search, product or checkout functionality.
-- Verify mobile and desktop layouts.
-- Run typecheck and production build.
-- Report all created/modified files and assumptions.
+Using the existing session store avoids introducing another global store.
 
-### Implementation Result
+Scope
 
-Created:
+The assignment does not require GPS, a geolocation service, backend location
+persistence, or an external location API.
 
-- `src/pages/LoginScreen.tsx`
+Trade-off
 
-Modified:
+The current implementation is session-level rather than permanent account-level
+address storage.
 
-- `src/stores/sessionStore.ts`
-- `src/app/router.tsx`
+A production system would persist delivery addresses as user/account data and
+provide explicit address management.
 
-The login screen now provides:
+Decision 005 — Extend Existing Session State for Frontend Authentication
 
-- Nectar carrot branding.
-- Figma-matched login heading and supporting text.
-- Email input.
-- Password input.
-- Password show/hide eye interaction.
-- Required-field validation.
-- Forgot Password feedback interaction.
-- Login CTA.
-- Signup navigation.
-- Frontend session/login state through the existing session store.
+Context
 
-### Authentication Scope
+The Login screen needs to communicate successful authentication to the rest
+of the frontend.
 
-Authentication remains frontend-only.
+Creating a second authentication state source would duplicate session
+responsibility.
+
+Options Considered
+
+Create a dedicated authentication store.
+
+Keep authentication state entirely inside the Login page.
+
+Extend the existing sessionStore.
+
+Decision
+
+Choose Option 3.
+
+The existing sessionStore owns the frontend session/authentication state
+required by the assignment.
+
+The Login screen owns form presentation and interaction; the session store owns
+the resulting session state.
+
+Scope Limitation
+
+Authentication remains a frontend mock flow.
 
 The implementation does not introduce:
-- Backend authentication.
-- OAuth providers.
-- External authentication services.
-- Additional global stores.
-- Password infrastructure.
 
-The session store now represents the authenticated frontend session required by the application flow.
+Backend authentication
 
-### Figma / Existing Implementation Adjustments
+OAuth providers
 
-- Added `/login` route.
-- Added `/signup` navigation target.
-- Extended the existing `sessionStore` rather than creating a separate authentication store.
-- Preserved full-screen onboarding/auth screens outside `AppLayout`.
+External authentication services
 
-### Verification
+Password hashing infrastructure
 
-- `npm run typecheck` — PASS
-- `npm run build` — PASS
-- Email input tested.
-- Password input tested.
-- Password masking tested.
-- Eye visibility toggle tested.
-- Empty-field validation tested.
-- Login flow tested.
-- Signup navigation reviewed.
-- Browser console — 0 errors.
-- Mobile layout reviewed.
-- Desktop adaptation reviewed.
+Production credential persistence
 
-### AI Review
+Rationale
 
-The authentication requirement was treated as a frontend simulation because the assignment does not require a backend authentication service.
+This satisfies the assignment's frontend scope without introducing an
+unnecessary backend authentication architecture.
 
-Existing session state was extended rather than introducing another global state layer.
+Trade-off
 
-The implementation did not refactor unrelated application functionality.
+The flow does not provide real identity verification.
 
-### Human Decision
+That is an intentional assignment-scope limitation, not an attempt to present
+mock authentication as production authentication.
 
-Implementation reviewed against the official Figma and accepted.
+Decision 006 — Protect Search State from Stale Async Responses
 
-The login implementation is accepted as a frontend mock-authentication flow. No real OAuth, backend authentication, or production credential storage is required for this assignment.
+Context
 
-## Decision 005 — Extend Existing Session State for Mock Authentication
+Rapid search requests can complete out of order.
 
-### Problem
+Example:
 
-The Figma introduces a dedicated login screen and the application needs to
-represent whether a user has successfully completed the frontend login flow.
+Request A: "milk"  → 1200ms
+Request B: "apple" → 200ms
 
-Creating a separate authentication state system would duplicate the existing
-session responsibility.
+B completes first.
+A completes later.
 
-### Options Considered
+Without protection, the older "milk" response could overwrite the newer
+"apple" results.
 
-1. Create a separate authentication store
-   - Clearly separates authentication concerns.
-   - Introduces another global state layer.
-   - Duplicates responsibility already handled by `sessionStore`.
+Options Considered
 
-2. Keep authentication entirely inside `LoginScreen`
-   - Simple initially.
-   - Authentication state would disappear when the page unmounts.
-   - Other application areas could not reliably determine whether the user is
-     authenticated.
+Strategy
 
-3. Extend the existing `sessionStore`
-   - Keeps session-level information in one location.
-   - Avoids unnecessary global state.
-   - Allows login state to be consumed by other application areas.
-   - Preserves the existing architecture.
+Result
 
-### Decision
+Debouncing only
 
-Choose **Option 3**.
+Reduces request frequency but does not eliminate response races
 
-The existing `sessionStore` is extended with frontend authentication/session
-state required by the mock login flow.
+Timestamp tagging
 
-The login screen remains responsible for presentation and form interaction,
-while the session store owns the resulting authenticated session state.
+Can reject older results but leaves requests running
 
-### Rationale
+AbortController + request token guard
 
-Authentication status is session-level application state and therefore belongs
-with the existing session state rather than inside a page component.
+Cancels pending work and validates the response before committing
 
-This maintains a clear separation between presentation and shared application
-state without introducing another state-management layer.
+Decision
 
-### Scope Limitation
+Use AbortController together with an active request identifier.
 
-This is a frontend assignment and does not require production authentication.
+The search store:
 
-The implementation does not introduce:
-- backend authentication,
-- OAuth providers,
-- external authentication services,
-- password hashing infrastructure,
-- or permanent credential storage.
+Creates a unique request ID.
 
-The frontend session state represents a successful mock login only.
+Aborts the previous request when stale protection is enabled.
 
-### Trade-off
+Associates the current request with the active ID.
 
-The implementation does not provide real identity verification or secure
-credential persistence.
+Validates the response request ID before updating results.
 
-That limitation is intentional and keeps the implementation within the
-assignment's frontend scope.
+Records request outcomes for debugging.
 
-A production implementation would move authentication and credential
-verification to a secure backend/authentication provider.
+Rationale
 
-## Location Flow
+Cancellation and response validation solve different parts of the problem:
 
-The selected delivery location from the onboarding/session flow is reused throughout the application.
+AbortController stops obsolete in-flight work where possible.
 
-The Home / Shop screen reads the selected location from `sessionStore` and displays it in the location area, with the existing default fallback preserved.
+The request ID guard prevents a stale response from committing even if it
+reaches the application.
 
-This keeps location state centralized in the existing session store rather than introducing a separate location state architecture.
+Verification
 
----
+The application includes a stale-search debugging flow capable of exercising
+artificial latency and demonstrating the race condition.
 
-## Decision 006 — Account as a State-Aware Application Destination
+Trade-off
 
-### Problem
+The store requires additional request lifecycle management, but the complexity
+is justified by deterministic search behavior.
 
-The Account bottom-navigation item was redirecting authenticated users to the Login / Sign Up screen.
+Decision 007 — Validate Persisted Cart Against the Current Catalog
 
-This created an incorrect navigation model because authentication state and account access were being treated as the same destination.
+Context
 
-### Options Considered
+Cart state is persisted in browser storage.
 
-1. Always navigate Account to Login / Sign Up.
-2. Always navigate Account to an Account page.
-3. Make Account state-aware using the existing authentication/session state.
+The catalog can change between sessions:
 
-### Decision
+A product can disappear.
 
-Use a state-aware Account destination.
+A price can change.
 
-- Authenticated user → Account page.
-- Unauthenticated user → existing Login / Sign Up flow.
+Available stock can become lower than the saved quantity.
 
-The Account page reuses the existing session state for username/name and email and reuses the existing cart state for pending checkout information.
+A naive cart can therefore contain invalid or outdated information.
 
-### Trade-off
+Options Considered
 
-This adds a small amount of conditional navigation logic, but avoids duplicating authentication state and provides behavior consistent with a real authenticated application.
+Strategy
 
-The existing authentication architecture remains unchanged.
+Problem
 
----
+Clear the entire cart
 
-## Decision 007 — Reuse Shared Filter Capability Across Explore
+Loses valid customer selections
 
-### Problem
+Silently update prices
 
-Explore provided category discovery and search but did not expose the application's existing category/brand Filter functionality.
+Can surprise the customer at checkout
 
-Creating a separate Explore filter implementation would risk having different filtering behavior and state between Explore and the existing product/search flow.
+Validate and synchronize against the current catalog
 
-### Options Considered
+Preserves valid state and communicates changes
 
-1. Create a new Explore-specific filter component and state.
-2. Duplicate the existing category/brand filtering logic inside Explore.
-3. Reuse the existing Filter implementation and expose it as another entry point from Explore.
+Decision
 
-### Decision
+Validate persisted cart items against the current product catalog when the
+cart is synchronized.
 
-Reuse the existing Filter implementation and state.
+The synchronization process:
 
-Explore provides an entry point to the shared filtering flow, while the existing filtering logic remains responsible for:
+Removes products that no longer exist.
 
-- Category selection
-- Brand selection
-- Apply Filter behavior
-- Product-result filtering
+Updates product information from the current catalog.
 
-### Trade-off
+Detects price changes.
 
-Explore has slightly more coupling to the shared filter flow, but this is preferable to duplicated filtering logic.
+Caps quantities when stock is lower than the saved quantity.
 
-A single filtering implementation keeps behavior consistent and reduces the risk of Search, Explore, and product-result screens producing different results for the same filters.
+Records user-facing resilience warnings.
 
-Decision — Account Navigation Represents User State
+Rationale
 
-Decision:
-The Account tab represents the authenticated user's account/profile experience.
+The cart should be resilient without silently hiding catalog changes from the
+customer.
 
-Reason:
-An authenticated user clicking Account should not be sent back through authentication. The Account page should expose identity, account information, and relevant pending activity while reusing the existing session state.
+Valid items are preserved instead of resetting the entire cart.
 
-Constraint:
-Do not introduce a second authentication/user state source.
+Trade-off
 
-Decision — Filtering Is a Product-Discovery Concern
+Cart synchronization adds validation logic, but it prevents stale persisted
+state from producing incorrect totals or broken checkout behavior.
 
-Decision:
-Filtering is available anywhere users are browsing products, including Explore, and uses the same underlying filtering logic.
+Decision 008 — Use Draft and Applied Filter State
 
-Reason:
-Explore is a primary product-discovery surface. Restricting filtering to Search/listing would create inconsistent UX.
+Context
 
-Filter model:
+The filter drawer contains multiple selections across product categories and
+brands.
 
-Categories + Brands → Apply Filter → matching products
+Applying each checkbox immediately would make it difficult for a user to build
+a complete filter selection before committing it.
 
-Constraint:
-Filtering must operate on the existing product dataset and must not modify product assets or introduce duplicate product state.
+Decision
+
+Use two filter states:
+
+draftFilters
+     │
+     │ user checks/unchecks
+     ↓
+Filter Sheet
+     │
+     │ Apply Filter
+     ↓
+appliedFilters
+     │
+     ↓
+Product Results
+
+draftFilters represents the user's current selections inside the drawer.
+
+appliedFilters represents the criteria actually used by the product results.
+
+Rationale
+
+Users can change multiple selections and commit them with one explicit action.
+
+This also prevents accidental partial filter application.
+
+Trade-off
+
+Two states are slightly more complex than one, but the distinction provides a
+clear and predictable filter lifecycle.
+
+Decision 009 — Categories and Brands Are Separate Filter Dimensions
+
+Context
+
+The filter experience needs to distinguish product categories from product
+brands.
+
+Treating them as one generic list would make the filter model ambiguous.
+
+Decision
+
+Maintain separate filter groups:
+
+Filters
+├── Categories
+│   ├── Eggs
+│   ├── Noodles & Pasta
+│   ├── Chips & Crisps
+│   └── Fast Food
+│
+└── Brands
+    ├── Individual Collection
+    ├── Cocola
+    ├── Ifad
+    └── Kazi Farmas
+
+The product result is computed from the applied category and brand criteria.
+
+Rationale
+
+Category and brand answer different product-discovery questions and should
+remain independently understandable to the user.
+
+Trade-off
+
+The filtering model contains more explicit fields, but it makes the behavior
+and UI much clearer.
+
+Decision 010 — Reuse the Shared Filter Flow from Explore
+
+Context
+
+Explore is a primary product-discovery surface.
+
+The application already has category/brand filtering functionality, but the
+Explore screen also needs access to it.
+
+Options Considered
+
+Build a separate Explore filter.
+
+Duplicate the filtering logic.
+
+Reuse the existing Filter component/state.
+
+Decision
+
+Choose Option 3.
+
+Explore exposes the existing filtering capability instead of introducing a
+second filter implementation.
+
+Rationale
+
+The same category/brand selection should produce the same product results
+regardless of where the user enters the filtering flow.
+
+Trade-off
+
+Explore depends on the shared filter flow, but this is preferable to duplicated
+logic that could drift between screens.
+
+Decision 011 — Account Navigation Is Authentication-State Aware
+
+Context
+
+The Account navigation item was previously capable of taking the user back to
+the Login/Signup experience.
+
+That is incorrect once the user is already authenticated.
+
+Options Considered
+
+Always open Login/Signup.
+
+Always open Account.
+
+Choose the destination from the current authentication state.
+
+Decision
+
+Use state-aware Account navigation.
+
+Authenticated
+     ↓
+Account / Profile
+
+Unauthenticated
+     ↓
+Login / Signup
+
+The Account experience reuses existing session information and existing cart
+state where relevant.
+
+Rationale
+
+Authentication and account access are related but are not the same destination.
+
+An authenticated customer should be able to inspect their account without
+restarting the authentication flow.
+
+Constraint
+
+Do not introduce a second user/authentication state source.
+
+Decision 012 — Use a Shared Modal / Bottom-Sheet Container
+
+Context
+
+Checkout, location selection, authentication-related dialogs, filters, and
+order-result interactions require common overlay behavior.
+
+Implementing each overlay independently would duplicate:
+
+Backdrop handling
+
+Dismissal behavior
+
+Viewport sizing
+
+Animation behavior
+
+Keyboard/Escape handling
+
+Decision
+
+Use a shared BottomSheet container with configurable width variants.
+
+The component adapts between:
+
+Mobile
+→ full-width / bottom-sheet presentation
+
+Larger screens
+→ centered dialog-card presentation
+
+Rationale
+
+Shared modal infrastructure keeps overlay behavior consistent and prevents
+small differences from appearing between dialogs.
+
+Trade-off
+
+The shared component must support multiple presentation modes, but this is
+less duplication than maintaining separate modal systems.
+
+Decision 013 — Adapt Checkout Presentation for Desktop
+
+Context
+
+A mobile bottom sheet does not translate directly into a comfortable desktop
+checkout experience.
+
+A narrow modal also caused avoidable vertical scrolling.
+
+Decision
+
+Use:
+
+Bottom-sheet presentation on mobile.
+
+A wider centered card on larger screens.
+
+Expanded spacing and hierarchy on desktop.
+
+A scroll-free desktop checkout layout where the available viewport permits
+the complete checkout content to fit.
+
+Rationale
+
+Desktop checkout should feel like a focused web checkout rather than a mobile
+sheet stretched onto a large monitor.
+
+Trade-off
+
+Desktop requires a separate responsive presentation strategy, but the underlying
+checkout state and behavior remain shared.
+
+Decision 014 — Keep Favourite and Cart as Independent Concepts
+
+Context
+
+A product can be saved for later without necessarily being purchased.
+
+Combining Favourite and Cart state would make these actions ambiguous.
+
+Decision
+
+Favourite state and Cart state remain independent.
+
+Favourite
+→ Saved product
+
+Cart
+→ Product selected for purchase
+
+Favourite actions do not automatically add products to the Cart.
+
+An explicit Add-to-Cart action is required.
+
+Rationale
+
+This matches standard ecommerce interaction semantics and prevents accidental
+purchases from a save-for-later action.
+
+Decision 015 — Make Quantity Visible on Product Cards After Adding
+
+Context
+
+The Add button initially showed only +.
+
+After repeated additions, the customer could not immediately tell how many units
+had been selected without opening the Cart.
+
+Decision
+
+Once a product exists in the Cart, the compact product-card control can expose
+quantity through increment/decrement interaction.
+
+Not in cart:
+
+        [+]
+
+
+In cart:
+
+      [-]  2  [+]
+
+Rationale
+
+The user receives immediate feedback about cart quantity at the point of
+interaction.
+
+Trade-off
+
+The card control becomes slightly wider after the first addition, but the
+additional information reduces uncertainty and unnecessary navigation.
+
+Decision 016 — Preserve Existing Assets During Unrelated Changes
+
+Context
+
+AI-assisted UI changes can unintentionally modify image paths, object
+positioning, or image sizing while implementing unrelated functionality.
+
+The Welcome screen demonstrated how responsive image framing can significantly
+change the perceived composition.
+
+Decision
+
+Existing product, category, banner, and application assets are treated as
+protected unless an image change is explicitly requested.
+
+Responsive fixes should prefer:
+
+CSS layout changes
+
+Object positioning
+
+Container constraints
+
+Responsive sizing
+
+rather than replacing working assets.
+
+Rationale
+
+Changing unrelated assets increases regression risk and makes visual debugging
+harder.
+
+Trade-off
+
+Some responsive image problems require careful CSS composition rather than a
+quick asset replacement.
+
+🧪 Decision Validation Principles
+
+Technical decisions are not considered complete merely because the application
+builds.
+
+For significant changes, validation includes the relevant combination of:
+
+TypeScript/typecheck
+
+Production build
+
+Browser interaction testing
+
+Responsive viewport testing
+
+Console-error review
+
+Visual comparison against the Figma
+
+State-transition testing
+
+Edge-case testing
+
+Manual regression testing of unrelated flows
+
+AI-generated implementation is treated as an implementation proposal; the final
+decision remains subject to application behavior and human review.
+
+📌 Architectural Constraints
+
+The following constraints apply across the project:
+
+Do not introduce a second global state source when an existing store already
+owns the responsibility.
+
+Do not duplicate filtering, cart, favourite, or session logic between
+screens.
+
+Do not modify unrelated functionality while implementing a scoped feature.
+
+Do not replace working assets unless the requirement explicitly calls for an
+asset change.
+
+Do not treat a successful build as proof that UX behavior is correct.
+
+Keep frontend mock functionality clearly separated from production-grade
+infrastructure that is outside the assignment scope.
+
+Prefer explicit state ownership over implicit page-local synchronization.
+
+Preserve stable architecture while adapting presentation to the official
+Figma.
+
+🏁 Final Position
+
+The Ahoum frontend deliberately favors clear ownership, reusable state
+boundaries, resilient client behavior, and Figma-driven presentation over
+short-term implementation shortcuts.
+
+The decisions in this document describe the final architectural direction.
+Detailed AI prompts, mistakes, corrections, and execution history belong in
+PROMPT_LOG.md; visual and responsive reasoning belongs in
+DESIGN_NOTES.md; debugging evidence belongs in DEBUGGING.md.

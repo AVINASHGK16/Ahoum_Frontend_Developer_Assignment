@@ -19,7 +19,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, cartItemCount })
       <Header cartItemCount={activeCartCount} />
 
       {/* Main Application Content */}
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-4 sm:px-6 sm:py-6 pb-24 md:pb-12">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-4 sm:px-6 sm:py-6 lg:px-8 pb-24 md:pb-12">
         {children ?? <Outlet />}
       </main>
 
