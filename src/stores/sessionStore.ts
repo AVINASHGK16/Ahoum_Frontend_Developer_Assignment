@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface UserLocation {
   zone: string;
@@ -23,40 +24,52 @@ export interface SessionState {
   toggleFavorite: (productId: string) => void;
 }
 
-export const useSessionStore = create<SessionState>((set) => ({
-  sessionId: null,
-  location: null,
-  user: null,
-  favorites: [],
-  setLocation: (location) => set({ location }),
-  login: (email, username) =>
-    set({
-      sessionId: `session_${Date.now()}`,
-      user: {
-        email,
-        username,
-        isAuthenticated: true,
-      },
-    }),
-  signup: (email, username) =>
-    set({
-      sessionId: `session_${Date.now()}`,
-      user: {
-        email,
-        username,
-        isAuthenticated: true,
-      },
-    }),
-  logout: () =>
-    set({
+export const useSessionStore = create<SessionState>()(
+  persist(
+    (set) => ({
       sessionId: null,
+      location: null,
       user: null,
+      favorites: [],
+      setLocation: (location) => set({ location }),
+      login: (email, username) =>
+        set({
+          sessionId: `session_${Date.now()}`,
+          user: {
+            email,
+            username,
+            isAuthenticated: true,
+          },
+        }),
+      signup: (email, username) =>
+        set({
+          sessionId: `session_${Date.now()}`,
+          user: {
+            email,
+            username,
+            isAuthenticated: true,
+          },
+        }),
+      logout: () =>
+        set({
+          sessionId: null,
+          user: null,
+        }),
+      toggleFavorite: (productId) =>
+        set((state) => ({
+          favorites: state.favorites.includes(productId)
+            ? state.favorites.filter((id) => id !== productId)
+            : [...state.favorites, productId],
+        })),
     }),
-  toggleFavorite: (productId) =>
-    set((state) => ({
-      favorites: state.favorites.includes(productId)
-        ? state.favorites.filter((id) => id !== productId)
-        : [...state.favorites, productId],
-    })),
-}));
-
+    {
+      name: 'ahoum-session',
+      partialize: (state) => ({
+        sessionId: state.sessionId,
+        location: state.location,
+        user: state.user,
+        favorites: state.favorites,
+      }),
+    }
+  )
+);
