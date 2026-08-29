@@ -120,7 +120,7 @@ export const AccountPage: React.FC = () => {
           <div className="mt-6 space-y-3">
             {/* Primary Action: Log In */}
             <Link
-              to="/login"
+              to="/login?redirect=/account"
               className="flex h-13 w-full items-center justify-center rounded-2xl bg-[#53B175] text-sm sm:text-base font-bold text-white shadow-xs transition-all duration-200 hover:bg-[#489E67] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2"
               aria-label="Log in to your account"
             >
@@ -129,7 +129,7 @@ export const AccountPage: React.FC = () => {
 
             {/* Secondary Action: Sign Up */}
             <Link
-              to="/signup"
+              to="/signup?redirect=/account"
               className="flex h-12 w-full items-center justify-center rounded-2xl border border-neutral-200 bg-white text-xs sm:text-sm font-bold text-[#181725] transition hover:bg-neutral-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
               aria-label="Create a new account"
             >

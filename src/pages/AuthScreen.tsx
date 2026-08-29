@@ -1,17 +1,22 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { useSessionStore } from '../stores/sessionStore';
 
 export const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { login } = useSessionStore();
+  const redirect = searchParams.get('redirect') || '/';
 
   const handleContinue = () => {
-    // Navigates into the application catalog entry flow
-    navigate('/');
+    // Demo / social sign-in: authenticate and redirect
+    login('demo_user@ahoum.com');
+    navigate(redirect);
   };
 
   const handlePhoneEntry = () => {
     // Navigates to Screen 4 (Mobile Number Entry)
-    navigate('/phone');
+    navigate(`/phone${redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
   };
 
   return (
@@ -112,7 +117,7 @@ export const AuthScreen: React.FC = () => {
             {/* Email / Password Sign In Link */}
             <div className="pt-2 text-center">
               <Link
-                to="/login"
+                to={`/login${redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}
                 className="text-xs sm:text-sm font-semibold text-[#53B175] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] rounded-md px-1"
               >
                 Sign in with Email & Password →

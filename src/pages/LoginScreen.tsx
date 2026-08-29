@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSessionStore } from '../stores/sessionStore';
 
 export const LoginScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useSessionStore();
+  const redirect = searchParams.get('redirect') || '/';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,8 +36,8 @@ export const LoginScreen: React.FC = () => {
     // Save session in frontend state
     login(trimmedEmail);
 
-    // Navigate to authenticated catalog home route
-    navigate('/');
+    // Navigate to redirect target (checkout if coming from cart, otherwise home)
+    navigate(redirect);
   };
 
   const handleForgotPassword = () => {
@@ -182,7 +184,7 @@ export const LoginScreen: React.FC = () => {
                 type="button"
                 onClick={() => {
                   login('google_user@ahoum.com');
-                  navigate('/');
+                  navigate(redirect);
                 }}
                 className="flex h-12 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-[#181725] transition hover:bg-neutral-50 shadow-2xs"
               >
@@ -199,7 +201,7 @@ export const LoginScreen: React.FC = () => {
                 type="button"
                 onClick={() => {
                   login('facebook_user@ahoum.com');
-                  navigate('/');
+                  navigate(redirect);
                 }}
                 className="flex h-12 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-[#181725] transition hover:bg-neutral-50 shadow-2xs"
               >
@@ -216,7 +218,7 @@ export const LoginScreen: React.FC = () => {
         <div className="mt-8 border-t border-neutral-100 pt-6 text-center space-y-3">
           <p className="text-xs sm:text-sm font-semibold text-[#181725]">
             Don&rsquo;t have an account?{' '}
-            <Link to="/signup" className="text-[#53B175] hover:underline">
+            <Link to={`/signup${redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="text-[#53B175] hover:underline">
               Sign Up
             </Link>
           </p>

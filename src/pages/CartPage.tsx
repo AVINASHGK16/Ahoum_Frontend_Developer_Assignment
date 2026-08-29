@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
+import { useSessionStore } from '../stores/sessionStore';
 import { useProducts } from '../hooks/useProducts';
 import { formatProductUnit } from '../utils/productFormatters';
 import { ProductCard } from '../components/product/ProductCard';
@@ -22,10 +23,21 @@ export const CartPage: React.FC<CartPageProps> = ({ initialCheckoutOpen = false 
   const { items, updateQuantity, removeItem, getTotalAmount } = useCartStore();
   const { products } = useProducts();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const user = useSessionStore((s) => s.user);
   const shouldOpenCheckout = initialCheckoutOpen || searchParams.get('checkout') === 'true';
 
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(shouldOpenCheckout);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(shouldOpenCheckout && !!user?.isAuthenticated);
+  const [isLoginGateOpen, setIsLoginGateOpen] = useState(false);
   const totalAmount = getTotalAmount();
+
+  const handleProceedToCheckout = () => {
+    if (!user?.isAuthenticated) {
+      setIsLoginGateOpen(true);
+      return;
+    }
+    setIsCheckoutOpen(true);
+  };
 
   // Frequently bought staples for the empty state
   const stapleProducts = products.slice(0, 4);
@@ -254,7 +266,7 @@ export const CartPage: React.FC<CartPageProps> = ({ initialCheckoutOpen = false 
 
           <button
             type="button"
-            onClick={() => setIsCheckoutOpen(true)}
+            onClick={handleProceedToCheckout}
             className="w-full flex h-14 items-center justify-between rounded-[18px] bg-[#53B175] px-6 text-sm sm:text-base font-bold text-white shadow-md shadow-[#53B175]/25 transition hover:bg-[#489E67] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2"
           >
             <span>Proceed to Checkout</span>
@@ -272,6 +284,94 @@ export const CartPage: React.FC<CartPageProps> = ({ initialCheckoutOpen = false 
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
       />
+
+      {/* Login Required Gate for Guest Checkout */}
+      {isLoginGateOpen && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center select-none animate-fade-in">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-2xs transition-opacity"
+            onClick={() => setIsLoginGateOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Dialog */}
+          <div
+            className="relative z-10 flex w-full max-w-[420px] flex-col rounded-t-[30px] sm:rounded-[22px] bg-white px-6 pt-6 pb-8 shadow-2xl animate-slide-up"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-gate-heading"
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setIsLoginGateOpen(false)}
+              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-[#7C7C7C] transition hover:bg-neutral-100 hover:text-[#181725] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+              aria-label="Close"
+            >
+              <svg className="h-4 w-4 stroke-current stroke-[2.5]" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Icon */}
+            <div className="flex flex-col items-center text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#53B175]/10 text-[#53B175]">
+                <svg className="h-7 w-7 stroke-current stroke-[1.8]" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+              </div>
+
+              {/* Title & Message */}
+              <h2 id="login-gate-heading" className="mt-4 text-xl font-extrabold tracking-tight text-[#181725]">
+                Login Required
+              </h2>
+              <p className="mt-1.5 text-sm text-[#7C7C7C] leading-relaxed max-w-[280px]">
+                Please log in to continue to checkout and place your order.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="mt-6 space-y-3">
+              {/* Primary: Continue to Login */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLoginGateOpen(false);
+                  navigate('/auth?redirect=/checkout');
+                }}
+                className="flex h-14 w-full items-center justify-center rounded-2xl bg-[#53B175] text-base font-bold text-white shadow-sm transition-all duration-200 hover:bg-[#489E67] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175] focus-visible:ring-offset-2"
+              >
+                Continue to Login
+              </button>
+
+              {/* Secondary: Continue Shopping */}
+              <button
+                type="button"
+                onClick={() => setIsLoginGateOpen(false)}
+                className="flex h-12 w-full items-center justify-center rounded-2xl border border-neutral-200 bg-white text-sm font-bold text-[#181725] transition hover:bg-neutral-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#53B175]"
+              >
+                Continue Shopping
+              </button>
+            </div>
+
+            {/* Sign Up link */}
+            <p className="mt-4 text-center text-xs text-[#7C7C7C]">
+              Don&rsquo;t have an account?{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLoginGateOpen(false);
+                  navigate('/signup?redirect=/checkout');
+                }}
+                className="font-bold text-[#53B175] hover:underline"
+              >
+                Sign Up
+              </button>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

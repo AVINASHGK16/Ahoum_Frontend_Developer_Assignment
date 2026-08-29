@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSessionStore } from '../stores/sessionStore';
 
 export const SignupScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useSessionStore();
+  const redirect = searchParams.get('redirect') || '/';
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -47,8 +49,8 @@ export const SignupScreen: React.FC = () => {
     // Save session in frontend state
     login(trimmedEmail);
 
-    // Navigate to authenticated catalog home route
-    navigate('/');
+    // Navigate to redirect target (checkout if coming from cart, otherwise home)
+    navigate(redirect);
   };
 
   return (
@@ -202,7 +204,7 @@ export const SignupScreen: React.FC = () => {
         <div className="mt-8 border-t border-neutral-100 pt-6 text-center">
           <p className="text-xs sm:text-sm font-semibold text-[#181725]">
             Already have an account?{' '}
-            <Link to="/login" className="text-[#53B175] hover:underline">
+            <Link to={`/login${redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="text-[#53B175] hover:underline">
               Sign In
             </Link>
           </p>
